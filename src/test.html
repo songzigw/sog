@@ -11,8 +11,21 @@
 <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 
 <link rel="stylesheet" href="less/bootstrap.css" />
-<link rel="stylesheet" href="../sog.css" />
-
+<link rel="stylesheet/less" type="text/css" href="less/sog.less" />
+<script>
+	less = {
+		env : "development",
+		async : false,
+		fileAsync : false,
+		poll : 1000,
+		functions : {},
+		dumpLineNumbers : "comments",
+		relativeUrls : false
+	//rootpath : ":/a.com/"
+	};
+</script>
+<!-- set options before less.js script -->
+<script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
 
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.js"></script>
