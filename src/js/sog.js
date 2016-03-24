@@ -1,5 +1,5 @@
-function rtl()// checks whether the content is in RTL mode
-{
+// checks whether the content is in RTL mode
+function rtl() {
     if ( typeof window.isRTL == 'boolean')
         return window.isRTL;
 
