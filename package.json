@@ -1,6 +1,7 @@
 {
     "name": "sog",
-    "description": "SOG WebUI frame",
+    "title": "SOG Web UI framework",
+    "description": "SOG WebUI framework",
     "version": "0.1.0",
     "homepage": "https://github.com/songzigw/sog",
     "author": {
