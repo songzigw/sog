@@ -342,7 +342,7 @@ function hide_loading_bar() {
 })(jQuery, window);
 
 /**
- *  Xenon Main
+ * Main
  */
 var public_vars = public_vars || {};
 
