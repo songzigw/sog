@@ -14,6 +14,7 @@
 <link rel="stylesheet/less" type="text/css" href="less/sog.less" />
 <script>
 	less = {
+		//rootpath : ":/a.com/",
 		env : "development",
 		async : false,
 		fileAsync : false,
@@ -21,7 +22,6 @@
 		functions : {},
 		dumpLineNumbers : "comments",
 		relativeUrls : false
-	//rootpath : ":/a.com/"
 	};
 </script>
 <!-- set options before less.js script -->
@@ -38,91 +38,7 @@
 </head>
 <body class="page-body">
 
-	<div class="page-container">
-
-		<div class="sidebar-menu toggle-others fixed">
-
-			<div class="sidebar-menu-inner">
-
-				<header class="logo-env">
-				<div class="logo">
-					<a href="/" class="logo-expanded"> <img src="" height="18"
-						alt="" />
-					</a> <a href="/" class="logo-collapsed"> <img src="" height="40"
-						width="40" alt="" />
-					</a>
-				</div>
-
-				<div class="mobile-menu-toggle visible-xs">
-					<a href="#" data-toggle="user-info-menu"> <i
-						class="glyphicon glyphicon-user"></i>
-					</a> <a href="#" data-toggle="mobile-menu"> <i
-						class="glyphicon glyphicon-menu-hamburger"></i>
-					</a>
-				</div>
-				</header>
-
-				<ul id="main-menu" class="main-menu">
-					<li module="overview"><a href="/#/overview"> <i
-							class="glyphicon glyphicon-pencil"></i> <span class="title">Overview</span>
-					</a></li>
-				</ul>
-
-			</div>
-
-		</div>
-
-		<div class="main-content">
-
-			<!-- User Info, Notifications and Menu Bar -->
-			<nav class="navbar user-info-navbar" role="navigation"> <!-- Left links for user info navbar -->
-			<ul class="user-info-menu left-links list-inline list-unstyled">
-
-				<li class="hidden-sm hidden-xs"><a href="#"
-					data-toggle="sidebar"> <i class="glyphicon glyphicon-th-list"></i>
-				</a></li>
-
-			</ul>
-
-			<!-- Right links for user info navbar -->
-			<ul class="user-info-menu right-links list-inline list-unstyled">
-
-				<li class="dropdown user-profile"><a><img src=""
-						alt="user-image" class="img-circle img-inline userpic-32"
-						width="28" /> <span> <b id="current_user">Admin</b></span> </a></li>
-
-				<li><a href="javascript:;" id="logout"><span><i
-							class="glyphicon glyphicon-lock"></i> Logout</span></a></li>
-
-			</ul>
-
-			</nav>
-
-			<div class="page-title" id="title_bar">
-
-				<div class="title-env">
-					<p class="description">Clients List</p>
-					<h1 class="title">Clients</h1>
-				</div>
-				<div class="breadcrumb-env">
-
-					<ol class="breadcrumb bc-1">
-						<li><a href="/#/overview"><i
-								class="glyphicon glyphicon-home"></i>Overview</a></li>
-						<li class="active"><a href="/#/clients"><strong>Clients</strong></a>
-						</li>
-					</ol>
-
-				</div>
-
-			</div>
-
-			<!-- context -->
-			<div id="context"></div>
-
-		</div>
-
-	</div>
+	<div class="page-container"></div>
 
 	<!-- Bottom Scripts -->
 
