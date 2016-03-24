@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>登入</title>
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="shortcut icon" href="../imgs/favicon.png" type="image/x-icon" />
+        <link rel="stylesheet" href="../css/bootstrap.css" />
+        <link rel="stylesheet/less" type="text/css" href="../less/sog.less" />
+        <script>
+            less = {
+                // rootpath : ":/a.com/"
+                env : "development",
+                async : false,
+                fileAsync : false,
+                poll : 1000,
+                functions : {},
+                dumpLineNumbers : "comments",
+                relativeUrls : false
+            };
+        </script>
+        <!-- set options before less.js script -->
+        <script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="page-body login-page login-light">
+        <div class="login-container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Errors container -->
+                    <div class="errors-container"></div>
+                    <!-- Add class "fade-in-effect" for login form effect -->
+                    <form method="post" role="form" id="login"
+                    class="login-form fade-in-effect">
+                        <div class="login-header">
+                            <a href="register.html" class="logo"> <img src="../imgs/logo-white-bg@2x.png" alt="" width="80" /> <span>登入</span> </a>
+                            <p>
+                                还没有账号？<a href="#">立即注册</a>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="username">账号</label>
+                            <input
+                            type="text" class="form-control" name="username" id="username"
+                            autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="passwd">密码</label>
+                            <input
+                            type="password" class="form-control" name="passwd" id="passwd"
+                            autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary  btn-block text-left">
+                                <i class="fa-lock"></i> 登入
+                            </button>
+                        </div>
+                        <div class="login-footer">
+                            <a href="#">忘记密码？</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Scripts -->
+        <script src="../js/bootstrap.js"></script>
+        <script src="../js/TweenMax.min.js"></script>
+        <script src="../js/resizeable.js"></script>
+        <script src="../js/joinable.js"></script>
+        <script src="../js/xenon-api.js"></script>
+        <script src="../js/xenon-toggles.js"></script>
+        <script src="../js/jquery-validate/jquery.validate.min.js"></script>
+        <script src="../js/toastr/toastr.min.js"></script>
+        <!-- JavaScripts initializations and stuff -->
+        <script src="../js/xenon-custom.js"></script>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                // Reveal Login form
+                setTimeout(function() {
+                    $(".fade-in-effect").addClass('in');
+                }, 1);
+                // Validation and Ajax action
+                $("form#login").validate({
+                    rules : {
+                        username : {
+                            required : true
+                        },
+                        passwd : {
+                            required : true
+                        }
+                    },
+                    messages : {
+                        username : {
+                            required : 'Please enter your username.'
+                        },
+                        passwd : {
+                            required : 'Please enter your password.'
+                        }
+                    },
+                    // Form Processing via AJAX
+                    submitHandler : function(form) {
+                        show_loading_bar(70);
+                        // Fill progress bar to 70% (just a given value)
+                        var opts = {
+                            "closeButton" : true,
+                            "debug" : false,
+                            "positionClass" : "toast-top-full-width",
+                            "onclick" : null,
+                            "showDuration" : "300",
+                            "hideDuration" : "1000",
+                            "timeOut" : "5000",
+                            "extendedTimeOut" : "1000",
+                            "showEasing" : "swing",
+                            "hideEasing" : "linear",
+                            "showMethod" : "fadeIn",
+                            "hideMethod" : "fadeOut"
+                        };
+                        $.ajax({
+                            url : "data/login-check.php",
+                            method : 'POST',
+                            dataType : 'json',
+                            data : {
+                                do_login : true,
+                                username : $(form).find('#username').val(),
+                                passwd : $(form).find('#passwd').val(),
+                            },
+                            success : function(ret) {
+                                show_loading_bar({
+                                    delay : .5,
+                                    pct : 100,
+                                    finish : function() {
+                                        // Redirect after successful login page (when progress bar reaches 100%)
+                                        if (ret.accessGranted) {
+                                            window.location.href = 'dashboard-1.html';
+                                        }
+                                    }
+                                });
+                                // Remove any alert
+                                $(".errors-container .alert").slideUp('fast');
+                                // Show errors
+                                if (ret.accessGranted == false) {
+                                    $(".errors-container").html('<div class="alert alert-danger">' + '<button type="button" class="close" data-dismiss="alert">' + '<span aria-hidden="true">&times;</span>' + '<span class="sr-only">Close</span>' + '</button>' + ret.errors + '</div>');
+                                    $(".errors-container .alert").hide().slideDown();
+                                    $(form).find('#passwd').select();
+                                }
+                            }
+                        });
+                    }
+                });
+                // Set Form focus
+                $("form#login .form-group:has(.form-control):first .form-control").focus();
+            });
+        </script>
+    </body>
+</html>
