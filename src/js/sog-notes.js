@@ -1,9 +1,3 @@
-/**
- *	Neon Notes Script
- *
- *	Developed by Arlind Nushi - www.laborator.co
- */
-
 var xenonNotes = xenonNotes || {};
 
 ;(function($, window, undefined)

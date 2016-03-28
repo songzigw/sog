@@ -34,29 +34,37 @@
         <![endif]-->
     </head>
     <body class="page-body">
+        <div id="app_charts" class="row">
+            
+            
+            
+        </div>
         
         <!-- Bottom Scripts -->
         <script src="../js/jquery-validate/jquery.validate.min.js"></script>
         <script src="../js/toastr/toastr.min.js"></script>
         <script src="../js/TweenMax.min.js"></script>
-        <script src="../js/joinable.js"></script>
         <script src="../js/resizeable.js"></script>
+        <script src="../js/joinable.js"></script>
         <script src="../js/sog.js"></script>
-        
         <!-- JavaScripts initializations and stuff -->
         <script type="text/javascript">
-            $(document).ready(function() {
-            	$.ajax({
-                    method : "GET",
-                    url : "./component/frame_main.html",
-                    data : {},
-                    dataType : "html",
-                    success : function(ret) {
-                    	sog.$vars.$body.append(ret);
-                    	sog.main();
-                    }
-                });
+        $(document).ready(function() {
+            var $appCharts = $('#app_charts').remove();
+            
+            $.ajax({
+                method : "GET",
+                url : "./component/frame_main.html",
+                data : {},
+                dataType : "html",
+                success : function(ret) {
+                    sog.gVars.$body.append(ret);
+                    sog.main();
+                    sog.gVars.$mainMiddle = gVars.$body.find('#main-middle');
+                    sog.gVars.$mainMiddle.append($appCharts.show());
+                }
             });
+        });
         </script>
     </body>
 </html>

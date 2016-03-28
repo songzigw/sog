@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>控制台</title>
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="shortcut icon" href="../imgs/favicon.png" type="image/x-icon" />
+        <link rel="stylesheet" href="../css/bootstrap.css" />
+        <link rel="stylesheet/less" type="text/css" href="../less/sog.less" />
+        <script>
+            less = {
+                // rootpath : ":/a.com/"
+                env : "development",
+                async : false,
+                fileAsync : false,
+                poll : 1000,
+                functions : {},
+                dumpLineNumbers : "comments",
+                relativeUrls : false
+            };
+        </script>
+        <!-- set options before less.js script -->
+        <script src="../js/less.min.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="page-body">
+        <div class="row" id="app_my" style="display: none;">
+        <div class="col-md-3">
+            <button class="btn btn-secondary btn-block">创建应用</button>
+            <h5>您还可以创建 2个应用</h5>
+            <div>
+                 <h3>我的应用</h3>
+                 <div class="list-group list-group-minimal"><!-- Add class "list-group-minimal" for less padding between list items -->
+                     <a href="app_info.html" class="list-group-item">
+                         <span class="badge badge-info"></span>松美
+                     </a>
+                 </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+        
+        <div class="panel">
+            <div class="row">
+                <div class="col-sm-6">
+                <div class="same-margin">
+                    <h4>微录客 SDK 新版本发布</h4>
+                    <p>Android SDK 0.0.1 </p>
+                    <p>iOS SDK 0.0.1</p>
+                </div>
+                </div>
+                <div class="col-sm-6">
+                <button class="btn btn-primary pull-right">
+                    <span>SDK 下载</span>
+                </button>
+                </div>
+            </div>
+            <hr style="margin-top: 28px;margin-bottom: 28px;border-top: 1px solid #ddd;">
+            
+            <div>
+            <div class="panel-heading">
+                <h3 class="panel-title">开发常见问题</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">如何上传视频？</h4>
+                        <p class="list-group-item-text">答：如何上传视频？</p>
+                    </a>
+                    
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Vlook业务是否收费？</h4>
+                        <p class="list-group-item-text">答：Vlook业务是否收费？</p>
+                    </a>
+                    
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">应用上线的注意事项</h4>
+                        <p class="list-group-item-text">答：应用上线注意事项</p>
+                    </a>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        </div>
+        </div>
+        <!-- Bottom Scripts -->
+        <script src="../js/jquery-validate/jquery.validate.min.js"></script>
+        <script src="../js/toastr/toastr.min.js"></script>
+        <script src="../js/TweenMax.min.js"></script>
+        <script src="../js/resizeable.js"></script>
+        <script src="../js/joinable.js"></script>
+        <script src="../js/sog.js"></script>
+
+        <!-- JavaScripts initializations and stuff -->
+        <script type="text/javascript">
+        $(document).ready(function() {
+        	var $appMy = $('#app_my').remove();
+        	
+            $.ajax({
+                method : "GET",
+                url : "./component/frame_main.html",
+                data : {},
+                dataType : "html",
+                success : function(ret) {
+                    sog.gVars.$body.append(ret);
+                    sog.main();
+                    sog.gVars.$mainMiddle = gVars.$body.find('#main-middle');
+                    sog.gVars.$mainMiddle.append($appMy.show());
+                }
+            });
+        });
+        </script>
+    </body>
+</html>

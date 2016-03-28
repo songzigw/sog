@@ -35,7 +35,7 @@ function show_loading_bar(options) {
 
     if ($loading_bar.length == 0) {
         $loading_bar = $('<div class="xenon-loading-bar progress-is-hidden"><span data-pct="0"></span></div>');
-        public_vars.$body.append($loading_bar);
+        gVars.$body.append($loading_bar);
     }
 
     var $pct = $loading_bar.find('span'), current_pct = $pct.data('pct'), is_regress = current_pct > defaults.pct;
@@ -73,26 +73,30 @@ function hide_loading_bar() {
     $pct.width(0).data('pct', 0);
 }
 
-/**
- *  Toggles
- */
-;(function($, window, undefined) {
+//Enable/Disable Resizable Event
+var wid = 0;
+$(window).resize(function() {
+    clearTimeout(wid);
+    wid = setTimeout(trigger_resizable, 200);
+});
 
-    //----------
-    "use strict";
+var gVars = gVars || {};
+var sog = {};
+sog.gVars = gVars;
+gVars.$body = $("body");
 
-    $(document).ready(function() {
+sog.toggles = function() {
 
         // Chat Toggler
         $('a[data-toggle="chat"]').each(function(i, el) {
             $(el).on('click', function(ev) {
                 ev.preventDefault();
 
-                public_vars.$body.toggleClass('chat-open');
+                gVars.$body.toggleClass('chat-open');
 
                 if ($.isFunction($.fn.perfectScrollbar)) {
                     setTimeout(function() {
-                        public_vars.$chat.find('.chat_inner').perfectScrollbar('update');
+                        gVars.$chat.find('.chat_inner').perfectScrollbar('update');
                         $(window).trigger('xenon.resize');
                     }, 1);
                 }
@@ -111,7 +115,7 @@ function hide_loading_bar() {
                     toTop : 0
                 };
 
-                if (public_vars.$body.hasClass('settings-pane-open')) {
+                if (gVars.$body.hasClass('settings-pane-open')) {
                     scroll.toTop = scroll.top;
                 }
 
@@ -125,56 +129,56 @@ function hide_loading_bar() {
                     onComplete : function() {
                         if (use_animation) {
                             // With Animation
-                            public_vars.$settingsPaneIn.addClass('with-animation');
+                            gVars.$settingsPaneIn.addClass('with-animation');
 
                             // Opening
-                            if (! public_vars.$settingsPane.is(':visible')) {
-                                public_vars.$body.addClass('settings-pane-open');
+                            if (! gVars.$settingsPane.is(':visible')) {
+                                gVars.$body.addClass('settings-pane-open');
 
-                                var height = public_vars.$settingsPane.outerHeight(true);
+                                var height = gVars.$settingsPane.outerHeight(true);
 
-                                public_vars.$settingsPane.css({
+                                gVars.$settingsPane.css({
                                     height : 0
                                 });
 
-                                TweenMax.to(public_vars.$settingsPane, .25, {
+                                TweenMax.to(gVars.$settingsPane, .25, {
                                     css : {
                                         height : height
                                     },
                                     ease : Circ.easeInOut,
                                     onComplete : function() {
-                                        public_vars.$settingsPane.css({
+                                        gVars.$settingsPane.css({
                                             height : ''
                                         });
                                     }
                                 });
 
-                                public_vars.$settingsPaneIn.addClass('visible');
+                                gVars.$settingsPaneIn.addClass('visible');
                             }
                             // Closing
                             else {
-                                public_vars.$settingsPaneIn.addClass('closing');
+                                gVars.$settingsPaneIn.addClass('closing');
 
-                                TweenMax.to(public_vars.$settingsPane, .25, {
+                                TweenMax.to(gVars.$settingsPane, .25, {
                                     css : {
                                         height : 0
                                     },
                                     delay : .15,
                                     ease : Power1.easeInOut,
                                     onComplete : function() {
-                                        public_vars.$body.removeClass('settings-pane-open');
-                                        public_vars.$settingsPane.css({
+                                        gVars.$body.removeClass('settings-pane-open');
+                                        gVars.$settingsPane.css({
                                             height : ''
                                         });
-                                        public_vars.$settingsPaneIn.removeClass('closing visible');
+                                        gVars.$settingsPaneIn.removeClass('closing visible');
                                     }
                                 });
                             }
                         } else {
                             // Without Animation
-                            public_vars.$body.toggleClass('settings-pane-open');
-                            public_vars.$settingsPaneIn.removeClass('visible');
-                            public_vars.$settingsPaneIn.removeClass('with-animation');
+                            gVars.$body.toggleClass('settings-pane-open');
+                            gVars.$settingsPaneIn.removeClass('visible');
+                            gVars.$settingsPaneIn.removeClass('with-animation');
                         }
                     }
                 });
@@ -186,11 +190,11 @@ function hide_loading_bar() {
             $(el).on('click', function(ev) {
                 ev.preventDefault();
 
-                if (public_vars.$sidebarMenu.hasClass('collapsed')) {
-                    public_vars.$sidebarMenu.removeClass('collapsed');
+                if (gVars.$sidebarMenu.hasClass('collapsed')) {
+                    gVars.$sidebarMenu.removeClass('collapsed');
                     ps_init();
                 } else {
-                    public_vars.$sidebarMenu.addClass('collapsed');
+                    gVars.$sidebarMenu.addClass('collapsed');
                     ps_destroy();
                 }
 
@@ -202,7 +206,7 @@ function hide_loading_bar() {
         $('a[data-toggle="mobile-menu"]').on('click', function(ev) {
             ev.preventDefault();
 
-            public_vars.$mainMenu.toggleClass('mobile-is-visible');
+            gVars.$mainMenu.toggleClass('mobile-is-visible');
             ps_destroy();
         });
 
@@ -210,7 +214,7 @@ function hide_loading_bar() {
         $('a[data-toggle="mobile-menu-horizontal"]').on('click', function(ev) {
             ev.preventDefault();
 
-            public_vars.$horizontalMenu.toggleClass('mobile-is-visible');
+            gVars.$horizontalMenu.toggleClass('mobile-is-visible');
 
         });
 
@@ -218,8 +222,8 @@ function hide_loading_bar() {
         $('a[data-toggle="mobile-menu-both"]').on('click', function(ev) {
             ev.preventDefault();
 
-            public_vars.$mainMenu.toggleClass('mobile-is-visible both-menus-visible');
-            public_vars.$horizontalMenu.toggleClass('mobile-is-visible both-menus-visible');
+            gVars.$mainMenu.toggleClass('mobile-is-visible both-menus-visible');
+            gVars.$horizontalMenu.toggleClass('mobile-is-visible both-menus-visible');
 
         });
 
@@ -227,7 +231,7 @@ function hide_loading_bar() {
         $('a[data-toggle="user-info-menu"]').on('click', function(ev) {
             ev.preventDefault();
 
-            public_vars.$userInfoMenu.toggleClass('mobile-is-visible');
+            gVars.$userInfoMenu.toggleClass('mobile-is-visible');
 
         });
 
@@ -235,7 +239,7 @@ function hide_loading_bar() {
         $('a[data-toggle="user-info-menu-horizontal"]').on('click', function(ev) {
             ev.preventDefault();
 
-            public_vars.$userInfoMenuHor.find('.nav.nav-userinfo').toggleClass('mobile-is-visible');
+            gVars.$userInfoMenuHor.find('.nav.nav-userinfo').toggleClass('mobile-is-visible');
 
         });
 
@@ -281,8 +285,8 @@ function hide_loading_bar() {
         });
 
         // Loading Text toggle
-        $('[data-loading-text]').each(function(i, el)// Temporary for demo purpose only
-        {
+        $('[data-loading-text]').each(function(i, el) {
+        	// Temporary for demo purpose only
             var $this = $(el);
 
             $this.on('click', function(ev) {
@@ -337,634 +341,633 @@ function hide_loading_bar() {
             }
         });
 
+    };
+
+sog.main = function() {
+    // Main Vars
+    gVars.$pageContainer = gVars.$body.find(".page-container");
+    gVars.$chat = gVars.$pageContainer.find("#chat");
+    gVars.$sidebarMenu = gVars.$pageContainer.find('.sidebar-menu');
+    gVars.$mainMenu = gVars.$sidebarMenu.find('.main-menu');
+
+    gVars.$horizontalNavbar = gVars.$body.find('.navbar.horizontal-menu');
+    gVars.$horizontalMenu = gVars.$horizontalNavbar.find('.navbar-nav');
+
+    gVars.$mainContent = gVars.$pageContainer.find('.main-content');
+    gVars.$mainFooter = gVars.$body.find('footer.main-footer');
+
+    gVars.$userInfoMenuHor = gVars.$body.find('.navbar.horizontal-menu');
+    gVars.$userInfoMenu = gVars.$body.find('nav.navbar.user-info-navbar');
+
+    gVars.$settingsPane = gVars.$body.find('.settings-pane');
+    gVars.$settingsPaneIn = gVars.$settingsPane.find('.settings-pane-inner');
+
+    gVars.wheelPropagation = true;
+    // used in Main menu (sidebar)
+
+    gVars.$pageLoadingOverlay = gVars.$body.find('.page-loading-overlay');
+
+    gVars.defaultColorsPalette = ['#68b828', '#7c38bc', '#0e62c7', '#fcd036', '#4fcdfc', '#00b19d', '#ff6264', '#f7aa47'];
+
+    // Page Loading Overlay
+    if (gVars.$pageLoadingOverlay.length) {
+        $(window).load(function() {
+            gVars.$pageLoadingOverlay.addClass('loaded');
+        });
+    }
+
+    window.onerror = function() {
+        // failsafe remove loading overlay
+        gVars.$pageLoadingOverlay.addClass('loaded');
+    }
+    // Setup Sidebar Menu
+    setup_sidebar_menu();
+
+    // Setup Horizontal Menu
+    setup_horizontal_menu();
+
+    // Sticky Footer
+    if (gVars.$mainFooter.hasClass('sticky')) {
+        stickFooterToBottom();
+        $(window).on('xenon.resized', stickFooterToBottom);
+    }
+
+    // Perfect Scrollbar
+    if ($.isFunction($.fn.perfectScrollbar)) {
+        if (gVars.$sidebarMenu.hasClass('fixed'))
+            ps_init();
+
+        $(".ps-scrollbar").each(function(i, el) {
+            var $el = $(el);
+
+            $el.perfectScrollbar({
+                wheelPropagation : false
+            });
+        });
+
+        // Chat Scrollbar
+        var $chat_inner = gVars.$pageContainer.find('#chat .chat-inner');
+
+        if ($chat_inner.parent().hasClass('fixed'))
+            $chat_inner.css({
+                maxHeight : $(window).height()
+            }).perfectScrollbar();
+
+        // User info opening dropdown trigger PS update
+        $(".user-info-navbar .dropdown:has(.ps-scrollbar)").each(function(i, el) {
+            var $scrollbar = $(this).find('.ps-scrollbar');
+
+            $(this).on('click', '[data-toggle="dropdown"]', function(ev) {
+                ev.preventDefault();
+
+                setTimeout(function() {
+                    $scrollbar.perfectScrollbar('update');
+                }, 1);
+            });
+        });
+
+        // Scrollable
+        $("div.scrollable").each(function(i, el) {
+            var $this = $(el), max_height = parseInt(attrDefault($this, 'max-height', 200), 10);
+
+            max_height = max_height < 0 ? 200 : max_height;
+
+            $this.css({
+                maxHeight : max_height
+            }).perfectScrollbar({
+                wheelPropagation : true
+            });
+        });
+    }
+
+    // User info search button
+    var $uim_search_form = $(".user-info-menu .search-form, .nav.navbar-right .search-form");
+
+    $uim_search_form.each(function(i, el) {
+        var $uim_search_input = $(el).find('.form-control');
+
+        $(el).on('click', '.btn', function(ev) {
+            if ($uim_search_input.val().trim().length == 0) {
+                jQuery(el).addClass('focused');
+                setTimeout(function() {
+                    $uim_search_input.focus();
+                }, 100);
+                return false;
+            }
+        });
+
+        $uim_search_input.on('blur', function() {
+            jQuery(el).removeClass('focused');
+        });
     });
 
-})(jQuery, window);
+    // Fixed Footer
+    if (gVars.$mainFooter.hasClass('fixed')) {
+        gVars.$mainContent.css({
+            paddingBottom : gVars.$mainFooter.outerHeight(true)
+        });
+    }
 
-/**
- * Main
- */
-var public_vars = public_vars || {};
+    // Go to to links
+    $('body').on('click', 'a[rel="go-top"]', function(ev) {
+        ev.preventDefault();
 
-;(function($, window, undefined) {
+        var obj = {
+            pos : $(window).scrollTop()
+        };
 
-    //-----------
-    "use strict";
+        TweenLite.to(obj, .3, {
+            pos : 0,
+            ease : Power4.easeOut,
+            onUpdate : function() {
+                $(window).scrollTop(obj.pos);
+            }
+        });
+    });
 
-    $(document).ready(function() {
-        // Main Vars
-        public_vars.$body = $("body");
-        public_vars.$pageContainer = public_vars.$body.find(".page-container");
-        public_vars.$chat = public_vars.$pageContainer.find("#chat");
-        public_vars.$sidebarMenu = public_vars.$pageContainer.find('.sidebar-menu');
-        public_vars.$mainMenu = public_vars.$sidebarMenu.find('.main-menu');
+    // User info navbar equal heights
+    if (gVars.$userInfoMenu.length) {
+        gVars.$userInfoMenu.find('.user-info-menu > li').css({
+            minHeight : gVars.$userInfoMenu.outerHeight() - 1
+        });
+    }
 
-        public_vars.$horizontalNavbar = public_vars.$body.find('.navbar.horizontal-menu');
-        public_vars.$horizontalMenu = public_vars.$horizontalNavbar.find('.navbar-nav');
+    // Autosize
+    if ($.isFunction($.fn.autosize)) {
+        $(".autosize, .autogrow").autosize();
+    }
 
-        public_vars.$mainContent = public_vars.$pageContainer.find('.main-content');
-        public_vars.$mainFooter = public_vars.$body.find('footer.main-footer');
+    // Custom Checkboxes & radios
+    cbr_replace();
 
-        public_vars.$userInfoMenuHor = public_vars.$body.find('.navbar.horizontal-menu');
-        public_vars.$userInfoMenu = public_vars.$body.find('nav.navbar.user-info-navbar');
+    // Auto hidden breadcrumbs
+    $(".breadcrumb.auto-hidden").each(function(i, el) {
+        var $bc = $(el), $as = $bc.find('li a'), collapsed_width = $as.width(), expanded_width = 0;
 
-        public_vars.$settingsPane = public_vars.$body.find('.settings-pane');
-        public_vars.$settingsPaneIn = public_vars.$settingsPane.find('.settings-pane-inner');
+        $as.each(function(i, el) {
+            var $a = $(el);
 
-        public_vars.wheelPropagation = true;
-        // used in Main menu (sidebar)
+            expanded_width = $a.outerWidth(true);
+            $a.addClass('collapsed').width(expanded_width);
 
-        public_vars.$pageLoadingOverlay = public_vars.$body.find('.page-loading-overlay');
-
-        public_vars.defaultColorsPalette = ['#68b828', '#7c38bc', '#0e62c7', '#fcd036', '#4fcdfc', '#00b19d', '#ff6264', '#f7aa47'];
-
-        // Page Loading Overlay
-        if (public_vars.$pageLoadingOverlay.length) {
-            $(window).load(function() {
-                public_vars.$pageLoadingOverlay.addClass('loaded');
-            });
-        }
-
-        window.onerror = function() {
-            // failsafe remove loading overlay
-            public_vars.$pageLoadingOverlay.addClass('loaded');
-        }
-        // Setup Sidebar Menu
-        setup_sidebar_menu();
-
-        // Setup Horizontal Menu
-        setup_horizontal_menu();
-
-        // Sticky Footer
-        if (public_vars.$mainFooter.hasClass('sticky')) {
-            stickFooterToBottom();
-            $(window).on('xenon.resized', stickFooterToBottom);
-        }
-
-        // Perfect Scrollbar
-        if ($.isFunction($.fn.perfectScrollbar)) {
-            if (public_vars.$sidebarMenu.hasClass('fixed'))
-                ps_init();
-
-            $(".ps-scrollbar").each(function(i, el) {
-                var $el = $(el);
-
-                $el.perfectScrollbar({
-                    wheelPropagation : false
-                });
-            });
-
-            // Chat Scrollbar
-            var $chat_inner = public_vars.$pageContainer.find('#chat .chat-inner');
-
-            if ($chat_inner.parent().hasClass('fixed'))
-                $chat_inner.css({
-                    maxHeight : $(window).height()
-                }).perfectScrollbar();
-
-            // User info opening dropdown trigger PS update
-            $(".user-info-navbar .dropdown:has(.ps-scrollbar)").each(function(i, el) {
-                var $scrollbar = $(this).find('.ps-scrollbar');
-
-                $(this).on('click', '[data-toggle="dropdown"]', function(ev) {
-                    ev.preventDefault();
-
-                    setTimeout(function() {
-                        $scrollbar.perfectScrollbar('update');
-                    }, 1);
-                });
-            });
-
-            // Scrollable
-            $("div.scrollable").each(function(i, el) {
-                var $this = $(el), max_height = parseInt(attrDefault($this, 'max-height', 200), 10);
-
-                max_height = max_height < 0 ? 200 : max_height;
-
-                $this.css({
-                    maxHeight : max_height
-                }).perfectScrollbar({
-                    wheelPropagation : true
-                });
-            });
-        }
-
-        // User info search button
-        var $uim_search_form = $(".user-info-menu .search-form, .nav.navbar-right .search-form");
-
-        $uim_search_form.each(function(i, el) {
-            var $uim_search_input = $(el).find('.form-control');
-
-            $(el).on('click', '.btn', function(ev) {
-                if ($uim_search_input.val().trim().length == 0) {
-                    jQuery(el).addClass('focused');
-                    setTimeout(function() {
-                        $uim_search_input.focus();
-                    }, 100);
-                    return false;
-                }
-            });
-
-            $uim_search_input.on('blur', function() {
-                jQuery(el).removeClass('focused');
+            $a.hover(function() {
+                $a.removeClass('collapsed');
+            }, function() {
+                $a.addClass('collapsed');
             });
         });
+    });
 
-        // Fixed Footer
-        if (public_vars.$mainFooter.hasClass('fixed')) {
-            public_vars.$mainContent.css({
-                paddingBottom : public_vars.$mainFooter.outerHeight(true)
-            });
+    // Close Modal on Escape Keydown
+    $(window).on('keydown', function(ev) {
+        // Escape
+        if (ev.keyCode == 27) {
+            // Close opened modal
+            if (gVars.$body.hasClass('modal-open'))
+                $(".modal-open .modal:visible").modal('hide');
         }
+    });
 
-        // Go to to links
-        $('body').on('click', 'a[rel="go-top"]', function(ev) {
+    // Minimal Addon focus interaction
+    $(".input-group.input-group-minimal:has(.form-control)").each(function(i, el) {
+        var $this = $(el), $fc = $this.find('.form-control');
+
+        $fc.on('focus', function() {
+            $this.addClass('focused');
+        }).on('blur', function() {
+            $this.removeClass('focused');
+        });
+    });
+
+    // Spinner
+    $(".input-group.spinner").each(function(i, el) {
+        var $ig = $(el), $dec = $ig.find('[data-type="decrement"]'), $inc = $ig.find('[data-type="increment"]'), $inp = $ig.find('.form-control'), step = attrDefault($ig, 'step', 1), min = attrDefault($ig, 'min', 0), max = attrDefault($ig, 'max', 0), umm = min < max;
+
+        $dec.on('click', function(ev) {
             ev.preventDefault();
 
-            var obj = {
-                pos : $(window).scrollTop()
+            var num = new Number($inp.val()) - step;
+
+            if (umm && num <= min) {
+                num = min;
+            }
+
+            $inp.val(num);
+        });
+
+        $inc.on('click', function(ev) {
+            ev.preventDefault();
+
+            var num = new Number($inp.val()) + step;
+
+            if (umm && num >= max) {
+                num = max;
+            }
+
+            $inp.val(num);
+        });
+    });
+
+    // Select2 Dropdown replacement
+    if ($.isFunction($.fn.select2)) {
+        $(".select2").each(function(i, el) {
+            var $this = $(el), opts = {
+                allowClear : attrDefault($this, 'allowClear', false)
             };
 
-            TweenLite.to(obj, .3, {
-                pos : 0,
-                ease : Power4.easeOut,
-                onUpdate : function() {
-                    $(window).scrollTop(obj.pos);
-                }
-            });
+            $this.select2(opts);
+            $this.addClass('visible');
+
+            //$this.select2("open");
         });
 
-        // User info navbar equal heights
-        if (public_vars.$userInfoMenu.length) {
-            public_vars.$userInfoMenu.find('.user-info-menu > li').css({
-                minHeight : public_vars.$userInfoMenu.outerHeight() - 1
+        if ($.isFunction($.fn.niceScroll)) {
+            $(".select2-results").niceScroll({
+                cursorcolor : '#d4d4d4',
+                cursorborder : '1px solid #ccc',
+                railpadding : {
+                    right : 3
+                }
             });
         }
+    }
 
-        // Autosize
-        if ($.isFunction($.fn.autosize)) {
-            $(".autosize, .autogrow").autosize();
-        }
+    // SelectBoxIt Dropdown replacement
+    if ($.isFunction($.fn.selectBoxIt)) {
+        $("select.selectboxit").each(function(i, el) {
+            var $this = $(el), opts = {
+                showFirstOption : attrDefault($this, 'first-option', true),
+                'native' : attrDefault($this, 'native', false),
+                defaultText : attrDefault($this, 'text', ''),
+            };
 
-        // Custom Checkboxes & radios
-        cbr_replace();
-
-        // Auto hidden breadcrumbs
-        $(".breadcrumb.auto-hidden").each(function(i, el) {
-            var $bc = $(el), $as = $bc.find('li a'), collapsed_width = $as.width(), expanded_width = 0;
-
-            $as.each(function(i, el) {
-                var $a = $(el);
-
-                expanded_width = $a.outerWidth(true);
-                $a.addClass('collapsed').width(expanded_width);
-
-                $a.hover(function() {
-                    $a.removeClass('collapsed');
-                }, function() {
-                    $a.addClass('collapsed');
-                });
-            });
+            $this.addClass('visible');
+            $this.selectBoxIt(opts);
         });
+    }
 
-        // Close Modal on Escape Keydown
-        $(window).on('keydown', function(ev) {
-            // Escape
-            if (ev.keyCode == 27) {
-                // Close opened modal
-                if (public_vars.$body.hasClass('modal-open'))
-                    $(".modal-open .modal:visible").modal('hide');
-            }
-        });
+    // Datepicker
+    if ($.isFunction($.fn.datepicker)) {
+        $(".datepicker").each(function(i, el) {
+            var $this = $(el), opts = {
+                format : attrDefault($this, 'format', 'mm/dd/yyyy'),
+                startDate : attrDefault($this, 'startDate', ''),
+                endDate : attrDefault($this, 'endDate', ''),
+                daysOfWeekDisabled : attrDefault($this, 'disabledDays', ''),
+                startView : attrDefault($this, 'startView', 0),
+                rtl : rtl()
+            }, $n = $this.next(), $p = $this.prev();
 
-        // Minimal Addon focus interaction
-        $(".input-group.input-group-minimal:has(.form-control)").each(function(i, el) {
-            var $this = $(el), $fc = $this.find('.form-control');
+            $this.datepicker(opts);
 
-            $fc.on('focus', function() {
-                $this.addClass('focused');
-            }).on('blur', function() {
-                $this.removeClass('focused');
-            });
-        });
+            if ($n.is('.input-group-addon') && $n.has('a')) {
+                $n.on('click', function(ev) {
+                    ev.preventDefault();
 
-        // Spinner
-        $(".input-group.spinner").each(function(i, el) {
-            var $ig = $(el), $dec = $ig.find('[data-type="decrement"]'), $inc = $ig.find('[data-type="increment"]'), $inp = $ig.find('.form-control'), step = attrDefault($ig, 'step', 1), min = attrDefault($ig, 'min', 0), max = attrDefault($ig, 'max', 0), umm = min < max;
-
-            $dec.on('click', function(ev) {
-                ev.preventDefault();
-
-                var num = new Number($inp.val()) - step;
-
-                if (umm && num <= min) {
-                    num = min;
-                }
-
-                $inp.val(num);
-            });
-
-            $inc.on('click', function(ev) {
-                ev.preventDefault();
-
-                var num = new Number($inp.val()) + step;
-
-                if (umm && num >= max) {
-                    num = max;
-                }
-
-                $inp.val(num);
-            });
-        });
-
-        // Select2 Dropdown replacement
-        if ($.isFunction($.fn.select2)) {
-            $(".select2").each(function(i, el) {
-                var $this = $(el), opts = {
-                    allowClear : attrDefault($this, 'allowClear', false)
-                };
-
-                $this.select2(opts);
-                $this.addClass('visible');
-
-                //$this.select2("open");
-            });
-
-            if ($.isFunction($.fn.niceScroll)) {
-                $(".select2-results").niceScroll({
-                    cursorcolor : '#d4d4d4',
-                    cursorborder : '1px solid #ccc',
-                    railpadding : {
-                        right : 3
-                    }
+                    $this.datepicker('show');
                 });
             }
-        }
 
-        // SelectBoxIt Dropdown replacement
-        if ($.isFunction($.fn.selectBoxIt)) {
-            $("select.selectboxit").each(function(i, el) {
-                var $this = $(el), opts = {
-                    showFirstOption : attrDefault($this, 'first-option', true),
-                    'native' : attrDefault($this, 'native', false),
-                    defaultText : attrDefault($this, 'text', ''),
-                };
+            if ($p.is('.input-group-addon') && $p.has('a')) {
+                $p.on('click', function(ev) {
+                    ev.preventDefault();
 
-                $this.addClass('visible');
-                $this.selectBoxIt(opts);
+                    $this.datepicker('show');
+                });
+            }
+        });
+    }
+
+    // Date Range Picker
+    if ($.isFunction($.fn.daterangepicker)) {
+        $(".daterange").each(function(i, el) {
+            // Change the range as you desire
+            var ranges = {
+                'Today' : [moment(), moment()],
+                'Yesterday' : [moment().subtract('days', 1), moment().subtract('days', 1)],
+                'Last 7 Days' : [moment().subtract('days', 6), moment()],
+                'Last 30 Days' : [moment().subtract('days', 29), moment()],
+                'This Month' : [moment().startOf('month'), moment().endOf('month')],
+                'Last Month' : [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+            };
+
+            var $this = $(el), opts = {
+                format : attrDefault($this, 'format', 'MM/DD/YYYY'),
+                timePicker : attrDefault($this, 'timePicker', false),
+                timePickerIncrement : attrDefault($this, 'timePickerIncrement', false),
+                separator : attrDefault($this, 'separator', ' - '),
+            }, min_date = attrDefault($this, 'minDate', ''), max_date = attrDefault($this, 'maxDate', ''), start_date = attrDefault($this, 'startDate', ''), end_date = attrDefault($this, 'endDate', '');
+
+            if ($this.hasClass('add-ranges')) {
+                opts['ranges'] = ranges;
+            }
+
+            if (min_date.length) {
+                opts['minDate'] = min_date;
+            }
+
+            if (max_date.length) {
+                opts['maxDate'] = max_date;
+            }
+
+            if (start_date.length) {
+                opts['startDate'] = start_date;
+            }
+
+            if (end_date.length) {
+                opts['endDate'] = end_date;
+            }
+
+            $this.daterangepicker(opts, function(start, end) {
+                var drp = $this.data('daterangepicker');
+
+                if ($this.is('[data-callback]')) {
+                    //daterange_callback(start, end);
+                    callback_test(start, end);
+                }
+
+                if ($this.hasClass('daterange-inline')) {
+                    $this.find('span').html(start.format(drp.format) + drp.separator + end.format(drp.format));
+                }
             });
-        }
 
-        // Datepicker
-        if ($.isFunction($.fn.datepicker)) {
-            $(".datepicker").each(function(i, el) {
-                var $this = $(el), opts = {
-                    format : attrDefault($this, 'format', 'mm/dd/yyyy'),
-                    startDate : attrDefault($this, 'startDate', ''),
-                    endDate : attrDefault($this, 'endDate', ''),
-                    daysOfWeekDisabled : attrDefault($this, 'disabledDays', ''),
-                    startView : attrDefault($this, 'startView', 0),
-                    rtl : rtl()
-                }, $n = $this.next(), $p = $this.prev();
+            if ( typeof opts['ranges'] == 'object') {
+                $this.data('daterangepicker').container.removeClass('show-calendar');
+            }
+        });
+    }
 
-                $this.datepicker(opts);
+    // Timepicker
+    if ($.isFunction($.fn.timepicker)) {
+        $(".timepicker").each(function(i, el) {
+            var $this = $(el), opts = {
+                template : attrDefault($this, 'template', false),
+                showSeconds : attrDefault($this, 'showSeconds', false),
+                defaultTime : attrDefault($this, 'defaultTime', 'current'),
+                showMeridian : attrDefault($this, 'showMeridian', true),
+                minuteStep : attrDefault($this, 'minuteStep', 15),
+                secondStep : attrDefault($this, 'secondStep', 15)
+            }, $n = $this.next(), $p = $this.prev();
 
-                if ($n.is('.input-group-addon') && $n.has('a')) {
-                    $n.on('click', function(ev) {
-                        ev.preventDefault();
+            $this.timepicker(opts);
 
-                        $this.datepicker('show');
-                    });
-                }
+            if ($n.is('.input-group-addon') && $n.has('a')) {
+                $n.on('click', function(ev) {
+                    ev.preventDefault();
 
-                if ($p.is('.input-group-addon') && $p.has('a')) {
-                    $p.on('click', function(ev) {
-                        ev.preventDefault();
+                    $this.timepicker('showWidget');
+                });
+            }
 
-                        $this.datepicker('show');
-                    });
-                }
-            });
-        }
+            if ($p.is('.input-group-addon') && $p.has('a')) {
+                $p.on('click', function(ev) {
+                    ev.preventDefault();
 
-        // Date Range Picker
-        if ($.isFunction($.fn.daterangepicker)) {
-            $(".daterange").each(function(i, el) {
-                // Change the range as you desire
-                var ranges = {
-                    'Today' : [moment(), moment()],
-                    'Yesterday' : [moment().subtract('days', 1), moment().subtract('days', 1)],
-                    'Last 7 Days' : [moment().subtract('days', 6), moment()],
-                    'Last 30 Days' : [moment().subtract('days', 29), moment()],
-                    'This Month' : [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month' : [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-                };
+                    $this.timepicker('showWidget');
+                });
+            }
+        });
+    }
 
-                var $this = $(el), opts = {
-                    format : attrDefault($this, 'format', 'MM/DD/YYYY'),
-                    timePicker : attrDefault($this, 'timePicker', false),
-                    timePickerIncrement : attrDefault($this, 'timePickerIncrement', false),
-                    separator : attrDefault($this, 'separator', ' - '),
-                }, min_date = attrDefault($this, 'minDate', ''), max_date = attrDefault($this, 'maxDate', ''), start_date = attrDefault($this, 'startDate', ''), end_date = attrDefault($this, 'endDate', '');
+    // Colorpicker
+    if ($.isFunction($.fn.colorpicker)) {
+        $(".colorpicker").each(function(i, el) {
+            var $this = $(el), opts = {
+            }, $n = $this.next(), $p = $this.prev(), $preview = $this.siblings('.input-group-addon').find('.color-preview');
 
-                if ($this.hasClass('add-ranges')) {
-                    opts['ranges'] = ranges;
-                }
+            $this.colorpicker(opts);
 
-                if (min_date.length) {
-                    opts['minDate'] = min_date;
-                }
+            if ($n.is('.input-group-addon') && $n.has('a')) {
+                $n.on('click', function(ev) {
+                    ev.preventDefault();
 
-                if (max_date.length) {
-                    opts['maxDate'] = max_date;
-                }
+                    $this.colorpicker('show');
+                });
+            }
 
-                if (start_date.length) {
-                    opts['startDate'] = start_date;
-                }
+            if ($p.is('.input-group-addon') && $p.has('a')) {
+                $p.on('click', function(ev) {
+                    ev.preventDefault();
 
-                if (end_date.length) {
-                    opts['endDate'] = end_date;
-                }
+                    $this.colorpicker('show');
+                });
+            }
 
-                $this.daterangepicker(opts, function(start, end) {
-                    var drp = $this.data('daterangepicker');
+            if ($preview.length) {
+                $this.on('changeColor', function(ev) {
 
-                    if ($this.is('[data-callback]')) {
-                        //daterange_callback(start, end);
-                        callback_test(start, end);
-                    }
-
-                    if ($this.hasClass('daterange-inline')) {
-                        $this.find('span').html(start.format(drp.format) + drp.separator + end.format(drp.format));
-                    }
+                    $preview.css('background-color', ev.color.toHex());
                 });
 
-                if ( typeof opts['ranges'] == 'object') {
-                    $this.data('daterangepicker').container.removeClass('show-calendar');
+                if ($this.val().length) {
+                    $preview.css('background-color', $this.val());
                 }
-            });
-        }
+            }
+        });
+    }
 
-        // Timepicker
-        if ($.isFunction($.fn.timepicker)) {
-            $(".timepicker").each(function(i, el) {
-                var $this = $(el), opts = {
-                    template : attrDefault($this, 'template', false),
-                    showSeconds : attrDefault($this, 'showSeconds', false),
-                    defaultTime : attrDefault($this, 'defaultTime', 'current'),
-                    showMeridian : attrDefault($this, 'showMeridian', true),
-                    minuteStep : attrDefault($this, 'minuteStep', 15),
-                    secondStep : attrDefault($this, 'secondStep', 15)
-                }, $n = $this.next(), $p = $this.prev();
-
-                $this.timepicker(opts);
-
-                if ($n.is('.input-group-addon') && $n.has('a')) {
-                    $n.on('click', function(ev) {
-                        ev.preventDefault();
-
-                        $this.timepicker('showWidget');
-                    });
-                }
-
-                if ($p.is('.input-group-addon') && $p.has('a')) {
-                    $p.on('click', function(ev) {
-                        ev.preventDefault();
-
-                        $this.timepicker('showWidget');
-                    });
-                }
-            });
-        }
-
-        // Colorpicker
-        if ($.isFunction($.fn.colorpicker)) {
-            $(".colorpicker").each(function(i, el) {
-                var $this = $(el), opts = {
-                }, $n = $this.next(), $p = $this.prev(), $preview = $this.siblings('.input-group-addon').find('.color-preview');
-
-                $this.colorpicker(opts);
-
-                if ($n.is('.input-group-addon') && $n.has('a')) {
-                    $n.on('click', function(ev) {
-                        ev.preventDefault();
-
-                        $this.colorpicker('show');
-                    });
-                }
-
-                if ($p.is('.input-group-addon') && $p.has('a')) {
-                    $p.on('click', function(ev) {
-                        ev.preventDefault();
-
-                        $this.colorpicker('show');
-                    });
-                }
-
-                if ($preview.length) {
-                    $this.on('changeColor', function(ev) {
-
-                        $preview.css('background-color', ev.color.toHex());
-                    });
-
-                    if ($this.val().length) {
-                        $preview.css('background-color', $this.val());
+    // Form Validation
+    if ($.isFunction($.fn.validate)) {
+        $("form.validate").each(function(i, el) {
+            var $this = $(el), opts = {
+                rules : {},
+                messages : {},
+                errorElement : 'span',
+                errorClass : 'validate-has-error',
+                highlight : function(element) {
+                    $(element).closest('.form-group').addClass('validate-has-error');
+                },
+                unhighlight : function(element) {
+                    $(element).closest('.form-group').removeClass('validate-has-error');
+                },
+                errorPlacement : function(error, element) {
+                    if (element.closest('.has-switch').length) {
+                        error.insertAfter(element.closest('.has-switch'));
+                    } else if (element.parent('.checkbox, .radio').length || element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
                     }
                 }
-            });
-        }
+            }, $fields = $this.find('[data-validate]');
 
-        // Form Validation
-        if ($.isFunction($.fn.validate)) {
-            $("form.validate").each(function(i, el) {
-                var $this = $(el), opts = {
-                    rules : {},
-                    messages : {},
-                    errorElement : 'span',
-                    errorClass : 'validate-has-error',
-                    highlight : function(element) {
-                        $(element).closest('.form-group').addClass('validate-has-error');
-                    },
-                    unhighlight : function(element) {
-                        $(element).closest('.form-group').removeClass('validate-has-error');
-                    },
-                    errorPlacement : function(error, element) {
-                        if (element.closest('.has-switch').length) {
-                            error.insertAfter(element.closest('.has-switch'));
-                        } else if (element.parent('.checkbox, .radio').length || element.parent('.input-group').length) {
-                            error.insertAfter(element.parent());
-                        } else {
-                            error.insertAfter(element);
+            $fields.each(function(j, el2) {
+                var $field = $(el2), name = $field.attr('name'), validate = attrDefault($field, 'validate', '').toString(), _validate = validate.split(',');
+
+                for (var k in _validate) {
+                    var rule = _validate[k], params, message;
+
+                    if ( typeof opts['rules'][name] == 'undefined') {
+                        opts['rules'][name] = {};
+                        opts['messages'][name] = {};
+                    }
+
+                    if ($.inArray(rule, ['required', 'url', 'email', 'number', 'date', 'creditcard']) != -1) {
+                        opts['rules'][name][rule] = true;
+
+                        message = $field.data('message-' + rule);
+
+                        if (message) {
+                            opts['messages'][name][rule] = message;
                         }
                     }
-                }, $fields = $this.find('[data-validate]');
+                    // Parameter Value (#1 parameter)
+                    else if ( params = rule.match(/(\w+)\[(.*?)\]/i)) {
+                        if ($.inArray(params[1], ['min', 'max', 'minlength', 'maxlength', 'equalTo']) != -1) {
+                            opts['rules'][name][params[1]] = params[2];
 
-                $fields.each(function(j, el2) {
-                    var $field = $(el2), name = $field.attr('name'), validate = attrDefault($field, 'validate', '').toString(), _validate = validate.split(',');
-
-                    for (var k in _validate) {
-                        var rule = _validate[k], params, message;
-
-                        if ( typeof opts['rules'][name] == 'undefined') {
-                            opts['rules'][name] = {};
-                            opts['messages'][name] = {};
-                        }
-
-                        if ($.inArray(rule, ['required', 'url', 'email', 'number', 'date', 'creditcard']) != -1) {
-                            opts['rules'][name][rule] = true;
-
-                            message = $field.data('message-' + rule);
+                            message = $field.data('message-' + params[1]);
 
                             if (message) {
-                                opts['messages'][name][rule] = message;
-                            }
-                        }
-                        // Parameter Value (#1 parameter)
-                        else if ( params = rule.match(/(\w+)\[(.*?)\]/i)) {
-                            if ($.inArray(params[1], ['min', 'max', 'minlength', 'maxlength', 'equalTo']) != -1) {
-                                opts['rules'][name][params[1]] = params[2];
-
-                                message = $field.data('message-' + params[1]);
-
-                                if (message) {
-                                    opts['messages'][name][params[1]] = message;
-                                }
+                                opts['messages'][name][params[1]] = message;
                             }
                         }
                     }
-                });
-
-                $this.validate(opts);
+                }
             });
-        }
 
-        // Input Mask
-        if ($.isFunction($.fn.inputmask)) {
-            $("[data-mask]").each(function(i, el) {
-                var $this = $(el), mask = $this.data('mask').toString(), opts = {
-                    numericInput : attrDefault($this, 'numeric', false),
-                    radixPoint : attrDefault($this, 'radixPoint', ''),
-                    rightAlign : attrDefault($this, 'numericAlign', 'left') == 'right'
-                }, placeholder = attrDefault($this, 'placeholder', ''), is_regex = attrDefault($this, 'isRegex', '');
+            $this.validate(opts);
+        });
+    }
 
-                if (placeholder.length) {
-                    opts[placeholder] = placeholder;
-                }
+    // Input Mask
+    if ($.isFunction($.fn.inputmask)) {
+        $("[data-mask]").each(function(i, el) {
+            var $this = $(el), mask = $this.data('mask').toString(), opts = {
+                numericInput : attrDefault($this, 'numeric', false),
+                radixPoint : attrDefault($this, 'radixPoint', ''),
+                rightAlign : attrDefault($this, 'numericAlign', 'left') == 'right'
+            }, placeholder = attrDefault($this, 'placeholder', ''), is_regex = attrDefault($this, 'isRegex', '');
 
-                switch(mask.toLowerCase()) {
-                    case "phone":
-                        mask = "(999) 999-9999";
-                        break;
+            if (placeholder.length) {
+                opts[placeholder] = placeholder;
+            }
 
-                    case "currency":
-                    case "rcurrency":
+            switch(mask.toLowerCase()) {
+                case "phone":
+                    mask = "(999) 999-9999";
+                    break;
 
-                        var sign = attrDefault($this, 'sign', '$');
-                        ;
+                case "currency":
+                case "rcurrency":
 
-                        mask = "999,999,999.99";
+                    var sign = attrDefault($this, 'sign', '$');
+                    ;
 
-                        if ($this.data('mask').toLowerCase() == 'rcurrency') {
-                            mask += ' ' + sign;
-                        } else {
-                            mask = sign + ' ' + mask;
-                        }
+                    mask = "999,999,999.99";
 
-                        opts.numericInput = true;
-                        opts.rightAlignNumerics = false;
-                        opts.radixPoint = '.';
-                        break;
+                    if ($this.data('mask').toLowerCase() == 'rcurrency') {
+                        mask += ' ' + sign;
+                    } else {
+                        mask = sign + ' ' + mask;
+                    }
 
-                    case "email":
-                        mask = 'Regex';
-                        opts.regex = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,4}";
-                        break;
+                    opts.numericInput = true;
+                    opts.rightAlignNumerics = false;
+                    opts.radixPoint = '.';
+                    break;
 
-                    case "fdecimal":
-                        mask = 'decimal';
-                        $.extend(opts, {
-                            autoGroup : true,
-                            groupSize : 3,
-                            radixPoint : attrDefault($this, 'rad', '.'),
-                            groupSeparator : attrDefault($this, 'dec', ',')
-                        });
-                }
-
-                if (is_regex) {
-                    opts.regex = mask;
+                case "email":
                     mask = 'Regex';
-                }
+                    opts.regex = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,4}";
+                    break;
 
-                $this.inputmask(mask, opts);
-            });
-        }
-
-        // Form Wizard
-        if ($.isFunction($.fn.bootstrapWizard)) {
-            $(".form-wizard").each(function(i, el) {
-                var $this = $(el), $tabs = $this.find('> .tabs > li'), $progress = $this.find(".progress-indicator"), _index = $this.find('> ul > li.active').index();
-
-                // Validation
-                var checkFormWizardValidaion = function(tab, navigation, index) {
-                    if ($this.hasClass('validate')) {
-                        var $valid = $this.valid();
-
-                        if (!$valid) {
-                            $this.data('validator').focusInvalid();
-                            return false;
-                        }
-                    }
-
-                    return true;
-                };
-
-                // Setup Progress
-                if (_index > 0) {
-                    $progress.css({
-                        width : _index / $tabs.length * 100 + '%'
+                case "fdecimal":
+                    mask = 'decimal';
+                    $.extend(opts, {
+                        autoGroup : true,
+                        groupSize : 3,
+                        radixPoint : attrDefault($this, 'rad', '.'),
+                        groupSeparator : attrDefault($this, 'dec', ',')
                     });
-                    $tabs.removeClass('completed').slice(0, _index).addClass('completed');
+            }
+
+            if (is_regex) {
+                opts.regex = mask;
+                mask = 'Regex';
+            }
+
+            $this.inputmask(mask, opts);
+        });
+    }
+
+    // Form Wizard
+    if ($.isFunction($.fn.bootstrapWizard)) {
+        $(".form-wizard").each(function(i, el) {
+            var $this = $(el), $tabs = $this.find('> .tabs > li'), $progress = $this.find(".progress-indicator"), _index = $this.find('> ul > li.active').index();
+
+            // Validation
+            var checkFormWizardValidaion = function(tab, navigation, index) {
+                if ($this.hasClass('validate')) {
+                    var $valid = $this.valid();
+
+                    if (!$valid) {
+                        $this.data('validator').focusInvalid();
+                        return false;
+                    }
                 }
 
-                $this.bootstrapWizard({
-                    tabClass : "",
-                    onTabShow : function($tab, $navigation, index) {
-                        var pct = $tabs.eq(index).position().left / $tabs.parent().width() * 100;
+                return true;
+            };
 
-                        $tabs.removeClass('completed').slice(0, index).addClass('completed');
-                        $progress.css({
-                            width : pct + '%'
-                        });
-                    },
-
-                    onNext : checkFormWizardValidaion,
-                    onTabClick : checkFormWizardValidaion
+            // Setup Progress
+            if (_index > 0) {
+                $progress.css({
+                    width : _index / $tabs.length * 100 + '%'
                 });
+                $tabs.removeClass('completed').slice(0, _index).addClass('completed');
+            }
 
-                $this.data('bootstrapWizard').show(_index);
+            $this.bootstrapWizard({
+                tabClass : "",
+                onTabShow : function($tab, $navigation, index) {
+                    var pct = $tabs.eq(index).position().left / $tabs.parent().width() * 100;
 
-                $this.find('.pager a').on('click', function(ev) {
-                    ev.preventDefault();
-                });
+                    $tabs.removeClass('completed').slice(0, index).addClass('completed');
+                    $progress.css({
+                        width : pct + '%'
+                    });
+                },
+
+                onNext : checkFormWizardValidaion,
+                onTabClick : checkFormWizardValidaion
             });
-        }
 
-        // Slider
-        if ($.isFunction($.fn.slider)) {
-            $(".slider").each(function(i, el) {
-                var $this = $(el), $label_1 = $('<span class="ui-label"></span>'), $label_2 = $label_1.clone(), orientation = attrDefault($this, 'vertical', 0) != 0 ? 'vertical' : 'horizontal', prefix = attrDefault($this, 'prefix', ''), postfix = attrDefault($this, 'postfix', ''), fill = attrDefault($this, 'fill', ''), $fill = $(fill), step = attrDefault($this, 'step', 1), value = attrDefault($this, 'value', 5), min = attrDefault($this, 'min', 0), max = attrDefault($this, 'max', 100), min_val = attrDefault($this, 'min-val', 10), max_val = attrDefault($this, 'max-val', 90), is_range = $this.is('[data-min-val]') || $this.is('[data-max-val]'), reps = 0;
+            $this.data('bootstrapWizard').show(_index);
 
-                // Range Slider Options
-                if (is_range) {
-                    $this.slider({
-                        range : true,
-                        orientation : orientation,
-                        min : min,
-                        max : max,
-                        values : [min_val, max_val],
-                        step : step,
-                        slide : function(e, ui) {
+            $this.find('.pager a').on('click', function(ev) {
+                ev.preventDefault();
+            });
+        });
+    }
+
+    // Slider
+    if ($.isFunction($.fn.slider)) {
+        $(".slider").each(function(i, el) {
+            var $this = $(el), $label_1 = $('<span class="ui-label"></span>'), $label_2 = $label_1.clone(), orientation = attrDefault($this, 'vertical', 0) != 0 ? 'vertical' : 'horizontal', prefix = attrDefault($this, 'prefix', ''), postfix = attrDefault($this, 'postfix', ''), fill = attrDefault($this, 'fill', ''), $fill = $(fill), step = attrDefault($this, 'step', 1), value = attrDefault($this, 'value', 5), min = attrDefault($this, 'min', 0), max = attrDefault($this, 'max', 100), min_val = attrDefault($this, 'min-val', 10), max_val = attrDefault($this, 'max-val', 90), is_range = $this.is('[data-min-val]') || $this.is('[data-max-val]'), reps = 0;
+
+            // Range Slider Options
+            if (is_range) {
+                $this.slider({
+                    range : true,
+                    orientation : orientation,
+                    min : min,
+                    max : max,
+                    values : [min_val, max_val],
+                    step : step,
+                    slide : function(e, ui) {
+                        var min_val = ( prefix ? prefix : '') + ui.values[0] + ( postfix ? postfix : ''), max_val = ( prefix ? prefix : '') + ui.values[1] + ( postfix ? postfix : '');
+
+                        $label_1.html(min_val);
+                        $label_2.html(max_val);
+
+                        if (fill)
+                            $fill.val(min_val + ',' + max_val);
+
+                        reps++;
+                    },
+                    change : function(ev, ui) {
+                        if (reps == 1) {
                             var min_val = ( prefix ? prefix : '') + ui.values[0] + ( postfix ? postfix : ''), max_val = ( prefix ? prefix : '') + ui.values[1] + ( postfix ? postfix : '');
 
                             $label_1.html(min_val);
@@ -972,225 +975,204 @@ var public_vars = public_vars || {};
 
                             if (fill)
                                 $fill.val(min_val + ',' + max_val);
-
-                            reps++;
-                        },
-                        change : function(ev, ui) {
-                            if (reps == 1) {
-                                var min_val = ( prefix ? prefix : '') + ui.values[0] + ( postfix ? postfix : ''), max_val = ( prefix ? prefix : '') + ui.values[1] + ( postfix ? postfix : '');
-
-                                $label_1.html(min_val);
-                                $label_2.html(max_val);
-
-                                if (fill)
-                                    $fill.val(min_val + ',' + max_val);
-                            }
-
-                            reps = 0;
                         }
-                    });
 
-                    var $handles = $this.find('.ui-slider-handle');
+                        reps = 0;
+                    }
+                });
 
-                    $label_1.html(( prefix ? prefix : '') + min_val + ( postfix ? postfix : ''));
-                    $handles.first().append($label_1);
+                var $handles = $this.find('.ui-slider-handle');
 
-                    $label_2.html(( prefix ? prefix : '') + max_val + ( postfix ? postfix : ''));
-                    $handles.last().append($label_2);
-                }
-                // Normal Slider
-                else {
+                $label_1.html(( prefix ? prefix : '') + min_val + ( postfix ? postfix : ''));
+                $handles.first().append($label_1);
 
-                    $this.slider({
-                        range : attrDefault($this, 'basic', 0) ? false : "min",
-                        orientation : orientation,
-                        min : min,
-                        max : max,
-                        value : value,
-                        step : step,
-                        slide : function(ev, ui) {
+                $label_2.html(( prefix ? prefix : '') + max_val + ( postfix ? postfix : ''));
+                $handles.last().append($label_2);
+            }
+            // Normal Slider
+            else {
+
+                $this.slider({
+                    range : attrDefault($this, 'basic', 0) ? false : "min",
+                    orientation : orientation,
+                    min : min,
+                    max : max,
+                    value : value,
+                    step : step,
+                    slide : function(ev, ui) {
+                        var val = ( prefix ? prefix : '') + ui.value + ( postfix ? postfix : '');
+
+                        $label_1.html(val);
+
+                        if (fill)
+                            $fill.val(val);
+
+                        reps++;
+                    },
+                    change : function(ev, ui) {
+                        if (reps == 1) {
                             var val = ( prefix ? prefix : '') + ui.value + ( postfix ? postfix : '');
 
                             $label_1.html(val);
 
                             if (fill)
                                 $fill.val(val);
-
-                            reps++;
-                        },
-                        change : function(ev, ui) {
-                            if (reps == 1) {
-                                var val = ( prefix ? prefix : '') + ui.value + ( postfix ? postfix : '');
-
-                                $label_1.html(val);
-
-                                if (fill)
-                                    $fill.val(val);
-                            }
-
-                            reps = 0;
-                        }
-                    });
-
-                    var $handles = $this.find('.ui-slider-handle');
-                    //$fill = $('<div class="ui-fill"></div>');
-
-                    $label_1.html(( prefix ? prefix : '') + value + ( postfix ? postfix : ''));
-                    $handles.html($label_1);
-
-                    //$handles.parent().prepend( $fill );
-
-                    //$fill.width($handles.get(0).style.left);
-                }
-
-            })
-        }
-
-        // jQuery Knob
-        if ($.isFunction($.fn.knob)) {
-            $(".knob").knob({
-                change : function(value) {
-                },
-                release : function(value) {
-                },
-                cancel : function() {
-                },
-                draw : function() {
-
-                    if (this.$.data('skin') == 'tron') {
-
-                        var a = this.angle(this.cv)// Angle
-                        , sa = this.startAngle// Previous start angle
-                        , sat = this.startAngle// Start angle
-                        , ea// Previous end angle
-                        , eat = sat + a// End angle
-                        , r = 1;
-
-                        this.g.lineWidth = this.lineWidth;
-
-                        this.o.cursor && ( sat = eat - 0.3) && ( eat = eat + 0.3);
-
-                        if (this.o.displayPrevious) {
-                            ea = this.startAngle + this.angle(this.v);
-                            this.o.cursor && ( sa = ea - 0.3) && ( ea = ea + 0.3);
-                            this.g.beginPath();
-                            this.g.strokeStyle = this.pColor;
-                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
-                            this.g.stroke();
                         }
 
-                        this.g.beginPath();
-                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
-                        this.g.stroke();
-
-                        this.g.lineWidth = 2;
-                        this.g.beginPath();
-                        this.g.strokeStyle = this.o.fgColor;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                        this.g.stroke();
-
-                        return false;
+                        reps = 0;
                     }
-                }
-            });
-        }
-
-        // Wysiwyg Editor
-        if ($.isFunction($.fn.wysihtml5)) {
-            $(".wysihtml5").each(function(i, el) {
-                var $this = $(el), stylesheets = attrDefault($this, 'stylesheet-url', '')
-
-                $(".wysihtml5").wysihtml5({
-                    size : 'white',
-                    stylesheets : stylesheets.split(','),
-                    "html" : attrDefault($this, 'html', true),
-                    "color" : attrDefault($this, 'colors', true),
                 });
-            });
-        }
 
-        // CKeditor WYSIWYG
-        if ($.isFunction($.fn.ckeditor)) {
-            $(".ckeditor").ckeditor({
-                contentsLangDirection : rtl() ? 'rtl' : 'ltr'
-            });
-        }
+                var $handles = $this.find('.ui-slider-handle');
+                //$fill = $('<div class="ui-fill"></div>');
 
-        // Dropzone is prezent
-        if ( typeof Dropzone != 'undefined') {
-            Dropzone.autoDiscover = false;
+                $label_1.html(( prefix ? prefix : '') + value + ( postfix ? postfix : ''));
+                $handles.html($label_1);
 
-            $(".dropzone[action]").each(function(i, el) {
-                $(el).dropzone();
-            });
-        }
+                //$handles.parent().prepend( $fill );
 
-        // Tocify Table
-        if ($.isFunction($.fn.tocify) && $("#toc").length) {
-            $("#toc").tocify({
-                context : '.tocify-content',
-                selectors : "h2,h3,h4,h5"
-            });
+                //$fill.width($handles.get(0).style.left);
+            }
 
-            var $this = $(".tocify"), watcher = scrollMonitor.create($this.get(0));
+        })
+    }
 
-            $this.width($this.parent().width());
+    // jQuery Knob
+    if ($.isFunction($.fn.knob)) {
+        $(".knob").knob({
+            change : function(value) {
+            },
+            release : function(value) {
+            },
+            cancel : function() {
+            },
+            draw : function() {
 
-            watcher.lock();
+                if (this.$.data('skin') == 'tron') {
 
-            watcher.stateChange(function() {
-                $($this.get(0)).toggleClass('fixed', this.isAboveViewport)
-            });
-        }
+                    var a = this.angle(this.cv)// Angle
+                    , sa = this.startAngle// Previous start angle
+                    , sat = this.startAngle// Start angle
+                    , ea// Previous end angle
+                    , eat = sat + a// End angle
+                    , r = 1;
 
-        // Login Form Label Focusing
-        $(".login-form .form-group:has(label)").each(function(i, el) {
-            var $this = $(el), $label = $this.find('label'), $input = $this.find('.form-control');
+                    this.g.lineWidth = this.lineWidth;
 
-            $input.on('focus', function() {
-                $this.addClass('is-focused');
-            });
+                    this.o.cursor && ( sat = eat - 0.3) && ( eat = eat + 0.3);
 
-            $input.on('keydown', function() {
-                $this.addClass('is-focused');
-            });
+                    if (this.o.displayPrevious) {
+                        ea = this.startAngle + this.angle(this.v);
+                        this.o.cursor && ( sa = ea - 0.3) && ( ea = ea + 0.3);
+                        this.g.beginPath();
+                        this.g.strokeStyle = this.pColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+                        this.g.stroke();
+                    }
 
-            $input.on('blur', function() {
-                $this.removeClass('is-focused');
+                    this.g.beginPath();
+                    this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+                    this.g.stroke();
 
-                if ($input.val().trim().length > 0) {
-                    $this.addClass('is-focused');
+                    this.g.lineWidth = 2;
+                    this.g.beginPath();
+                    this.g.strokeStyle = this.o.fgColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                    this.g.stroke();
+
+                    return false;
                 }
-            });
+            }
+        });
+    }
 
-            $label.on('click', function() {
-                $input.focus();
+    // Wysiwyg Editor
+    if ($.isFunction($.fn.wysihtml5)) {
+        $(".wysihtml5").each(function(i, el) {
+            var $this = $(el), stylesheets = attrDefault($this, 'stylesheet-url', '')
+
+            $(".wysihtml5").wysihtml5({
+                size : 'white',
+                stylesheets : stylesheets.split(','),
+                "html" : attrDefault($this, 'html', true),
+                "color" : attrDefault($this, 'colors', true),
             });
+        });
+    }
+
+    // CKeditor WYSIWYG
+    if ($.isFunction($.fn.ckeditor)) {
+        $(".ckeditor").ckeditor({
+            contentsLangDirection : rtl() ? 'rtl' : 'ltr'
+        });
+    }
+
+    // Dropzone is prezent
+    if ( typeof Dropzone != 'undefined') {
+        Dropzone.autoDiscover = false;
+
+        $(".dropzone[action]").each(function(i, el) {
+            $(el).dropzone();
+        });
+    }
+
+    // Tocify Table
+    if ($.isFunction($.fn.tocify) && $("#toc").length) {
+        $("#toc").tocify({
+            context : '.tocify-content',
+            selectors : "h2,h3,h4,h5"
+        });
+
+        var $this = $(".tocify"), watcher = scrollMonitor.create($this.get(0));
+
+        $this.width($this.parent().width());
+
+        watcher.lock();
+
+        watcher.stateChange(function() {
+            $($this.get(0)).toggleClass('fixed', this.isAboveViewport)
+        });
+    }
+
+    // Login Form Label Focusing
+    $(".login-form .form-group:has(label)").each(function(i, el) {
+        var $this = $(el), $label = $this.find('label'), $input = $this.find('.form-control');
+
+        $input.on('focus', function() {
+            $this.addClass('is-focused');
+        });
+
+        $input.on('keydown', function() {
+            $this.addClass('is-focused');
+        });
+
+        $input.on('blur', function() {
+            $this.removeClass('is-focused');
 
             if ($input.val().trim().length > 0) {
                 $this.addClass('is-focused');
             }
         });
 
+        $label.on('click', function() {
+            $input.focus();
+        });
+
+        if ($input.val().trim().length > 0) {
+            $this.addClass('is-focused');
+        }
     });
 
-    // Enable/Disable Resizable Event
-    var wid = 0;
-
-    $(window).resize(function() {
-        clearTimeout(wid);
-        wid = setTimeout(trigger_resizable, 200);
-    });
-
-})(jQuery, window);
+    sog.toggles();
+};
 
 // Sideber Menu Setup function
 var sm_duration = .2, sm_transition_delay = 150;
 
 function setup_sidebar_menu() {
-    if (public_vars.$sidebarMenu.length) {
-        var $items_with_subs = public_vars.$sidebarMenu.find('li:has(> ul)'), toggle_others = public_vars.$sidebarMenu.hasClass('toggle-others');
+    if (gVars.$sidebarMenu.length) {
+        var $items_with_subs = gVars.$sidebarMenu.find('li:has(> ul)'), toggle_others = gVars.$sidebarMenu.hasClass('toggle-others');
 
         $items_with_subs.filter('.active').addClass('expanded');
 
@@ -1216,13 +1198,13 @@ function setup_sidebar_menu() {
 }
 
 function sidebar_menu_item_expand($li, $sub) {
-    if ($li.data('is-busy') || ($li.parent('.main-menu').length && public_vars.$sidebarMenu.hasClass('collapsed')))
+    if ($li.data('is-busy') || ($li.parent('.main-menu').length && gVars.$sidebarMenu.hasClass('collapsed')))
         return;
 
     $li.addClass('expanded').data('is-busy', true);
     $sub.show();
 
-    var $sub_items = $sub.children(), sub_height = $sub.outerHeight(), win_y = jQuery(window).height(), total_height = $li.outerHeight(), current_y = public_vars.$sidebarMenu.scrollTop(), item_max_y = $li.position().top + current_y, fit_to_viewpport = public_vars.$sidebarMenu.hasClass('fit-in-viewport');
+    var $sub_items = $sub.children(), sub_height = $sub.outerHeight(), win_y = jQuery(window).height(), total_height = $li.outerHeight(), current_y = gVars.$sidebarMenu.scrollTop(), item_max_y = $li.position().top + current_y, fit_to_viewpport = gVars.$sidebarMenu.hasClass('fit-in-viewport');
 
     $sub_items.addClass('is-hidden');
     $sub.height(0);
@@ -1306,11 +1288,11 @@ function sidebar_menu_close_items_siblings($li) {
 
 // Horizontal Menu
 function setup_horizontal_menu() {
-    if (public_vars.$horizontalMenu.length) {
-        var $items_with_subs = public_vars.$horizontalMenu.find('li:has(> ul)'), click_to_expand = public_vars.$horizontalMenu.hasClass('click-to-expand');
+    if (gVars.$horizontalMenu.length) {
+        var $items_with_subs = gVars.$horizontalMenu.find('li:has(> ul)'), click_to_expand = gVars.$horizontalMenu.hasClass('click-to-expand');
 
         if (click_to_expand) {
-            public_vars.$mainContent.add(public_vars.$sidebarMenu).on('click', function(ev) {
+            gVars.$mainContent.add(gVars.$sidebarMenu).on('click', function(ev) {
                 $items_with_subs.removeClass('hover');
             });
         }
@@ -1468,16 +1450,16 @@ function setup_horizontal_menu() {
 }
 
 function stickFooterToBottom() {
-    public_vars.$mainFooter.add(public_vars.$mainContent).add(public_vars.$sidebarMenu).attr('style', '');
+    gVars.$mainFooter.add(gVars.$mainContent).add(gVars.$sidebarMenu).attr('style', '');
 
     if (isxs())
         return false;
 
-    if (public_vars.$mainFooter.hasClass('sticky')) {
-        var win_height = jQuery(window).height(), footer_height = public_vars.$mainFooter.outerHeight(true), main_content_height = public_vars.$mainFooter.position().top + footer_height, main_content_height_only = main_content_height - footer_height, extra_height = public_vars.$horizontalNavbar.outerHeight();
+    if (gVars.$mainFooter.hasClass('sticky')) {
+        var win_height = jQuery(window).height(), footer_height = gVars.$mainFooter.outerHeight(true), main_content_height = gVars.$mainFooter.position().top + footer_height, main_content_height_only = main_content_height - footer_height, extra_height = gVars.$horizontalNavbar.outerHeight();
 
-        if (win_height > main_content_height - parseInt(public_vars.$mainFooter.css('marginTop'), 10)) {
-            public_vars.$mainFooter.css({
+        if (win_height > main_content_height - parseInt(gVars.$mainFooter.css('marginTop'), 10)) {
+            gVars.$mainFooter.css({
                 marginTop : win_height - main_content_height - extra_height
             });
         }
@@ -1490,11 +1472,11 @@ function ps_update(destroy_init) {
         return;
 
     if (jQuery.isFunction(jQuery.fn.perfectScrollbar)) {
-        if (public_vars.$sidebarMenu.hasClass('collapsed')) {
+        if (gVars.$sidebarMenu.hasClass('collapsed')) {
             return;
         }
 
-        public_vars.$sidebarMenu.find('.sidebar-menu-inner').perfectScrollbar('update');
+        gVars.$sidebarMenu.find('.sidebar-menu-inner').perfectScrollbar('update');
 
         if (destroy_init) {
             ps_destroy();
@@ -1508,20 +1490,20 @@ function ps_init() {
         return;
 
     if (jQuery.isFunction(jQuery.fn.perfectScrollbar)) {
-        if (public_vars.$sidebarMenu.hasClass('collapsed') || ! public_vars.$sidebarMenu.hasClass('fixed')) {
+        if (gVars.$sidebarMenu.hasClass('collapsed') || ! gVars.$sidebarMenu.hasClass('fixed')) {
             return;
         }
 
-        public_vars.$sidebarMenu.find('.sidebar-menu-inner').perfectScrollbar({
+        gVars.$sidebarMenu.find('.sidebar-menu-inner').perfectScrollbar({
             wheelSpeed : 2,
-            wheelPropagation : public_vars.wheelPropagation
+            wheelPropagation : gVars.wheelPropagation
         });
     }
 }
 
 function ps_destroy() {
     if (jQuery.isFunction(jQuery.fn.perfectScrollbar)) {
-        public_vars.$sidebarMenu.find('.sidebar-menu-inner').perfectScrollbar('destroy');
+        gVars.$sidebarMenu.find('.sidebar-menu-inner').perfectScrollbar('destroy');
     }
 }
 

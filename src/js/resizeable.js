@@ -2,9 +2,9 @@
 	This function will be called in the event when browser breakpoint changes
  */
 
-var public_vars = public_vars || {};
+var gVars = gVars || {};
 
-jQuery.extend(public_vars, {
+jQuery.extend(gVars, {
 	
 	breakpoints: {
 		largescreen: 	[991, -1],
@@ -44,7 +44,7 @@ function resizable(breakpoint)
 	// Tablet device screen
 	if(is('tabletscreen'))
 	{
-		public_vars.$sidebarMenu.addClass('collapsed');
+		gVars.$sidebarMenu.addClass('collapsed');
 		ps_destroy();
 	}
 	
@@ -67,7 +67,7 @@ function resizable(breakpoint)
 function get_current_breakpoint()
 {
 	var width = jQuery(window).width(),
-		breakpoints = public_vars.breakpoints;
+		breakpoints = gVars.breakpoints;
 	
 	for(var breakpont_label in breakpoints)
 	{
@@ -111,10 +111,10 @@ function ismdxl()
 // Trigger Resizable Function
 function trigger_resizable()
 {
-	if(public_vars.lastBreakpoint != get_current_breakpoint())
+	if(gVars.lastBreakpoint != get_current_breakpoint())
 	{
-		public_vars.lastBreakpoint = get_current_breakpoint();
-		resizable(public_vars.lastBreakpoint);
+		gVars.lastBreakpoint = get_current_breakpoint();
+		resizable(gVars.lastBreakpoint);
 	}
 	
 	
