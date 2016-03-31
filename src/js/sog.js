@@ -82,8 +82,11 @@ $(window).resize(function() {
 
 var gVars = gVars || {};
 var sog = {};
-sog.gVars = gVars;
-gVars.$body = $("body");
+sog.init = function() {
+    gVars.$body = $("body");
+    sog.gVars = gVars;
+};
+
 
 sog.toggles = function() {
 
