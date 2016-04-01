@@ -12146,6 +12146,7 @@ button.toast-close-button {
 }
 .login-page.login-light {
   background: #eeeeee;
+  color: #333;
 }
 .login-page.login-light .errors-container,
 .login-page.login-light .external-login {
