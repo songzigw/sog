@@ -31,10 +31,10 @@ function show_loading_bar(options) {
     else if (defaults.pct < 0)
         defaults.pct = 0;
 
-    var $ = jQuery, $loading_bar = $(".xenon-loading-bar");
+    var $ = jQuery, $loading_bar = $(".sog-loading-bar");
 
     if ($loading_bar.length == 0) {
-        $loading_bar = $('<div class="xenon-loading-bar progress-is-hidden"><span data-pct="0"></span></div>');
+        $loading_bar = $('<div class="sog-loading-bar progress-is-hidden"><span data-pct="0"></span></div>');
         gVars.$body.append($loading_bar);
     }
 
@@ -67,7 +67,7 @@ function show_loading_bar(options) {
 }
 
 function hide_loading_bar() {
-    var $ = jQuery, $loading_bar = $(".xenon-loading-bar"), $pct = $loading_bar.find('span');
+    var $ = jQuery, $loading_bar = $(".sog-loading-bar"), $pct = $loading_bar.find('span');
 
     $loading_bar.addClass('progress-is-hidden');
     $pct.width(0).data('pct', 0);
@@ -100,7 +100,7 @@ sog.toggles = function() {
                 if ($.isFunction($.fn.perfectScrollbar)) {
                     setTimeout(function() {
                         gVars.$chat.find('.chat_inner').perfectScrollbar('update');
-                        $(window).trigger('xenon.resize');
+                        $(window).trigger('sog.resize');
                     }, 1);
                 }
             });
@@ -201,7 +201,7 @@ sog.toggles = function() {
                     ps_destroy();
                 }
 
-                $(window).trigger('xenon.resize');
+                $(window).trigger('sog.resize');
             });
         });
 
@@ -392,7 +392,7 @@ sog.main = function() {
     // Sticky Footer
     if (gVars.$mainFooter.hasClass('sticky')) {
         stickFooterToBottom();
-        $(window).on('xenon.resized', stickFooterToBottom);
+        $(window).sogenon.resized', stickFooterToBottom);
     }
 
     // Perfect Scrollbar
