@@ -392,7 +392,7 @@ sog.main = function() {
     // Sticky Footer
     if (gVars.$mainFooter.hasClass('sticky')) {
         stickFooterToBottom();
-        $(window).sogenon.resized', stickFooterToBottom);
+        $(window).on('sog.resized', stickFooterToBottom);
     }
 
     // Perfect Scrollbar
@@ -1459,7 +1459,11 @@ function stickFooterToBottom() {
         return false;
 
     if (gVars.$mainFooter.hasClass('sticky')) {
-        var win_height = jQuery(window).height(), footer_height = gVars.$mainFooter.outerHeight(true), main_content_height = gVars.$mainFooter.position().top + footer_height, main_content_height_only = main_content_height - footer_height, extra_height = gVars.$horizontalNavbar.outerHeight();
+        var win_height = jQuery(window).height(),
+        footer_height = gVars.$mainFooter.outerHeight(true),
+        main_content_height = gVars.$mainFooter.position().top + footer_height,
+        main_content_height_only = main_content_height - footer_height,
+        extra_height = gVars.$horizontalNavbar.outerHeight();
 
         if (win_height > main_content_height - parseInt(gVars.$mainFooter.css('marginTop'), 10)) {
             gVars.$mainFooter.css({
