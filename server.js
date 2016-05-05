@@ -52,7 +52,7 @@ app.use("/proxy", function (req, res) {
     });
 });
 
-app.use(express.static(__dirname + '/src'));
+app.use(express.static(__dirname + ''));
 
 app.listen(5000);
 console.log("Server is launching at http://localhost:5000");
