@@ -1,0 +1,201 @@
+.btn {
+    outline: none;
+    border: 1px solid transparent;
+    margin-bottom: @base-padding * 0;
+    
+    &.text-left {
+        text-align: left;
+    }
+    
+    &.text-right {
+        text-align: right;
+    }
+    
+    &:active, &:focus {
+        outline: none !important;
+    }
+    
+    // Active
+    &:active,
+    &.active {
+        .box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+    }
+    
+    // Spacing between buttons
+    + .btn {
+        margin-left: @base-padding/2;
+        
+        &.btn-block {
+            margin-left: 0;
+        }
+    }
+    
+    // Single Button (no margin)
+    &.btn-single {
+        margin-bottom: 0;
+    }
+    
+    // Icon
+    &.btn-icon {
+        line-height: 1;
+        
+        i {
+            vertical-align: middle;
+            display: inline-block;
+            padding: 5px 0;
+        }
+        
+        span {
+            display: inline-block;
+        }
+    }
+    
+    // Standalone Icon
+    &.btn-icon-standalone {
+        padding: 0;
+        border: 0;
+        line-height: 1;
+        
+        i, span {
+            display: block;
+            padding: 12px @padding-base-horizontal;
+        }
+        
+        i {
+            border-right: 1px solid transparent;
+            float: left;
+        }
+        
+        span {
+            padding-left: 45px + @base-padding;
+            padding-right: @base-padding + 3;
+        }
+        
+        &.btn-icon-standalone-right {
+            
+            i {
+                float: right;
+                border-left: 1px solid transparent;
+                border-right: 0;
+            }
+            
+            span {
+                padding-left: @base-padding + 3;
+                padding-right: 45px + @base-padding;
+            }
+        }
+        
+        // Sizes
+        &.btn-lg {
+            
+            i, span {
+                padding: 15px @padding-large-horizontal;
+            }
+            
+            span {
+                padding-left: @base-padding + 65;
+            }
+            
+            &.btn-icon-standalone-right {
+                
+                span {
+                    padding-left: @base-padding + 7;
+                    padding-right: @base-padding + 65;
+                }
+            }
+        }
+        
+        &.btn-sm {
+            
+            i, span {
+                padding: 8px @padding-small-horizontal;
+            }
+            
+            span {
+                padding-left: @base-padding + 40;
+            }
+            
+            &.btn-icon-standalone-right {
+                
+                span {
+                    padding-left: @base-padding + 2;
+                    padding-right: @base-padding + 40;
+                }
+            }
+        }
+        
+        &.btn-xs {
+            
+            i, span {
+                padding: 5px @padding-xs-horizontal;
+            }
+            
+            span {
+                padding-left: @base-padding + 24;
+            }
+            
+            &.btn-icon-standalone-right {
+            
+                span {
+                    padding-left: @base-padding;
+                    padding-right: @base-padding + 24;
+                }
+            }
+        }
+    }
+    
+    
+    // Colors
+    &.btn-secondary { .sog-btn-style(@secondary-color, #FFF); }
+    &.btn-purple { .sog-btn-style(@sog-purple, #FFF); }
+    &.btn-orange { .sog-btn-style(@sog-orange, #FFF); }
+    &.btn-pink { .sog-btn-style(@sog-pink, #FFF); }
+    &.btn-turquoise { .sog-btn-style(@sog-turquoise, #FFF); }
+    &.btn-blue { .sog-btn-style(@sog-blue, #FFF); }
+    &.btn-red { .sog-btn-style(@sog-red, #FFF); }
+    &.btn-gray { .sog-btn-style(@sog-gray, #333); }
+    &.btn-black { .sog-btn-style(@sog-black, #FFF); &:hover { background-color: lighten(@sog-black, 10%); } }
+    
+    &.btn-white { 
+        .sog-btn-style(#FFF, #333);
+        border: 1px solid @default-border-color;
+    }
+    
+    // Standalone Styles
+    &.btn-primary { .sog-btn-icon-standalone(@main-color; -5%; -10%); }
+    &.btn-secondary { .sog-btn-icon-standalone(@secondary-color; 2%; 4%); }
+    &.btn-info { .sog-btn-icon-standalone(@brand-info; 4%; 8%); }
+    &.btn-danger { .sog-btn-icon-standalone(@brand-danger; 4%; 8%); }
+    &.btn-warning { .sog-btn-icon-standalone(@brand-warning; 3%; 5%); }
+    &.btn-red { .sog-btn-icon-standalone(@sog-red; 4%; 6%); }
+    &.btn-purple { .sog-btn-icon-standalone(@sog-purple; 4%; 11%, 9%); }
+    &.btn-blue { .sog-btn-icon-standalone(@sog-blue; 4%; 6%); }
+    &.btn-white { .sog-btn-icon-standalone(#FFF; 4%; 10%; 12%); }
+    &.btn-gray { .sog-btn-icon-standalone(@sog-gray; 4%; 10%; 12%); }
+    &.btn-black { .sog-btn-icon-standalone(@sog-black;-5%; -10%; -12%); }
+    
+    // Button Group
+    .btn-group & {
+        
+        &.btn-purple:hover { border-color: darken(@sog-purple, 15%); }
+        &.btn-red:hover { border-color: darken(@sog-red, 15%); }
+        &.btn-blue:hover { border-color: darken(@sog-blue, 15%); }
+        &.btn-white:hover { border-color: darken(#FFF, 15%); }
+        &.btn-gray:hover { border-color: darken(@sog-gray, 15%); }
+        &.btn-black:hover { border-color: lighten(@sog-black, 15%); }
+    }
+}
+
+.btn-unstyled {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+    height: auto;
+    line-height: 1;
+    
+    &:active, &:focus {
+        background: none;
+        .box-shadow(none);
+    }
+}

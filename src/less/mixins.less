@@ -1,6 +1,5 @@
 // Sog Based Mixins
-.xenon-btn-style(@bg; @txt: #FFF; @txt-hover: @txt)
-{
+.sog-btn-style(@bg; @txt: #FFF; @txt-hover: @txt) {
 	@border: darken(@bg, 5%);
 	background-color: @bg;
 	color: @txt;
@@ -17,8 +16,10 @@
 	}
 }
 
-.xenon-btn-icon-standalone(@color; @bg-pct: 2%; @border-pct: 5%; @border-hover-pct: 6%)
-{	
+.sog-btn-icon-standalone(@color;
+                           @bg-pct: 2%;
+                           @border-pct: 5%;
+                           @border-hover-pct: 6%) {
 	&.btn-icon-standalone {
 		
 		i {
@@ -33,7 +34,7 @@
 			}
 			
 			&:hover {
-				
+
 				i {
 					border-left-color: darken(@color, @border-hover-pct);
 				}
@@ -49,8 +50,6 @@
 	}
 }
 
-
-
 // Input Unstyled
 .input-unstyled() {
 	border: 0;
@@ -58,8 +57,6 @@
 	padding: 0;
 	height: auto;
 }
-
-
 
 // Uppercase
 .upper() {
