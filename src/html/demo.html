@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Panels UI</title>
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link rel="shortcut icon" href="../imgs/favicon.png"
+    type="image/x-icon" />
+<link rel="stylesheet" href="../css/bootstrap.css" />
+<link rel="stylesheet/less" type="text/css" href="../less/sog-new.less" />
+<script>
+    less = {
+        // rootpath : ":/a.com/"
+        env : "development",
+        async : false,
+        fileAsync : false,
+        poll : 1000,
+        functions : {},
+        dumpLineNumbers : "comments",
+        relativeUrls : false
+    };
+</script>
+<!-- set options before less.js script -->
+<script src="../js/less.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body class="page-body">
+    <div class="page-container">
+        <div class="main-content">
+
+            <div class="sidebar-menu toggle-others fixed">
+
+            <div class="sidebar-menu-inner">
+
+                <header class="logo-env">
+                <div class="logo">
+                    <a href="/" class="logo-expanded"> 
+                        <div>
+                        <i class="dash-icon dash-icon-logo"></i>
+                        <span>Dashboard</span>
+                        </div>
+                    </a>
+                    <a href="/" class="logo-collapsed"> <img
+                        src="assets/images/emqlogo-white.png" height="40" width="40"/>
+                    </a>
+                </div>
+
+                <div class="mobile-menu-toggle visible-xs">
+                    <a href="#" data-toggle="user-info-menu"> <i class="glyphicon glyphicon-user"></i>
+                    </a> <a href="#" data-toggle="mobile-menu"> <i class="glyphicon glyphicon-menu-hamburger"></i>
+                    </a>
+                </div>
+                </header>
+
+                <ul id="main-menu" class="main-menu">
+                    <li module="overview"><a href="/#/overview"> <i
+                            class="dash-icon dash-icon-overview"></i> <span class="title">Overview</span>
+                    </a></li>
+                    <li module="clients"><a href="/#/clients">
+                            <i class="dash-icon dash-icon-clients"></i> <span class="title">Clients</span>
+                    </a></li>
+                    <li module="sessions"><a href="/#/sessions"> <i
+                            class="dash-icon dash-icon-sessions"></i> <span class="title">Sessions</span>
+                    </a></li>
+                    <li module="topics"><a href="/#/topics"> <i
+                            class="dash-icon dash-icon-topics"></i> <span class="title">Topics</span>
+                    </a></li>
+                    <li module="routes"><a href="/#/routes"> <i
+                            class="dash-icon dash-icon-routes"></i> <span class="title">Routes</span>
+                    </a></li>
+                    <li module="subscriptions"><a href="/#/subscriptions"> <i
+                            class="dash-icon dash-icon-subscriptions"></i> <span class="title">Subscriptions</span>
+                    </a></li>
+                    <li module="websocket"><a href="/#/websocket"> <i
+                            class="dash-icon dash-icon-websocket"></i> <span class="title">Websocket</span>
+                    </a></li>
+                    <li module="users"><a href="/#/users"> <i
+                            class="dash-icon dash-icon-admins"></i> <span class="title">Admins</span>
+                    </a></li>
+                    <li module="http_api"><a href="/#/http_api"> <i
+                            class="dash-icon dash-icon-http-api"></i> <span class="title">HTTP API</span>
+                    </a></li>
+                </ul>
+
+            </div> <!-- /.sidebar-menu-inner -->
+
+            </div> <!-- /.sidebar-menu -->
+        
+        </div>
+    </div>
+</body>
+<!-- Bottom Scripts -->
+<script src="../js/jquery-validate/jquery.validate.min.js"></script>
+<script src="../js/toastr/toastr.min.js"></script>
+<script src="../js/TweenMax.min.js"></script>
+<script src="../js/resizeable.js"></script>
+<script src="../js/joinable.js"></script>
+<script src="../js/sog.js"></script>
+<!-- JavaScripts initializations and stuff -->
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+    });
+</script>
+</html>
