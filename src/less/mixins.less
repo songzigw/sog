@@ -62,3 +62,34 @@
 .upper() {
 	text-transform: uppercase;
 }
+
+.sog-panel-variation(@bg-color; @text-color) {
+    .panel-heading {
+        background-color: @bg-color;
+        color: @text-color;
+        
+        > .panel-title {
+            color: @text-color;
+            
+            > a {
+                color: inherit;
+            }
+        }
+        
+        > .panel-options {
+            color: @text-color;
+            
+            a {
+                color: fade(@text-color, 60%);
+                
+                &:hover {
+                    color: @text-color;
+                }
+            }
+        }
+    }
+    
+    > .panel-disabled {
+        background-color: fade(@bg-color, 15%);
+    }
+}
