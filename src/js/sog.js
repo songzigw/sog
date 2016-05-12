@@ -1,3 +1,8 @@
+/*!
+ * sog.js v0.0.1
+ * https://github.com/songzigw/sog
+ */
+
 (function(window, $, undefined) {
 
     var SidebarMenu = function($html) {
