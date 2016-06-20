@@ -64,6 +64,18 @@
         }
     };
 
+    var PageFooter = function($html) {
+        this.$html = $html;
+
+        this._init();
+    };
+    PageFooter.prototype._init = function() {
+        
+    };
+    PageFooter.prototype.toBottom = function() {
+        
+    };
+
     var s = {
         breakpoints : {
             largescreen : [ 991, -1 ],
