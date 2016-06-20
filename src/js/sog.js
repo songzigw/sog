@@ -1,6 +1,5 @@
 /*!
- * sog.js v0.0.1
- * https://github.com/songzigw/sog
+ * sog.js v1.0
  */
 
 (function(window, $, undefined) {
@@ -66,22 +65,58 @@
 
     var PageFooter = function($html) {
         this.$html = $html;
-
+        this.$goTop = $('a[rel="go-top"]', this.$html);
         this._init();
     };
     PageFooter.prototype._init = function() {
-        
+        this.$goTop.on('click', function(ev) {
+            ev.preventDefault();
+
+            var obj = {
+                pos : $(window).scrollTop()
+            };
+
+            TweenLite.to(obj, .3, {
+                pos : 0,
+                ease : Power4.easeOut,
+                onUpdate : function() {
+                    $(window).scrollTop(obj.pos);
+                }
+            });
+        });
     };
     PageFooter.prototype.toBottom = function() {
-        
+        var _this = this,
+            $mainContent = $('.main-content', s.$html),
+            $sidebarMenu = s.sidebarMenu.$html;
+
+        _this.$html.add($mainContent)
+                   .add($sidebarMenu).attr('style', '');
+
+        if (isxs()) {
+            return false;
+        }
+
+        if (_this.$html.hasClass('sticky')) {
+            var winHeight = $(window).height(),
+                footerHeight = _this.$html.outerHeight(true),
+                contentHeight = _this.$html.position().top + footerHeight;
+
+            var mTop = _this.$html.css('margin-top');
+            if (winHeight > contentHeight - parseInt(mTop, 10)) {
+                _this.$html.css({
+                    'margin-top' : winHeight - contentHeight + 30
+                });
+            }
+        }
     };
 
     var s = {
         breakpoints : {
-            largescreen : [ 991, -1 ],
-            tabletscreen : [ 768, 990 ],
-            devicescreen : [ 420, 767 ],
-            sdevicescreen : [ 0, 419 ]
+            largescreen   : [ 991,  -1 ],
+            tabletscreen  : [ 768, 990 ],
+            devicescreen  : [ 420, 767 ],
+            sdevicescreen : [   0, 419 ]
         },
 
         lastBreakpoint : null
@@ -89,17 +124,20 @@
     s.$html = $('.page-container');
     var $sMenu = $('> .sidebar-menu', s.$html);
     s.sidebarMenu = new SidebarMenu($sMenu);
+    s.pageFooter = new PageFooter($('footer.main-footer', s.$html));
+    s.pageFooter.toBottom();
 
     $(window).resize(function() {
         $(window).trigger('sog.resize');
     });
     $(window).on('sog.resize', function() {
         triggerResizable();
+        s.pageFooter.toBottom();
     });
 
     /*
-     * Main Function that will be called each time
-     * when the screen breakpoint changes.
+     * Main Function that will be called each
+     * time when the screen breakpoint changes.
      */
     function resizable(breakpoint) {
         var sb_with_animation;
