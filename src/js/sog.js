@@ -64,7 +64,6 @@
         }
     };
 
-    // window.sog
     var s = {
         breakpoints : {
             largescreen : [ 991, -1 ],
@@ -75,20 +74,20 @@
 
         lastBreakpoint : null
     };
-    s.$pageContainer = $('.page-container');
-    s.$sidebarMenu = $('> .sidebar-menu', s.$pageContainer);
-    s.sidebarMenu = new SidebarMenu(s.$sidebarMenu);
+    s.$html = $('.page-container');
+    var $sMenu = $('> .sidebar-menu', s.$html);
+    s.sidebarMenu = new SidebarMenu($sMenu);
 
     $(window).resize(function() {
         $(window).trigger('sog.resize');
     });
     $(window).on('sog.resize', function() {
-        trigger_resizable();
+        triggerResizable();
     });
 
     /*
-     * Main Function that will be called each time when the screen breakpoint
-     * changes
+     * Main Function that will be called each time
+     * when the screen breakpoint changes.
      */
     function resizable(breakpoint) {
         var sb_with_animation;
@@ -119,7 +118,7 @@
     /* Functions */
 
     // Get current breakpoint
-    function get_current_breakpoint() {
+    function currentBreakpoint() {
         var width = $(window).width(), breakpoints = s.breakpoints;
 
         for ( var breakpont_label in breakpoints) {
@@ -138,7 +137,7 @@
 
     // Check current screen breakpoint
     function is(screen_label) {
-        return get_current_breakpoint() == screen_label;
+        return currentBreakpoint() == screen_label;
     }
 
     // Is xs device
@@ -152,9 +151,9 @@
     }
 
     // Trigger Resizable Function
-    function trigger_resizable() {
-        if (s.lastBreakpoint != get_current_breakpoint()) {
-            s.lastBreakpoint = get_current_breakpoint();
+    function triggerResizable() {
+        if (s.lastBreakpoint != currentBreakpoint()) {
+            s.lastBreakpoint = currentBreakpoint();
             resizable(s.lastBreakpoint);
         }
     }
