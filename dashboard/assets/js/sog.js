@@ -3,12 +3,12 @@
  * sog.js
  * 
  * @author  zhangsong
- * @since   0.1->0.3->1.0
- * @version 1.1
+ * @since   0.1->0.2->0.5
+ * @version 0.5
  * 
  */
 
-(function(s, $, undefined) {
+(function(s, $) {
 
     'use strict';
 
@@ -145,18 +145,6 @@
         }
         return text;
     };
-
-    /**
-     * Checks whether the content is in RTL mode
-     */
-    function rtl() {
-        if (typeof window.isRTL == 'boolean')
-            return window.isRTL;
-
-        window.isRTL = $("html").get(0).dir == 'rtl' ? true : false;
-
-        return window.isRTL;
-    }
 
     /**
      * Page Loader Bar.
@@ -441,6 +429,18 @@
             s.lastBreakpoint = currentBreakpoint();
             resizable(s.lastBreakpoint);
         }
+    }
+
+    /**
+     * Checks whether the content is in RTL mode
+     */
+    function rtl() {
+        if (typeof window.isRTL == 'boolean')
+            return window.isRTL;
+
+        window.isRTL = $("html").get(0).dir == 'rtl' ? true : false;
+
+        return window.isRTL;
     }
 
     window.sog = s;

@@ -1,4 +1,5 @@
 /*!
+ * 
  * dashboard.js v1.0 
  * Copyright 2016, Feng Lee <feng@emqtt.io>
  * 
@@ -138,8 +139,8 @@
             this._ajax('add_user', user, callback);
         },
 
-        // user_current
-        user_current : function(callback) {
+        // user_curr
+        user_curr : function(callback) {
             this._ajax('current_user', null, callback);
         },
 
@@ -164,12 +165,141 @@
         }
     });
 
-    var loading = function(m, fun) {
+    // Overview-----------------------------------------
+
+    var Overview = function() {
         
     };
 
-    dashboard.init = function() {
+    // Functions----------------------------------------
+
+    var loading = function(mod, fun) {
         
+    };
+    var showCurrUser = function() {
+        dashboard.webapi.user_curr(function(ret, err) {
+            if (ret) {
+                $('#current_user', sog.mainContent.$html)
+                .text(ret.username);
+            }
+        });
+    };
+    var clearAuth = function() {
+        dashboard.webapi.logout(function(ret, err) {
+            if (ret) {
+                window.location.href = '/';
+            } else {
+                window.location.href = '/';
+            }
+        });
+    };
+    var registerEvent = function() {
+        var $main = sog.mainContent.$html;
+        var $menu = sog.sidebarMenu.$html;
+        
+        $('#logout', $main).on('click', function(ev) {
+            ev.preventDefault();
+            clearAuth();
+        });
+
+        $('#main-menu>li', $menu).each(function(index) {
+            var mod = $(this).attr('module');
+            if (mod == 'overview') {
+                $(this).click(function() {
+                    setMenuClass('overview');
+                    showOverview();
+                });
+            } else if (mod == 'clients') {
+                $(this).click(function() {
+                    setMenuClass('clients');
+                    showClients();
+                });
+            } else if (mod == 'sessions') {
+                $(this).click(function() {
+                    setMenuClass('sessions');
+                    showSessions();
+                });
+            } else if (mod == 'topics') {
+                $(this).click(function() {
+                    setMenuClass('topics');
+                    showTopics();
+                });
+            } else if (mod == 'routes') {
+                $(this).click(function() {
+                    setMenuClass('routes');
+                    showRoutes();
+                });
+            } else if (mod == 'subscriptions') {
+                $(this).click(function() {
+                    setMenuClass('subscriptions');
+                    showSubscriptions();
+                });
+            } else if (mod == 'websocket') {
+                $(this).click(function() {
+                    setMenuClass('websocket');
+                    showWebsocket();
+                });
+            } else if (mod == 'users') {
+                $(this).click(function() {
+                    setMenuClass('users');
+                    showUsers();
+                });
+            } else if (mod == 'http_api') {
+                $(this).click(function() {
+                    setMenuClass('http_api');
+                    showHttpApi();
+                });
+            }
+        });
+    };
+    
+    dashboard.init = function(url) {
+        var _this = this;
+
+        showCurrUser();
+        _this.webapi = WebAPI.init({
+            callback : function() {
+                sog.mainFooter.toBottom();
+            }
+        });
+
+        // Register menu event.
+        registerEvent();
+        // Show main middle content.
+        var strs = url.split('#');
+        if (strs.length == 1) {
+            setMenuClass('overview');
+            showOverview();
+            return;
+        }
+        if (strs[1] == '/clients') {
+            setMenuClass('clients');
+            showClients();
+        } else if (strs[1] == '/sessions') {
+            setMenuClass('sessions');
+            showSessions();
+        } else if (strs[1] == '/topics') {
+            setMenuClass('topics');
+            showTopics();
+        } else if (strs[1] == '/routes') {
+            setMenuClass('routes');
+            showRoutes();
+        } else if (strs[1] == '/subscriptions') {
+            setMenuClass('subscriptions');
+            showSubscriptions();
+        } else if (strs[1] == '/websocket') {
+            setMenuClass('websocket');
+            showWebsocket();
+        } else if (strs[1] == '/users') {
+            setMenuClass('users');
+            showUsers();
+        } else if (strs[1] == '/http_api') {
+            setMenuClass('http_api');
+            showHttpApi();
+        } else {
+            setMenuClass('overview');
+            showOverview();
+        }
     };
 
 })((function() {
