@@ -164,7 +164,13 @@
         }
     });
 
-    
+    var loading = function(m, fun) {
+        
+    };
+
+    dashboard.init = function() {
+        
+    };
 
 })((function() {
     if (!window.dashboard) {

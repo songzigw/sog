@@ -146,6 +146,94 @@
         return text;
     };
 
+    /**
+     * Checks whether the content is in RTL mode
+     */
+    function rtl() {
+        if (typeof window.isRTL == 'boolean')
+            return window.isRTL;
+
+        window.isRTL = $("html").get(0).dir == 'rtl' ? true : false;
+
+        return window.isRTL;
+    }
+
+    /**
+     * Page Loader Bar.
+     */
+    var LoadingBar = function(options) {
+        this.$html = $(".xenon-loading-bar");
+        this.options = $.extend({},
+                LoadingBar.DEFAULTS, options);
+    };
+    LoadingBar.DEFAULTS = {
+        pct : 0,
+        delay : 1.3,
+        wait : 0,
+        before : function() {
+        },
+        finish : function() {
+        },
+        resetOnEnd : true
+    };
+    /**
+     * Page Loader show.
+     */
+    LoadingBar.prototype.show = function(options) {
+        if (typeof options === 'object')
+            $.extend(this.options, options)
+        else if (typeof options == 'number')
+            this.options.pct = options;
+
+        if (this.options.pct > 100)
+            this.options.pct = 100;
+        else if (this.options.pct < 0)
+            this.options.pct = 0;
+
+        var $loadingBar = this.$html;
+
+        if ($loadingBar.length == 0) {
+            $loadingBar = $('<div class="xenon-loading-bar progress-is-hidden"><span data-pct="0"></span></div>');
+            $('body').append($loadingBar);
+        }
+
+        var $pct = $loadingBar.find('span'), currentPct = $pct.data('pct'), isRegress = currentPct > this.options.pct;
+
+        this.options.before(currentPct);
+
+        TweenMax.to($pct, this.options.delay, {
+            css : {
+                width : this.options.pct + '%'
+            },
+            delay : this.options.wait,
+            ease : isRegress ? Expo.easeOut : Expo.easeIn,
+            onStart : function() {
+                $loadingBar.removeClass('progress-is-hidden');
+            },
+            onComplete : function() {
+                var pct = $pct.data('pct');
+
+                if (pct == 100 && this.options.resetOnEnd) {
+                    hide_loading_bar();
+                }
+
+                this.options.finish(pct);
+            },
+            onUpdate : function() {
+                $pct.data('pct', parseInt($pct.get(0).style.width, 10));
+            }
+        });
+    };
+    /**
+     * Page Loader hide.
+     */
+    LoadingBar.prototype.hide = function() {
+        var $loadingBar = this.$html;
+        $loadingBar.addClass('progress-is-hidden');
+        var $pct = $loadingBar.find('span');
+        $pct.width(0).data('pct', 0);
+    };
+
     var SidebarMenu = function(s) {
         var $html = $('>.sidebar-menu', s.$html);
         this.$html = $html;
