@@ -4,7 +4,7 @@
 
 (function(window, $, undefined) {
 
-    var SidebarMenu = function() {
+    var SidebarMenu = function(s) {
         var $html = $('>.sidebar-menu', s.$html);
         this.$html = $html;
 
@@ -64,13 +64,18 @@
         }
     };
 
-    var PageFooter = function() {
-        var $html = $('footer.main-footer', s.$html);
+    var MainContent = function(s) {
+        var $html = $('.main-content', s.$html);
+        this.$html = $html;
+    };
+
+    var MainFooter = function(mainContent) {
+        var $html = $('footer.main-footer', mainContent.$html);
         this.$html = $html;
         this.$goTop = $('a[rel="go-top"]', $html);
         this._init();
     };
-    PageFooter.prototype._init = function() {
+    MainFooter.prototype._init = function() {
         this.$goTop.on('click', function(ev) {
             ev.preventDefault();
 
@@ -87,7 +92,7 @@
             });
         });
     };
-    PageFooter.prototype.toBottom = function() {
+    MainFooter.prototype.toBottom = function() {
         var _this = this,
             $mainContent = $('.main-content', s.$html),
             $sidebarMenu = s.sidebarMenu.$html;
@@ -107,7 +112,7 @@
             var mTop = _this.$html.css('margin-top');
             if (winHeight > contentHeight - parseInt(mTop, 10)) {
                 _this.$html.css({
-                    'margin-top' : winHeight - contentHeight + 30
+                    'margin-top' : winHeight - contentHeight + 20
                 });
             }
         }
@@ -124,16 +129,17 @@
         lastBreakpoint : null
     };
     s.$html = $('.page-container');
-    s.sidebarMenu = new SidebarMenu();
-    s.pageFooter = new PageFooter();
-    s.pageFooter.toBottom();
+    s.sidebarMenu = new SidebarMenu(s);
+    s.mainContent = new MainContent(s);
+    s.mainFooter = new MainFooter(s.mainContent);
+    s.mainFooter.toBottom();
 
     $(window).resize(function() {
         $(window).trigger('sog.resize');
     });
     $(window).on('sog.resize', function() {
         triggerResizable();
-        s.pageFooter.toBottom();
+        s.mainFooter.toBottom();
     });
 
     /**
