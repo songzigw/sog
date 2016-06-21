@@ -4,7 +4,8 @@
 
 (function(window, $, undefined) {
 
-    var SidebarMenu = function($html) {
+    var SidebarMenu = function() {
+        var $html = $('>.sidebar-menu', s.$html);
         this.$html = $html;
 
         this._init();
@@ -63,9 +64,10 @@
         }
     };
 
-    var PageFooter = function($html) {
+    var PageFooter = function() {
+        var $html = $('footer.main-footer', s.$html);
         this.$html = $html;
-        this.$goTop = $('a[rel="go-top"]', this.$html);
+        this.$goTop = $('a[rel="go-top"]', $html);
         this._init();
     };
     PageFooter.prototype._init = function() {
@@ -122,9 +124,8 @@
         lastBreakpoint : null
     };
     s.$html = $('.page-container');
-    var $sMenu = $('> .sidebar-menu', s.$html);
-    s.sidebarMenu = new SidebarMenu($sMenu);
-    s.pageFooter = new PageFooter($('footer.main-footer', s.$html));
+    s.sidebarMenu = new SidebarMenu();
+    s.pageFooter = new PageFooter();
     s.pageFooter.toBottom();
 
     $(window).resize(function() {
@@ -135,7 +136,7 @@
         s.pageFooter.toBottom();
     });
 
-    /*
+    /**
      * Main Function that will be called each
      * time when the screen breakpoint changes.
      */
@@ -165,14 +166,15 @@
         }
     }
 
-    /* Functions */
+    /** Functions */
 
     // Get current breakpoint
     function currentBreakpoint() {
         var width = $(window).width(), breakpoints = s.breakpoints;
 
         for ( var breakpont_label in breakpoints) {
-            var bp_arr = breakpoints[breakpont_label], min = bp_arr[0], max = bp_arr[1];
+            var bp_arr = breakpoints[breakpont_label],
+                min = bp_arr[0], max = bp_arr[1];
 
             if (max == -1)
                 max = width;
