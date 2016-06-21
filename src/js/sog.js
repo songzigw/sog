@@ -4,6 +4,8 @@
 
 (function(window, $, undefined) {
 
+    'use strict';
+
     var SidebarMenu = function(s) {
         var $html = $('>.sidebar-menu', s.$html);
         this.$html = $html;
