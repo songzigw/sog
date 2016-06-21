@@ -1,10 +1,150 @@
 /*!
- * sog.js v1.0
+ * 
+ * sog.js
+ * 
+ * @author  zhangsong
+ * @since   0.1->0.3->1.0
+ * @version 1.1
+ * 
  */
 
-(function(window, $, undefined) {
+(function(s, $, undefined) {
 
     'use strict';
+
+    Date.prototype.format = function(format) {
+        var o = {
+            // month
+            "M+" : this.getMonth() + 1,
+            // day
+            "d+" : this.getDate(),
+            // hour
+            "h+" : this.getHours(),
+            // minute
+            "m+" : this.getMinutes(),
+            // second
+            "s+" : this.getSeconds(),
+            // quarter
+            "q+" : Math.floor((this.getMonth() + 3) / 3),
+            // millisecond
+            "S" : this.getMilliseconds()
+        }
+
+        if (/(y+)/.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + "")
+                    .substr(4 - RegExp.$1.length));
+        }
+
+        for ( var k in o) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k]
+                        : ("00" + o[k]).substr(("" + o[k]).length));
+            }
+        }
+        return format;
+    };
+
+    String.prototype.trim = function() {
+        return (this || "").replace(/^\s+|\s+$/g, "");
+    };
+
+    /**
+     * 
+     * Validate an object's parameter names to ensure they match a list of
+     * expected variables name for this option type. Used to ensure option
+     * object passed into the API don't contain erroneous parameters.
+     * 
+     * @param {Object}
+     *                obj - User options object
+     * @param {Object}
+     *                keys - valid keys and types that may exist in obj.
+     * @throws {Error}
+     *                Invalid option parameter found.
+     */
+    s.validate = (function() {
+        var isSameType = function(data, dataType) {
+            if (typeof dataType === 'string') {
+                if (dataType === 'array'
+                        && isArray(data)) {
+                    return true;
+                }
+                if (typeof data === dataType) {
+                    return true;
+                }
+            }
+
+            if (isArray(dataType)) {
+                for (var i = 0; i < dataType.length; i++) {
+                    if (data == dataType[i]) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        };
+
+        return function(obj, keys) {
+            for ( var key in obj) {
+                if (!obj[key]) {
+                    continue;
+                }
+                if (obj.hasOwnProperty(key)) {
+                    if (keys.hasOwnProperty(key)) {
+                        var dataType = keys[key].type;
+                        if (!isSameType(obj[key], dataType)) {
+                            throw new Error(
+                                    format({text : "Invalid type {0} for {1}."},
+                                           [typeof obj[key], key]));
+                        }
+                    }
+                    else {
+                        var errStr = "Unknown property, " + key
+                                + ". Valid properties are:";
+                        for ( var key in keys)
+                            if (keys.hasOwnProperty(key))
+                                errStr = errStr + " " + key;
+                        throw new Error(errStr);
+                    }
+                }
+            }
+            for (var key in keys) {
+                if (keys[key].requisite) {
+                    if (!obj.hasOwnProperty(key) || !obj[key]) {
+                        throw new Error(
+                                format({text : "Parameter empty for {0}."},
+                                       [key]));
+                    }
+                }
+            }
+        };
+    })();
+
+    /**
+     *
+     * Format an error message text.
+     * 
+     * @param {error} ERROR.KEY value above.
+     * @param {substitutions}
+     *                [array] substituted into the text.
+     * @return the text with the substitutions made.
+     */
+    s.format = function(error, substitutions) {
+        var text = error.text;
+        if (substitutions) {
+            var field, start;
+            for (var i = 0; i < substitutions.length; i++) {
+                field = "{" + i + "}";
+                start = text.indexOf(field);
+                if (start > 0) {
+                    var part1 = text.substring(0, start);
+                    var part2 = text.substring(start + field.length);
+                    text = part1 + substitutions[i] + part2;
+                }
+            }
+        }
+        return text;
+    };
 
     var SidebarMenu = function(s) {
         var $html = $('>.sidebar-menu', s.$html);
@@ -120,16 +260,13 @@
         }
     };
 
-    var s = {
-        breakpoints : {
-            largescreen   : [ 991,  -1 ],
-            tabletscreen  : [ 768, 990 ],
-            devicescreen  : [ 420, 767 ],
-            sdevicescreen : [   0, 419 ]
-        },
-
-        lastBreakpoint : null
+    s.breakpoints = {
+        largescreen   : [ 991,  -1 ],
+        tabletscreen  : [ 768, 990 ],
+        devicescreen  : [ 420, 767 ],
+        sdevicescreen : [   0, 419 ]
     };
+    s.lastBreakpoint = null;
     s.$html = $('.page-container');
     s.sidebarMenu = new SidebarMenu(s);
     s.mainContent = new MainContent(s);
@@ -219,4 +356,9 @@
     }
 
     window.sog = s;
-})(window, jQuery);
+})((function() {
+    if (!window.sog) {
+        window.sog = {}
+    }
+    return window.sog;
+})(), jQuery);
