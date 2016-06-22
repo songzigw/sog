@@ -174,7 +174,21 @@
     // Functions----------------------------------------
 
     var loading = function(mod, fun) {
-        
+        sog.loadingBar.show({
+            pct : 100,
+            delay : 0.5,
+            finish : function(pct) {
+                var lAjax = $('#main_middle',
+                        sog.mainContent.$html);
+                // lAjax.empty().append(
+                // '<div class="page-loading-overlay">'
+                // + '<div class="loader-2"></div></div>');
+                lAjax.load(module, function() {
+                    fun();
+                    sog.mainFooter.toBottom();
+                });
+            }
+        });
     };
     var showCurrUser = function() {
         dashboard.webapi.user_curr(function(ret, err) {
@@ -252,17 +266,17 @@
             }
         });
     };
-    
+
     dashboard.init = function(url) {
         var _this = this;
 
-        showCurrUser();
         _this.webapi = WebAPI.init({
             callback : function() {
                 sog.mainFooter.toBottom();
             }
         });
 
+        showCurrUser();
         // Register menu event.
         registerEvent();
         // Show main middle content.

@@ -3,7 +3,7 @@
  * sog.js
  * 
  * @author  zhangsong
- * @since   0.1->0.2->0.5
+ * @since   0.1
  * @version 0.5
  * 
  */
@@ -11,6 +11,8 @@
 (function(s, $) {
 
     'use strict';
+
+    s.version = '0.5';
 
     Date.prototype.format = function(format) {
         var o = {
@@ -150,7 +152,7 @@
      * Page Loader Bar.
      */
     var LoadingBar = function(options) {
-        this.$html = $(".xenon-loading-bar");
+        this.$html = $(".sog-loading-bar");
         this.options = $.extend({},
                 LoadingBar.DEFAULTS, options);
     };
@@ -178,14 +180,12 @@
         else if (this.options.pct < 0)
             this.options.pct = 0;
 
-        var $loadingBar = this.$html;
-
-        if ($loadingBar.length == 0) {
-            $loadingBar = $('<div class="xenon-loading-bar progress-is-hidden"><span data-pct="0"></span></div>');
-            $('body').append($loadingBar);
+        if (this.$html.length == 0) {
+            this.$html = $('<div class="sog-loading-bar progress-is-hidden"><span data-pct="0"></span></div>');
+            s.$body.append(this.$html);
         }
 
-        var $pct = $loadingBar.find('span'), currentPct = $pct.data('pct'), isRegress = currentPct > this.options.pct;
+        var $pct = this.$html.find('span'), currentPct = $pct.data('pct'), isRegress = currentPct > this.options.pct;
 
         this.options.before(currentPct);
 
@@ -196,7 +196,7 @@
             delay : this.options.wait,
             ease : isRegress ? Expo.easeOut : Expo.easeIn,
             onStart : function() {
-                $loadingBar.removeClass('progress-is-hidden');
+                this.$html.removeClass('progress-is-hidden');
             },
             onComplete : function() {
                 var pct = $pct.data('pct');
@@ -336,26 +336,69 @@
         }
     };
 
+    /** Functions */
+
     s.breakpoints = {
-        largescreen   : [ 991,  -1 ],
-        tabletscreen  : [ 768, 990 ],
-        devicescreen  : [ 420, 767 ],
-        sdevicescreen : [   0, 419 ]
+        largescreen : [ 991, -1 ],
+        tabletscreen : [ 768, 990 ],
+        devicescreen : [ 420, 767 ],
+        sdevicescreen : [ 0, 419 ]
     };
     s.lastBreakpoint = null;
-    s.$html = $('.page-container');
-    s.sidebarMenu = new SidebarMenu(s);
-    s.mainContent = new MainContent(s);
-    s.mainFooter = new MainFooter(s.mainContent);
-    s.mainFooter.toBottom();
+    // Get current breakpoint
+    function currentBreakpoint() {
+        var width = $(window).width(),
+            breakpoints = s.breakpoints;
 
-    $(window).resize(function() {
-        $(window).trigger('sog.resize');
-    });
-    $(window).on('sog.resize', function() {
-        triggerResizable();
-        s.mainFooter.toBottom();
-    });
+        for ( var breakpont_label in breakpoints) {
+            var bp_arr = breakpoints[breakpont_label],
+                min = bp_arr[0], max = bp_arr[1];
+
+            if (max == -1)
+                max = width;
+
+            if (min <= width && max >= width) {
+                return breakpont_label;
+            }
+        }
+
+        return null;
+    }
+
+    // Trigger Resizable Function
+    function triggerResizable() {
+        if (s.lastBreakpoint != currentBreakpoint()) {
+            s.lastBreakpoint = currentBreakpoint();
+            resizable(s.lastBreakpoint);
+        }
+    }
+
+    // Check current screen breakpoint
+    function is(screen_label) {
+        return currentBreakpoint() == screen_label;
+    }
+
+    // Is xs device
+    function isxs() {
+        return is('devicescreen') || is('sdevicescreen');
+    }
+
+    // Is md or xl
+    function ismdxl() {
+        return is('tabletscreen') || is('largescreen');
+    }
+
+    /**
+     * Checks whether the content is in RTL mode
+     */
+    function rtl() {
+        if (typeof window.isRTL == 'boolean')
+            return window.isRTL;
+
+        window.isRTL = $("html").get(0).dir == 'rtl' ? true : false;
+
+        return window.isRTL;
+    }
 
     /**
      * Main Function that will be called each
@@ -387,63 +430,22 @@
         }
     }
 
-    /** Functions */
+    s.$body = $('body');
+    s.$html = $('.page-container');
+    s.sidebarMenu = new SidebarMenu(s);
+    s.mainContent = new MainContent(s);
+    s.mainFooter = new MainFooter(s.mainContent);
+    s.mainFooter.toBottom();
+    s.loadingBar = new LoadingBar();
 
-    // Get current breakpoint
-    function currentBreakpoint() {
-        var width = $(window).width(), breakpoints = s.breakpoints;
+    $(window).resize(function() {
+        $(window).trigger('sog.resize');
+    });
+    $(window).on('sog.resize', function() {
+        triggerResizable();
+        s.mainFooter.toBottom();
+    });
 
-        for ( var breakpont_label in breakpoints) {
-            var bp_arr = breakpoints[breakpont_label],
-                min = bp_arr[0], max = bp_arr[1];
-
-            if (max == -1)
-                max = width;
-
-            if (min <= width && max >= width) {
-                return breakpont_label;
-            }
-        }
-
-        return null;
-    }
-
-    // Check current screen breakpoint
-    function is(screen_label) {
-        return currentBreakpoint() == screen_label;
-    }
-
-    // Is xs device
-    function isxs() {
-        return is('devicescreen') || is('sdevicescreen');
-    }
-
-    // Is md or xl
-    function ismdxl() {
-        return is('tabletscreen') || is('largescreen');
-    }
-
-    // Trigger Resizable Function
-    function triggerResizable() {
-        if (s.lastBreakpoint != currentBreakpoint()) {
-            s.lastBreakpoint = currentBreakpoint();
-            resizable(s.lastBreakpoint);
-        }
-    }
-
-    /**
-     * Checks whether the content is in RTL mode
-     */
-    function rtl() {
-        if (typeof window.isRTL == 'boolean')
-            return window.isRTL;
-
-        window.isRTL = $("html").get(0).dir == 'rtl' ? true : false;
-
-        return window.isRTL;
-    }
-
-    window.sog = s;
 })((function() {
     if (!window.sog) {
         window.sog = {}
