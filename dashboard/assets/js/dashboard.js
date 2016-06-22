@@ -165,25 +165,47 @@
         }
     });
 
+    // Modules save container.
+    var modules = {};
     // Overview-----------------------------------------
 
     var Overview = function() {
-        
+        this.modName = 'overview';
+        this.$html = $('#dashboard_overview',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Overview.prototype._init = function() {
+        loading('overview.html', function() {
+            
+        }, this.$html);
+    };
+    Overview.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Overview.prototype.hide = function() {
+        this.$html.hide();
     };
 
     // Functions----------------------------------------
 
-    var loading = function(mod, fun) {
+    var hideAllMods = function() {
+        for (var key in modules) {
+            var m = modules[key];
+            m.hide();
+        }
+    };
+    var loading = function(mod, fun, $html) {
         sog.loadingBar.show({
             pct : 100,
             delay : 0.5,
             finish : function(pct) {
-                var lAjax = $('#main_center',
-                        sog.mainContent.$html);
-                // lAjax.empty().append(
-                // '<div class="page-loading-overlay">'
-                // + '<div class="loader-2"></div></div>');
-                lAjax.load(module, function() {
+                // $html.empty().append(
+                // '<div class="page-loading-overlay">\
+                // <div class="loader-2"></div></div>');
+                $html.load(mod, function() {
                     fun();
                     sog.mainFooter.toBottom();
                 });
@@ -207,6 +229,42 @@
             }
         });
     };
+    var openModule = function(modName) {
+        switch (modName) {
+        case 'overview':
+            if (!modules.overview) {
+                modules.overview = new Overview();
+            }
+            modules.overview.show();
+            break;
+        case 'clients':
+
+            break;
+        case 'sessions':
+
+            break;
+        case 'topics':
+
+            break;
+        case 'routes':
+
+            break;
+        case 'subscriptions':
+
+            break;
+        case 'websocket':
+
+            break;
+        case 'users':
+
+            break;
+        case 'http_api':
+
+            break;
+        default:
+            break;
+        }
+    };
     var registerEvent = function() {
         var $main = sog.mainContent.$html;
         var $menu = sog.sidebarMenu.$html;
@@ -216,53 +274,26 @@
             clearAuth();
         });
 
-        $('#main-menu>li', $menu).each(function(index) {
-            var mod = $(this).attr('module');
-            if (mod == 'overview') {
-                $(this).click(function() {
-                    setMenuClass('overview');
-                    showOverview();
-                });
-            } else if (mod == 'clients') {
-                $(this).click(function() {
-                    setMenuClass('clients');
-                    showClients();
-                });
-            } else if (mod == 'sessions') {
-                $(this).click(function() {
-                    setMenuClass('sessions');
-                    showSessions();
-                });
-            } else if (mod == 'topics') {
-                $(this).click(function() {
-                    setMenuClass('topics');
-                    showTopics();
-                });
-            } else if (mod == 'routes') {
-                $(this).click(function() {
-                    setMenuClass('routes');
-                    showRoutes();
-                });
-            } else if (mod == 'subscriptions') {
-                $(this).click(function() {
-                    setMenuClass('subscriptions');
-                    showSubscriptions();
-                });
-            } else if (mod == 'websocket') {
-                $(this).click(function() {
-                    setMenuClass('websocket');
-                    showWebsocket();
-                });
-            } else if (mod == 'users') {
-                $(this).click(function() {
-                    setMenuClass('users');
-                    showUsers();
-                });
-            } else if (mod == 'http_api') {
-                $(this).click(function() {
-                    setMenuClass('http_api');
-                    showHttpApi();
-                });
+        $('#main-menu>li', $menu).each(function() {
+            $(this).click(function() {
+                openModule($(this).attr('module'));
+            });
+        });
+    };
+    var activeMenu = function(modName) {
+        if (modName == 'websocket') {
+            if (!window.WebSocket) {
+                var msg = "WebSocket not supported by this browser.";
+                alert(msg);
+                throw new Error(msg);
+            }
+        }
+        $('#main-menu>li').each(function() {
+            var $m = $(this);
+            $m.removeClass('active');
+            var mod = $m.attr('module');
+            if (mod == modName) {
+                $m.addClass('active');
             }
         });
     };
@@ -282,37 +313,27 @@
         // Show main center content.
         var strs = url.split('#');
         if (strs.length == 1) {
-            setMenuClass('overview');
-            showOverview();
+            openModule('overview');
             return;
         }
         if (strs[1] == '/clients') {
-            setMenuClass('clients');
-            showClients();
+            openModule('clients');
         } else if (strs[1] == '/sessions') {
-            setMenuClass('sessions');
-            showSessions();
+            openModule('sessions');
         } else if (strs[1] == '/topics') {
-            setMenuClass('topics');
-            showTopics();
+            openModule('topics');
         } else if (strs[1] == '/routes') {
-            setMenuClass('routes');
-            showRoutes();
+            openModule('routes');
         } else if (strs[1] == '/subscriptions') {
-            setMenuClass('subscriptions');
-            showSubscriptions();
+            openModule('subscriptions');
         } else if (strs[1] == '/websocket') {
-            setMenuClass('websocket');
-            showWebsocket();
+            openModule('websocket');
         } else if (strs[1] == '/users') {
-            setMenuClass('users');
-            showUsers();
+            openModule('users');
         } else if (strs[1] == '/http_api') {
-            setMenuClass('http_api');
-            showHttpApi();
+            openModule('http_api');
         } else {
-            setMenuClass('overview');
-            showOverview();
+            openModule('overview');
         }
     };
 

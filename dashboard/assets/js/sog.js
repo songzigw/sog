@@ -172,7 +172,7 @@
     LoadingBar.prototype.show = function(options) {
         if (typeof options === 'object')
             $.extend(this.options, options)
-        else if (typeof options == 'number')
+        else if (typeof options === 'number')
             this.options.pct = options;
 
         if (this.options.pct > 100)
@@ -189,23 +189,24 @@
 
         this.options.before(currentPct);
 
-        TweenMax.to($pct, this.options.delay, {
+        var _this = this;
+        TweenMax.to($pct, _this.options.delay, {
             css : {
-                width : this.options.pct + '%'
+                width : _this.options.pct + '%'
             },
-            delay : this.options.wait,
+            delay : _this.options.wait,
             ease : isRegress ? Expo.easeOut : Expo.easeIn,
             onStart : function() {
-                this.$html.removeClass('progress-is-hidden');
+                _this.$html.removeClass('progress-is-hidden');
             },
             onComplete : function() {
                 var pct = $pct.data('pct');
 
-                if (pct == 100 && this.options.resetOnEnd) {
-                    hide_loading_bar();
+                if (pct == 100 && _this.options.resetOnEnd) {
+                    _this.hide();
                 }
 
-                this.options.finish(pct);
+                _this.options.finish(pct);
             },
             onUpdate : function() {
                 $pct.data('pct', parseInt($pct.get(0).style.width, 10));
@@ -284,6 +285,11 @@
 
     var MainContent = function(s) {
         var $html = $('.main-content', s.$html);
+        this.$html = $html;
+    };
+
+    var MainCenter = function(mainContent) {
+        var $html = $('#main_center', mainContent.$html);
         this.$html = $html;
     };
 
@@ -434,6 +440,7 @@
     s.$html = $('.page-container');
     s.sidebarMenu = new SidebarMenu(s);
     s.mainContent = new MainContent(s);
+    s.mainCenter = new MainCenter(s.mainContent);
     s.mainFooter = new MainFooter(s.mainContent);
     s.mainFooter.toBottom();
     s.loadingBar = new LoadingBar();
