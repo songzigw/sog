@@ -178,7 +178,7 @@
             pct : 100,
             delay : 0.5,
             finish : function(pct) {
-                var lAjax = $('#main_middle',
+                var lAjax = $('#main_center',
                         sog.mainContent.$html);
                 // lAjax.empty().append(
                 // '<div class="page-loading-overlay">'
@@ -279,7 +279,7 @@
         showCurrUser();
         // Register menu event.
         registerEvent();
-        // Show main middle content.
+        // Show main center content.
         var strs = url.split('#');
         if (strs.length == 1) {
             setMenuClass('overview');
