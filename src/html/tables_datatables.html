@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tables Datatables</title>
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link rel="shortcut icon" href="../imgs/favicon.png"
+    type="image/x-icon" />
+<link rel="stylesheet" href="../css/bootstrap.css" />
+<link rel="stylesheet/less" type="text/css" href="../less/sog-new.less" />
+<script>
+    less = {
+        // rootpath : ":/a.com/"
+        env : "development",
+        async : false,
+        fileAsync : false,
+        poll : 1000,
+        functions : {},
+        dumpLineNumbers : "comments",
+        relativeUrls : false
+    };
+</script>
+<!-- set options before less.js script -->
+<script src="../js/less.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]><script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+<body class="page-body">
+    <div class="page-container">
+        <div class="main-content">
+                    
+            <div class="page-title">
+                
+                <div class="title-env">
+                    <h1 class="title">DataTable</h1>
+                    <p class="description">Dynamic table variants with pagination and other controls</p>
+                </div>
+                
+                    <div class="breadcrumb-env">
+                    
+                                <ol class="breadcrumb bc-1">
+                                    <li>
+                            <a href="#"><i class="fa-home"></i>Home</a>
+                        </li>
+                                <li>
+                        
+                                        <a href="#">Tables</a>
+                                </li>
+                            <li class="active">
+                        
+                                        <strong>Data Tables</strong>
+                                </li>
+                                </ol>
+                                
+                </div>
+                    
+            </div>
+            
+            <!-- Basic Setup -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Basic Setup</h3>
+                    
+                    <div class="panel-options">
+                        <a href="#" data-toggle="panel">
+                            <span class="collapse-icon">–</span>
+                            <span class="expand-icon">+</span>
+                        </a>
+                        <a href="#" data-toggle="remove">
+                            ×
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    
+                    <script type="text/javascript">
+                    jQuery(document).ready(function($)
+                    {
+                        $("#example-1").dataTable({
+                            aLengthMenu: [
+                                [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]
+                            ]
+                        });
+                    });
+                    </script>
+                    
+                    <div id="example-1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-xs-6"><div class="dataTables_length" id="example-1_length"><label>Show <select name="example-1_length" aria-controls="example-1" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select> entries</label></div></div><div class="col-xs-6"><div id="example-1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example-1"></label></div></div></div><table id="example-1" class="table table-striped table-bordered dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example-1_info" style="width: 100%;">
+                        <thead>
+                            <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example-1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column ascending" style="width: 162px;">Name</th><th class="sorting" tabindex="0" aria-controls="example-1" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 244px;">Position</th><th class="sorting" tabindex="0" aria-controls="example-1" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 125px;">Office</th><th class="sorting" tabindex="0" aria-controls="example-1" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 55px;">Age</th><th class="sorting" tabindex="0" aria-controls="example-1" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 107px;">Start date</th><th class="sorting" tabindex="0" aria-controls="example-1" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 102px;">Salary</th></tr>
+                        </thead>
+                    
+                        <tfoot>
+                            <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                        </tfoot>
+                    
+                        <tbody>                            
+                        <tr role="row" class="odd">
+                                <td class="sorting_1">Airi Satou</td>
+                                <td>Accountant</td>
+                                <td>Tokyo</td>
+                                <td>33</td>
+                                <td>2008/11/28</td>
+                                <td>$162,700</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Angelica Ramos</td>
+                                <td>Chief Executive Officer (CEO)</td>
+                                <td>London</td>
+                                <td>47</td>
+                                <td>2009/10/09</td>
+                                <td>$1,200,000</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Ashton Cox</td>
+                                <td>Junior Technical Author</td>
+                                <td>San Francisco</td>
+                                <td>66</td>
+                                <td>2009/01/12</td>
+                                <td>$86,000</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Bradley Greer</td>
+                                <td>Software Engineer</td>
+                                <td>London</td>
+                                <td>41</td>
+                                <td>2012/10/13</td>
+                                <td>$132,000</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Brenden Wagner</td>
+                                <td>Software Engineer</td>
+                                <td>San Francisco</td>
+                                <td>28</td>
+                                <td>2011/06/07</td>
+                                <td>$206,850</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Brielle Williamson</td>
+                                <td>Integration Specialist</td>
+                                <td>New York</td>
+                                <td>61</td>
+                                <td>2012/12/02</td>
+                                <td>$372,000</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Bruno Nash</td>
+                                <td>Software Engineer</td>
+                                <td>London</td>
+                                <td>38</td>
+                                <td>2011/05/03</td>
+                                <td>$163,500</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Caesar Vance</td>
+                                <td>Pre-Sales Support</td>
+                                <td>New York</td>
+                                <td>21</td>
+                                <td>2011/12/12</td>
+                                <td>$106,450</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Cara Stevens</td>
+                                <td>Sales Assistant</td>
+                                <td>New York</td>
+                                <td>46</td>
+                                <td>2011/12/06</td>
+                                <td>$145,600</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Cedric Kelly</td>
+                                <td>Senior Javascript Developer</td>
+                                <td>Edinburgh</td>
+                                <td>22</td>
+                                <td>2012/03/29</td>
+                                <td>$433,060</td>
+                            </tr></tbody>
+                    </table><div class="row"><div class="col-xs-6"><div class="dataTables_info" id="example-1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-xs-6"><div class="dataTables_paginate paging_simple_numbers" id="example-1_paginate"><ul class="pagination"><li class="paginate_button previous disabled" aria-controls="example-1" tabindex="0" id="example-1_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="example-1" tabindex="0"><a href="#">1</a></li><li class="paginate_button " aria-controls="example-1" tabindex="0"><a href="#">2</a></li><li class="paginate_button " aria-controls="example-1" tabindex="0"><a href="#">3</a></li><li class="paginate_button " aria-controls="example-1" tabindex="0"><a href="#">4</a></li><li class="paginate_button " aria-controls="example-1" tabindex="0"><a href="#">5</a></li><li class="paginate_button " aria-controls="example-1" tabindex="0"><a href="#">6</a></li><li class="paginate_button next" aria-controls="example-1" tabindex="0" id="example-1_next"><a href="#">Next</a></li></ul></div></div></div></div>
+                    
+                </div>
+            </div>
+            
+            
+            <!-- Removing search and results count filter -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Removing search and results count filter</h3>
+                    
+                    <div class="panel-options">
+                        <a href="#" data-toggle="panel">
+                            <span class="collapse-icon">–</span>
+                            <span class="expand-icon">+</span>
+                        </a>
+                        <a href="#" data-toggle="remove">
+                            ×
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    
+                    <script type="text/javascript">
+                    jQuery(document).ready(function($)
+                    {
+                        $("#example-2").dataTable({
+                            dom: "t" + "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+                            aoColumns: [
+                                {bSortable: false},
+                                null,
+                                null,
+                                null,
+                                null
+                            ],
+                        });
+                        
+                        // Replace checkboxes when they appear
+                        var $state = $("#example-2 thead input[type='checkbox']");
+                        
+                        $("#example-2").on('draw.dt', function()
+                        {
+                            cbr_replace();
+                            
+                            $state.trigger('change');
+                        });
+                        
+                        // Script to select all checkboxes
+                        $state.on('change', function(ev)
+                        {
+                            var $chcks = $("#example-2 tbody input[type='checkbox']");
+                            
+                            if($state.is(':checked'))
+                            {
+                                $chcks.prop('checked', true).trigger('change');
+                            }
+                            else
+                            {
+                                $chcks.prop('checked', false).trigger('change');
+                            }
+                        });
+                    });
+                    </script>
+                    
+                    <div id="example-2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><table class="table table-bordered table-striped dataTable no-footer" id="example-2" role="grid" aria-describedby="example-2_info">
+                        <thead>
+                            <tr role="row"><th class="no-sorting sorting_asc" rowspan="1" colspan="1" aria-label="
+                                    
+                                " style="width: 17px;">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </th><th class="sorting" tabindex="0" aria-controls="example-2" rowspan="1" colspan="1" aria-label="Student Name: activate to sort column ascending" style="width: 205px;">Student Name</th><th class="sorting" tabindex="0" aria-controls="example-2" rowspan="1" colspan="1" aria-label="Average Grade: activate to sort column ascending" style="width: 128px;">Average Grade</th><th class="sorting" tabindex="0" aria-controls="example-2" rowspan="1" colspan="1" aria-label="Curriculum / Occupation: activate to sort column ascending" style="width: 261px;">Curriculum / Occupation</th><th class="sorting" tabindex="0" aria-controls="example-2" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 196px;">Actions</th></tr>
+                        </thead>
+                        
+                        <tbody class="middle-align">
+                        
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        <tr role="row" class="odd">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Randy S. Smith</td>
+                                <td>8.7</td>
+                                <td>Social and human service</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Ellen C. Jones</td>
+                                <td>7.2</td>
+                                <td>Education and development manager</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Carl D. Kaya</td>
+                                <td>9.5</td>
+                                <td>Express Merchant Service</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Jennifer J. Jefferson</td>
+                                <td>10</td>
+                                <td>Maxillofacial surgeon</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>April L. Baker <span class="label label-success">New Applicant</span></td>
+                                <td>6.8</td>
+                                <td>Set and exhibit designer</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Lillian J. Earl</td>
+                                <td>7.6</td>
+                                <td>Social and human service assistant</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Ellen C. Jones</td>
+                                <td>7.2</td>
+                                <td>Education and development manager</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Randy S. Smith</td>
+                                <td>8.7</td>
+                                <td>Social and human service</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Jennifer J. Jefferson</td>
+                                <td>10</td>
+                                <td>Maxillofacial surgeon</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">
+                                    <div class="cbr-replaced"><div class="cbr-input"><input type="checkbox" class="cbr cbr-done"></div><div class="cbr-state"><span></span></div></div>
+                                </td>
+                                <td>Carl D. Kaya</td>
+                                <td>9.5</td>
+                                <td>Express Merchant Service</td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary btn-sm btn-icon icon-left">
+                                        Edit
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                                        Delete
+                                    </a>
+                                    
+                                    <a href="#" class="btn btn-info btn-sm btn-icon icon-left">
+                                        Profile
+                                    </a>
+                                </td>
+                            </tr></tbody>
+                    </table><div class="row"><div class="col-xs-6"><div class="dataTables_info" id="example-2_info" role="status" aria-live="polite">Showing 1 to 10 of 60 entries</div></div><div class="col-xs-6"><div class="dataTables_paginate paging_simple_numbers" id="example-2_paginate"><ul class="pagination"><li class="paginate_button previous disabled" aria-controls="example-2" tabindex="0" id="example-2_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="example-2" tabindex="0"><a href="#">1</a></li><li class="paginate_button " aria-controls="example-2" tabindex="0"><a href="#">2</a></li><li class="paginate_button " aria-controls="example-2" tabindex="0"><a href="#">3</a></li><li class="paginate_button " aria-controls="example-2" tabindex="0"><a href="#">4</a></li><li class="paginate_button " aria-controls="example-2" tabindex="0"><a href="#">5</a></li><li class="paginate_button " aria-controls="example-2" tabindex="0"><a href="#">6</a></li><li class="paginate_button next" aria-controls="example-2" tabindex="0" id="example-2_next"><a href="#">Next</a></li></ul></div></div></div></div>
+                    
+                </div>
+            </div>
+            
+            
+            <!-- Custom column filtering -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Custom column filtering</h3>
+                    
+                    <div class="panel-options">
+                        <a href="#" data-toggle="panel">
+                            <span class="collapse-icon">–</span>
+                            <span class="expand-icon">+</span>
+                        </a>
+                        <a href="#" data-toggle="remove">
+                            ×
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    
+                    <script type="text/javascript">
+                    jQuery(document).ready(function($)
+                    {
+                        $("#example-3").dataTable().yadcf([
+                            {column_number : 0},
+                            {column_number : 1, filter_type: 'text'},
+                            {column_number : 2, filter_type: 'text'},
+                            {column_number : 3, filter_type: 'range_number'},
+                            {column_number : 4},
+                        ]);
+                    });
+                    </script>
+                    
+                    <div id="example-3_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-xs-6"><div class="dataTables_length" id="example-3_length"><label>Show <select name="example-3_length" aria-controls="example-3" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-xs-6"><div id="example-3_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example-3"></label></div></div></div><table class="table table-striped table-bordered dataTable" id="example-3" role="grid" aria-describedby="example-3_info">
+                        <thead>
+                            <tr class="replace-inputs" role="row"><th class="sorting_asc" tabindex="0" aria-controls="example-3" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column ascending" style="width: 162px;">Rendering engine<div id="yadcf-filter-wrapper--example-3-0" class="yadcf-filter-wrapper"><select id="yadcf-filter--example-3-0" class="yadcf-filter" onchange="yadcf.doFilter(this, '-example-3', 0, 'contains')" onclick="yadcf.stopPropagation(event);"><option value="-1">Select value</option><option value="Gecko">Gecko</option><option value="KHTML">KHTML</option><option value="Misc">Misc</option><option value="Other browsers">Other browsers</option><option value="Presto">Presto</option><option value="Tasman">Tasman</option><option value="Trident">Trident</option><option value="Webkit">Webkit</option></select><input value="x" type="button" onclick="yadcf.stopPropagation(event);yadcf.doFilter('clear', '-example-3', 0); return false;" class="yadcf-filter-reset-button"></div></th><th class="sorting" tabindex="0" aria-controls="example-3" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 211px;">Browser<div id="yadcf-filter-wrapper--example-3-1" class="yadcf-filter-wrapper"><input type="text" id="yadcf-filter--example-3-1" class="yadcf-filter" onclick="yadcf.stopPropagation(event);" placeholder="Type a value" filter_match_mode="contains" onkeyup="yadcf.textKeyUP('-example-3',event);"><input value="x" type="button" id="yadcf-filter--example-3-1-reset" onclick="yadcf.stopPropagation(event);yadcf.textKeyUP('-example-3', event, 'clear'); return false;" class="yadcf-filter-reset-button"></div></th><th class="sorting" tabindex="0" aria-controls="example-3" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 194px;">Platform(s)<div id="yadcf-filter-wrapper--example-3-2" class="yadcf-filter-wrapper"><input type="text" id="yadcf-filter--example-3-2" class="yadcf-filter" onclick="yadcf.stopPropagation(event);" placeholder="Type a value" filter_match_mode="contains" onkeyup="yadcf.textKeyUP('-example-3',event);"><input value="x" type="button" id="yadcf-filter--example-3-2-reset" onclick="yadcf.stopPropagation(event);yadcf.textKeyUP('-example-3', event, 'clear'); return false;" class="yadcf-filter-reset-button"></div></th><th class="sorting" tabindex="0" aria-controls="example-3" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 139px;">Engine version<div onclick="yadcf.stopPropagation(event);" id="yadcf-filter-wrapper--example-3-3" class="yadcf-filter-wrapper"><div id="yadcf-filter-wrapper-inner--example-3-3" class="yadcf-filter-wrapper-inner"><input placeholder="from" id="yadcf-filter--example-3-from-3" class="yadcf-filter-range-number yadcf-filter-range" onkeyup="yadcf.rangeNumberKeyUP('-example-3',event);"><span class="yadcf-filter-range-number-seperator"></span><input placeholder="to" id="yadcf-filter--example-3-to-3" class="yadcf-filter-range-number yadcf-filter-range" onkeyup="yadcf.rangeNumberKeyUP('-example-3',event);"></div><input value="x" type="button" onclick="yadcf.stopPropagation(event);yadcf.rangeClear('-example-3',event); return false;" class="yadcf-filter-reset-button"></div></th><th class="sorting" tabindex="0" aria-controls="example-3" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 101px;">CSS grade<div id="yadcf-filter-wrapper--example-3-4" class="yadcf-filter-wrapper"><select id="yadcf-filter--example-3-4" class="yadcf-filter" onchange="yadcf.doFilter(this, '-example-3', 4, 'contains')" onclick="yadcf.stopPropagation(event);"><option value="-1">Select value</option><option value="A">A</option><option value="C">C</option><option value="C/A<sup>1</sup>">C/A1</option><option value="U">U</option><option value="X">X</option></select><input value="x" type="button" onclick="yadcf.stopPropagation(event);yadcf.doFilter('clear', '-example-3', 4); return false;" class="yadcf-filter-reset-button"></div></th></tr>
+                        </thead>
+                        <tbody>
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        <tr role="row" class="odd">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Firefox 1.0</td>
+                                <td>Win 98+ / OSX.2+</td>
+                                <td class="center">1.7</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Firefox 1.5</td>
+                                <td>Win 98+ / OSX.2+</td>
+                                <td class="center">1.8</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Firefox 2.0</td>
+                                <td>Win 98+ / OSX.2+</td>
+                                <td class="center">1.8</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Firefox 3.0</td>
+                                <td>Win 2k+ / OSX.3+</td>
+                                <td class="center">1.9</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Camino 1.0</td>
+                                <td>OSX.2+</td>
+                                <td class="center">1.8</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Camino 1.5</td>
+                                <td>OSX.3+</td>
+                                <td class="center">1.8</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Netscape 7.2</td>
+                                <td>Win 95+ / Mac OS 8.6-9.2</td>
+                                <td class="center">1.7</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Netscape Browser 8</td>
+                                <td>Win 98SE+</td>
+                                <td class="center">1.7</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Netscape Navigator 9</td>
+                                <td>Win 98+ / OSX.2+</td>
+                                <td class="center">1.8</td>
+                                <td class="center">A</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Gecko</td>
+                                <td>Mozilla 1.0</td>
+                                <td>Win 95+ / OSX.1+</td>
+                                <td class="center">1</td>
+                                <td class="center">A</td>
+                            </tr></tbody>
+                        <tfoot>
+                            <tr><th rowspan="1" colspan="1">Rendering engine</th><th rowspan="1" colspan="1">Browser</th><th rowspan="1" colspan="1">Platform(s)</th><th rowspan="1" colspan="1">Engine version</th><th rowspan="1" colspan="1">CSS grade</th></tr>
+                        </tfoot>
+                    </table><div class="row"><div class="col-xs-6"><div class="dataTables_info" id="example-3_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-xs-6"><div class="dataTables_paginate paging_simple_numbers" id="example-3_paginate"><ul class="pagination"><li class="paginate_button previous disabled" aria-controls="example-3" tabindex="0" id="example-3_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="example-3" tabindex="0"><a href="#">1</a></li><li class="paginate_button " aria-controls="example-3" tabindex="0"><a href="#">2</a></li><li class="paginate_button " aria-controls="example-3" tabindex="0"><a href="#">3</a></li><li class="paginate_button " aria-controls="example-3" tabindex="0"><a href="#">4</a></li><li class="paginate_button " aria-controls="example-3" tabindex="0"><a href="#">5</a></li><li class="paginate_button " aria-controls="example-3" tabindex="0"><a href="#">6</a></li><li class="paginate_button next" aria-controls="example-3" tabindex="0" id="example-3_next"><a href="#">Next</a></li></ul></div></div></div></div>
+                    
+                </div>
+            </div>
+            
+            
+            <!-- Table exporting -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Table exporting</h3>
+                    
+                    <div class="panel-options">
+                        <a href="#" data-toggle="panel">
+                            <span class="collapse-icon">–</span>
+                            <span class="expand-icon">+</span>
+                        </a>
+                        <a href="#" data-toggle="remove">
+                            ×
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    
+                    <script type="text/javascript">
+                    jQuery(document).ready(function($)
+                    {
+                        $("#example-4").dataTable({
+                            dom: "<'row'<'col-sm-5'l><'col-sm-7'Tf>r>"+
+                                 "t"+
+                                 "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+                            tableTools: {
+                                sSwfPath: "assets/js/datatables/tabletools/copy_csv_xls_pdf.swf"
+                            }
+                        });
+                    });
+                    </script>
+                    
+                    <div id="example-4_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-5"><div class="dataTables_length" id="example-4_length"><label>Show <select name="example-4_length" aria-controls="example-4" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-7"><div class="DTTT_container"><a class="DTTT_button DTTT_button_copy" id="ToolTables_example-4_0" tabindex="0" aria-controls="example-4"><span>Copy</span><div style="position: absolute; left: 0px; top: 0px; width: 53px; height: 34px; z-index: 99;"><embed id="ZeroClipboard_TableToolsMovie_1" src="assets/js/datatables/tabletools/copy_csv_xls_pdf.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="53" height="34" name="ZeroClipboard_TableToolsMovie_1" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=53&amp;height=34" wmode="transparent"></div></a><a class="DTTT_button DTTT_button_csv" id="ToolTables_example-4_1" tabindex="0" aria-controls="example-4"><span>CSV</span><div style="position: absolute; left: 0px; top: 0px; width: 49px; height: 34px; z-index: 99;"><embed id="ZeroClipboard_TableToolsMovie_2" src="assets/js/datatables/tabletools/copy_csv_xls_pdf.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="49" height="34" name="ZeroClipboard_TableToolsMovie_2" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=2&amp;width=49&amp;height=34" wmode="transparent"></div></a><a class="DTTT_button DTTT_button_xls" id="ToolTables_example-4_2" tabindex="0" aria-controls="example-4"><span>Excel</span><div style="position: absolute; left: 0px; top: 0px; width: 54px; height: 34px; z-index: 99;"><embed id="ZeroClipboard_TableToolsMovie_3" src="assets/js/datatables/tabletools/copy_csv_xls_pdf.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="54" height="34" name="ZeroClipboard_TableToolsMovie_3" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=3&amp;width=54&amp;height=34" wmode="transparent"></div></a><a class="DTTT_button DTTT_button_pdf" id="ToolTables_example-4_3" tabindex="0" aria-controls="example-4"><span>PDF</span><div style="position: absolute; left: 0px; top: 0px; width: 49px; height: 34px; z-index: 99;"><embed id="ZeroClipboard_TableToolsMovie_4" src="assets/js/datatables/tabletools/copy_csv_xls_pdf.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="49" height="34" name="ZeroClipboard_TableToolsMovie_4" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=4&amp;width=49&amp;height=34" wmode="transparent"></div></a><a class="DTTT_button DTTT_button_print" id="ToolTables_example-4_4" title="View print view" tabindex="0" aria-controls="example-4"><span>Print</span></a></div><div id="example-4_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example-4"></label></div></div></div><table class="table table-bordered table-striped dataTable" id="example-4" role="grid" aria-describedby="example-4_info">
+                        <thead>
+                            <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example-4" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column ascending" style="width: 156px;">Name</th><th class="sorting" tabindex="0" aria-controls="example-4" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 246px;">Position</th><th class="sorting" tabindex="0" aria-controls="example-4" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 120px;">Office</th><th class="sorting" tabindex="0" aria-controls="example-4" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 52px;">Age</th><th class="sorting" tabindex="0" aria-controls="example-4" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 104px;">Start date</th><th class="sorting" tabindex="0" aria-controls="example-4" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 98px;">Salary</th></tr>
+                        </thead>
+                     
+                        <tfoot>
+                            <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                        </tfoot>
+                     
+                        <tbody>   
+                        <tr role="row" class="odd">
+                                <td class="sorting_1">Airi Satou</td>
+                                <td>Accountant</td>
+                                <td>Tokyo</td>
+                                <td>33</td>
+                                <td>2008/11/28</td>
+                                <td>$162,700</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Angelica Ramos</td>
+                                <td>Chief Executive Officer (CEO)</td>
+                                <td>London</td>
+                                <td>47</td>
+                                <td>2009/10/09</td>
+                                <td>$1,200,000</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Ashton Cox</td>
+                                <td>Junior Technical Author</td>
+                                <td>San Francisco</td>
+                                <td>66</td>
+                                <td>2009/01/12</td>
+                                <td>$86,000</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Bradley Greer</td>
+                                <td>Software Engineer</td>
+                                <td>London</td>
+                                <td>41</td>
+                                <td>2012/10/13</td>
+                                <td>$132,000</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Brenden Wagner</td>
+                                <td>Software Engineer</td>
+                                <td>San Francisco</td>
+                                <td>28</td>
+                                <td>2011/06/07</td>
+                                <td>$206,850</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Brielle Williamson</td>
+                                <td>Integration Specialist</td>
+                                <td>New York</td>
+                                <td>61</td>
+                                <td>2012/12/02</td>
+                                <td>$372,000</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Bruno Nash</td>
+                                <td>Software Engineer</td>
+                                <td>London</td>
+                                <td>38</td>
+                                <td>2011/05/03</td>
+                                <td>$163,500</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Caesar Vance</td>
+                                <td>Pre-Sales Support</td>
+                                <td>New York</td>
+                                <td>21</td>
+                                <td>2011/12/12</td>
+                                <td>$106,450</td>
+                            </tr><tr role="row" class="odd">
+                                <td class="sorting_1">Cara Stevens</td>
+                                <td>Sales Assistant</td>
+                                <td>New York</td>
+                                <td>46</td>
+                                <td>2011/12/06</td>
+                                <td>$145,600</td>
+                            </tr><tr role="row" class="even">
+                                <td class="sorting_1">Cedric Kelly</td>
+                                <td>Senior Javascript Developer</td>
+                                <td>Edinburgh</td>
+                                <td>22</td>
+                                <td>2012/03/29</td>
+                                <td>$433,060</td>
+                            </tr></tbody>
+                    </table><div class="row"><div class="col-xs-6"><div class="dataTables_info" id="example-4_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-xs-6"><div class="dataTables_paginate paging_simple_numbers" id="example-4_paginate"><ul class="pagination"><li class="paginate_button previous disabled" aria-controls="example-4" tabindex="0" id="example-4_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="example-4" tabindex="0"><a href="#">1</a></li><li class="paginate_button " aria-controls="example-4" tabindex="0"><a href="#">2</a></li><li class="paginate_button " aria-controls="example-4" tabindex="0"><a href="#">3</a></li><li class="paginate_button " aria-controls="example-4" tabindex="0"><a href="#">4</a></li><li class="paginate_button " aria-controls="example-4" tabindex="0"><a href="#">5</a></li><li class="paginate_button " aria-controls="example-4" tabindex="0"><a href="#">6</a></li><li class="paginate_button next" aria-controls="example-4" tabindex="0" id="example-4_next"><a href="#">Next</a></li></ul></div></div></div></div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<link rel="stylesheet" href="../js/datatables/dataTables.bootstrap.css" />
+<script src="../js/datatables/js/jquery.dataTables.min.js"></script>
+<script src="../js/datatables/dataTables.bootstrap.js"></script>
+<script src="../js/datatables/yadcf/jquery.dataTables.yadcf.js"></script>
+<script src="../js/datatables/tabletools/dataTables.tableTools.min.js"></script>
+
+<!-- Bottom Scripts -->
+<script src="../js/jquery-validate/jquery.validate.min.js"></script>
+<script src="../js/toastr/toastr.min.js"></script>
+<script src="../js/TweenMax.min.js"></script>
+<script src="../js/joinable.js"></script>
+<script src="../js/sog.js"></script>
+<!-- JavaScripts initializations and stuff -->
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+    });
+</script>
+</html>
