@@ -1,0 +1,45 @@
+.dropdown-menu {
+		
+	&.no-spacing {
+		margin-top: -10px;
+	}
+	
+	&.dropdown-primary { .sog-dropdown-style(@brand-primary; #FFF; lighten(@brand-primary, 10%)); }
+	&.dropdown-secondary { .sog-dropdown-style(@secondary-color; #FFF; darken(@secondary-color, 5%)); }
+	&.dropdown-info { .sog-dropdown-style(@brand-info; #FFF; darken(@brand-info, 8%)); }
+	&.dropdown-success { .sog-dropdown-style(@brand-success; #FFF; darken(@brand-success, 5%)); }
+	&.dropdown-warning { .sog-dropdown-style(@brand-warning; #FFF; darken(@brand-warning, 5%)); }
+	&.dropdown-danger { .sog-dropdown-style(@brand-danger; #FFF; darken(@brand-danger, 8%)); }
+	&.dropdown-red { .sog-dropdown-style(@sog-red; #FFF; darken(@sog-red, 5%)); }
+	&.dropdown-purple { .sog-dropdown-style(@sog-purple; #FFF; darken(@sog-purple, 8%)); }
+	&.dropdown-blue { .sog-dropdown-style(@sog-blue; #FFF; darken(@sog-blue, 8%)); }
+	&.dropdown-black { .sog-dropdown-style(@sog-black; #FFF; lighten(@sog-black, 8%)); }
+	
+	&.dropdown-white { 
+		
+		&.no-spacing {
+			margin-top: -11px;
+		} 
+	}
+}
+
+.sog-dropdown-style(@bg; @txt: #FFF; @border: darken(@bg, 10%))
+{
+	background: @bg;
+	border-color: @bg;
+	
+	.divider {
+		.nav-divider(@border);
+	}
+	
+	> li {
+	
+		> a {
+			color: @txt;
+			
+			&:hover {
+				background-color: @border;
+			}
+		}
+	}
+}
