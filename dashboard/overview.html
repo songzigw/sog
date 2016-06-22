@@ -5,7 +5,7 @@
                 <h3 class="panel-title">Broker</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-condensed">
+                <table class="table table-condensed" id="broker">
                     <thead>
                         <tr>
                             <th>System Name</th>
@@ -16,10 +16,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td id="sys_name">value</td>
-                            <td id="sys_version">value</td>
-                            <td id="sys_uptime">value</td>
-                            <td id="sys_time">value</td>
+                            <td>{{sysdescr}}</td>
+                            <td>{{version}}</td>
+                            <td>{{uptime}}</td>
+                            <td>{{datetime}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -42,12 +42,9 @@
                         <tr>
                             <th>Name</th>
                             <th>Erlang/OTP Release</th>
-                            <th>Erlang Processes<br />(used / avaliable)
-                            </th>
-                            <th>CPU Info<br />(1load / 5load / 15load)
-                            </th>
-                            <th>Memory Info<br />(used / total)
-                            </th>
+                            <th>Erlang Processes<br />(used / avaliable)</th>
+                            <th>CPU Info<br />(1load / 5load / 15load)</th>
+                            <th>Memory Info<br />(used / total)</th>
                             <th>MaxFds</th>
                         </tr>
                     </thead>

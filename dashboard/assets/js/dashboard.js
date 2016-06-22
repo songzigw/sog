@@ -76,82 +76,82 @@
     $.extend(WebAPI.prototype, {
         // broker
         broker : function(callback) {
-            this._ajax('brokers', null, callback);
+            this._ajax('api/brokers', null, callback);
         },
 
         // bnode
         bnode : function(callback) {
-            this._ajax('bnode', null, callback);
+            this._ajax('api/bnode', null, callback);
         },
 
         // nodes
         nodes : function(callback) {
-            this._ajax('nodes', null, callback);
+            this._ajax('api/nodes', null, callback);
         },
 
         // stats
         stats : function(callback) {
-            this._ajax('stats', null, callback);
+            this._ajax('api/stats', null, callback);
         },
 
         // metrics
         metrics : function(callback) {
-            this._ajax('metrics', null, callback);
+            this._ajax('api/metrics', null, callback);
         },
 
         // listeners
         listeners : function(callback) {
-            this._ajax('listeners', null, callback);
+            this._ajax('api/listeners', null, callback);
         },
 
         // clients
         clients : function(params, callback) {
-            this._ajax('clients', params, callback);
+            this._ajax('api/clients', params, callback);
         },
 
         // sessions
         sessions : function(params, callback) {
-            this._ajax('sessions', params, callback);
+            this._ajax('api/sessions', params, callback);
         },
 
         // topics
         topics : function(params, callback) {
-            this._ajax('topics', params, callback);
+            this._ajax('api/topics', params, callback);
         },
 
         // subscriptions
         subscriptions : function(params, callback) {
-            this._ajax('subscriptions', params, callback);
+            this._ajax('api/subscriptions', params, callback);
         },
 
         // users
         users : function(callback) {
-            this._ajax('users', null, callback);
+            this._ajax('api/users', null, callback);
         },
 
         // user_remove
         user_remove : function(username, callback) {
-            this._ajax('remove_user', {user_name : username}, callback);
+            this._ajax('api/remove_user', {user_name : username}, callback);
         },
 
         // user_add
         user_add : function(user, callback) {
-            this._ajax('add_user', user, callback);
+            this._ajax('api/add_user', user, callback);
         },
 
         // user_curr
         user_curr : function(callback) {
-            this._ajax('current_user', null, callback);
+            this._ajax('api/current_user', null, callback);
         },
 
         // user_update
         user_update : function(user, callback) {
-            this._ajax('update_user', user, callback);
+            this._ajax('api/update_user', user, callback);
         },
 
         // logout
         logout : function(callback) {
-            this._ajax('current_user', null, callback, {
+            this._ajax('api/current_user', null, callback, {
                 headers: {
                     "Authorization": "Lougout 123456789"
                 }
@@ -161,7 +161,7 @@
 
         // routes
         routes : function(params, callback) {
-            this._ajax('routes', params, callback);
+            this._ajax('api/routes', params, callback);
         }
     });
 
@@ -176,9 +176,10 @@
         this._init();
     };
     Overview.prototype._init = function() {
+        var _this = this;
         loading('overview.html', function() {
-            
-        }, this.$html);
+            _this.broker();
+        }, _this.$html);
     };
     Overview.prototype.show = function() {
         hideAllMods();
@@ -187,6 +188,28 @@
     };
     Overview.prototype.hide = function() {
         this.$html.hide();
+    };
+    Overview.prototype.broker = function() {
+        var _this = this;
+        _this.vmBroker = new Vue({
+            el : $('#broker', _this.$html)[0]
+        });
+        dashboard.webapi.broker(function(ret, err) {
+            if (ret) {
+                _this.vmBroker.$data = ret;
+            }
+        });
+    };
+    Overview.prototype.nodes = function() {
+        var _this = this;
+        _this.vmNodes = new Vue({
+            el : $('#nodes', _this.$html)[0]
+        });
+        dashboard.webapi.nodes(function(ret, err) {
+            if (ret) {
+                _this.vmNodes.$data = ret;
+            }
+        });
     };
 
     // Functions----------------------------------------
