@@ -1,0 +1,173 @@
+.cbr-replaced {
+	@size: 15px;
+	
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	top: -1px;
+	.user-select(none);
+	
+	.cbr-input {
+		display: none;
+	}
+	
+	.cbr-state {
+		position: relative;
+		display: block;
+		background: #FFF;
+		border: 1px solid @default-border-color;
+		line-height: 1;
+		.size(@size);
+		
+		span {
+			display: block;
+			background: url(../images/ok.png) no-repeat center center;
+			background-image: none;
+			position: absolute;
+			left: 0; 
+			right: 0; 
+			bottom: 0; 
+			top: 0;
+			cursor: pointer;
+		}
+	}
+	
+	// Checked
+	&.cbr-checked {
+		
+		span {
+			background-image: url(../images/ok.png);
+		}
+	}
+	
+	// Disabled
+	&.cbr-disabled {
+		.opacity(.4);
+	}
+	
+	// Radio Input
+	&.cbr-radio {
+		
+		.cbr-state {
+			.border-radius(50%);
+			
+			span {
+				background: #FFF;
+				left: 2px; right: 2px; top: 2px; bottom: 2px;
+				.border-radius(50%);
+			}
+		}
+		
+		&.cbr-checked .cbr-state span {
+			background: @default-border-color;
+		}
+	}
+	
+	
+	// Styles
+	&.cbr-primary {
+		
+		.cbr-state {
+			background: @brand-primary;
+			border-color: @main-border-color;
+		}
+		
+		&.cbr-checked {
+			
+			span {
+				background-image: url(../images/ok-white-full.png);
+			}
+		}
+		
+		&.cbr-radio {
+			
+			.cbr-state {
+				background: #fff;
+				
+				span {
+					background-color: #fff;
+				}
+			}
+			
+			&.cbr-checked {
+				
+				.cbr-state {
+					
+					span {
+						background: @brand-primary;
+					}
+				}
+			}
+		}
+	}
+	
+	&.cbr-secondary { .sog-cbr-style(@secondary-color); }
+	&.cbr-success { .sog-cbr-style(@brand-success); }
+	&.cbr-info { .sog-cbr-style(@brand-info); }
+	&.cbr-danger { .sog-cbr-style(@brand-danger); }
+	&.cbr-warning { .sog-cbr-style(@brand-warning); }
+	&.cbr-red { .sog-cbr-style(@sog-red); }
+	&.cbr-blue { .sog-cbr-style(@sog-blue); }
+	&.cbr-purple { .sog-cbr-style(@sog-purple); }
+	&.cbr-pink { .sog-cbr-style(@sog-pink); }
+	&.cbr-orange { .sog-cbr-style(@sog-orange); }
+	&.cbr-turquoise { .sog-cbr-style(@sog-turquoise); }
+	&.cbr-yellow { .sog-cbr-style(@sog-yellow); }
+	&.cbr-gray { .sog-cbr-style(darken(@sog-gray, 15%)); &.cbr-checked span { background-image: url(../images/ok.png); } }
+	
+	+ label {
+		padding-left: @base-padding/2;
+	}
+}
+
+label {
+	
+	.cbr-replaced {
+		margin-right: 4px;
+	}
+	
+	&.cbr-inline {
+		padding-top: (@padding-base-vertical + 1);
+		
+		+ .cbr-inline {
+			margin-left: @base-padding;
+		}
+	}
+}
+
+
+.sog-cbr-style(@background-color; @border-color: @background-color)
+{	
+	.cbr-state {
+		background: @background-color;
+		border-color: @border-color;
+		
+		span {
+			//left: 1px; right: 1px; top: 1px; bottom: 1px;
+		}
+	}
+	
+	&.cbr-checked {
+		
+		span {
+			background-image: url(../images/ok-white-full.png);
+		}
+		
+		&.cbr-radio {
+			
+			.cbr-state {
+			
+				span {
+					background: @background-color;
+				}
+			}
+		}
+	}
+		
+	&.cbr-radio {
+	
+		.cbr-state {
+			background: #fff;
+		}
+	}
+}

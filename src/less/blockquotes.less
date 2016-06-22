@@ -1,0 +1,46 @@
+blockquote {
+	
+	small {
+		margin-top: @base-padding;
+		display: block;
+	}
+}
+.blockquote {
+	position: relative;
+	padding: @base-margin @default-padding;
+	background: #fff;
+	border: 1px solid @default-border-color;
+	
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 6px;
+		background: #f7f7f7;
+	}
+	
+	&.blockquote-blue { .sog-blockquote-style(@sog-blue); }
+	&.blockquote-red { .sog-blockquote-style(@sog-red); }
+	&.blockquote-success { .sog-blockquote-style(@brand-success); }
+	&.blockquote-warning { .sog-blockquote-style(@brand-warning); }
+	&.blockquote-info { .sog-blockquote-style(@brand-info); }
+	&.blockquote-danger { .sog-blockquote-style(@brand-danger); }
+	&.blockquote-purple { .sog-blockquote-style(@sog-purple); }
+	&.blockquote-black { .sog-blockquote-style(@sog-black); }
+}
+
+.sog-blockquote-style(@border)
+{
+	border: 1px solid @border;
+	
+	&:before {
+		background: fade(@border, 10%);
+	}
+	
+	strong {
+		color: @border;
+	}
+}
