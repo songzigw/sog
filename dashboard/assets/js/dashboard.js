@@ -263,10 +263,37 @@
     Overview.prototype.startTask = function() {
         var _this = this;
         _this.timertask = setInterval(function() {
-            _this.broker();
-            _this.nodes();
-            _this.stats();
-            _this.metrics();
+            dashboard.webapi.broker(function(ret, err) {
+                if (ret) {
+                    _this.vmBroker.$data = ret;
+                }
+            });
+            
+            dashboard.webapi.nodes(function(ret, err) {
+                if (ret) {
+                    _this.vmNodes.nodes = ret;
+                }
+            });
+            
+            var $stats = $('#overview_stats', _this.$html);
+            dashboard.webapi.stats(function(ret, err) {
+                if (ret) {
+                    for ( var key in ret) {
+                        var keyStr = key.split('/').join('_');
+                        $('#' + keyStr, $stats).text(ret[key]);
+                    }
+                }
+            });
+            
+            var $metrics = $('#overview_metrics', _this.$html);
+            dashboard.webapi.metrics(function(ret, err) {
+                if (ret) {
+                    for ( var key in ret) {
+                        var keyStr = key.split('/').join('_');
+                        $('#' + keyStr, $metrics).text(ret[key]);
+                    }
+                }
+            });
         }, 10000);
     };
 
@@ -419,7 +446,7 @@
     Users.prototype._init = function() {
         var _this = this;
         loading('users.html', function() {
-            
+            _this.list();
         }, _this.$html);
     };
     Users.prototype.show = function() {
@@ -429,6 +456,21 @@
     };
     Users.prototype.hide = function() {
         this.$html.hide();
+    };
+    Users.prototype.list = function() {
+        var _this = this;
+        var $usersList = $('#users_list', _this.$html);
+        _this.vmUsers = new Vue({
+            el  : $usersList[0],
+            data: {
+                users: []
+            }
+        });
+        dashboard.webapi.users(function(ret, err) {
+            if (ret) {
+                _this.vmUsers.users = ret;
+            }
+        });
     };
 
     // HttpApi-------------------------------------------

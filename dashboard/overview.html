@@ -53,8 +53,8 @@
                             <td>{{ node['name'] }}</td>
                             <td>{{ node['otp_release'] }}</td>
                             <td>{{ node['process_used'] }}</td>
-                            <td>{{ node['loadl'] }}</td>
-                            <td>{{ node['used_memory'] }}</td>
+                            <td>{{ node['load1'] }} / {{ node['load5'] }} / {{ node['load15'] }}</td>
+                            <td>{{ node['used_memory'] }} / {{ node['total_memory'] }}</td>
                             <td>{{ node['max_fds'] }}</td>
                         </tr>
                     </tbody>
