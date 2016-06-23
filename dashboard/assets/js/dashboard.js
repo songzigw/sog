@@ -179,6 +179,8 @@
         var _this = this;
         loading('overview.html', function() {
             _this.broker();
+            _this.nodes();
+            _this.stats();
         }, _this.$html);
     };
     Overview.prototype.show = function() {
@@ -192,7 +194,7 @@
     Overview.prototype.broker = function() {
         var _this = this;
         _this.vmBroker = new Vue({
-            el : $('#broker', _this.$html)[0]
+            el : $('#overview_broker', _this.$html)[0]
         });
         dashboard.webapi.broker(function(ret, err) {
             if (ret) {
@@ -203,11 +205,25 @@
     Overview.prototype.nodes = function() {
         var _this = this;
         _this.vmNodes = new Vue({
-            el : $('#nodes', _this.$html)[0]
+            el  : $('#overview_nodes', _this.$html)[0],
+            data: {
+                nodes: []
+            }
         });
         dashboard.webapi.nodes(function(ret, err) {
             if (ret) {
-                _this.vmNodes.$data = ret;
+                _this.vmNodes.nodes = ret;
+            }
+        });
+    };
+    Overview.prototype.stats = function() {
+        var $stats = $('#overview_stats', _this.$html);
+        dashboard.webapi.stats(function(ret, err) {
+            if (ret) {
+                for ( var key in ret) {
+                    var keyStr = key.split('/').join('_');
+                    $('#' + keyStr, $stats).text(ret[key]);
+                }
             }
         });
     };

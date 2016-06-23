@@ -1,11 +1,11 @@
-<div class="row">
+<div class="row" id="overview_broker">
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Broker</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-condensed" id="broker">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th>System Name</th>
@@ -28,27 +28,35 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="overview_nodes">
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    Nodes (<em id="nodes_count">0</em>)
+                    Nodes (<em id="nodes_count">{{ nodes.length }}</em>)
                 </h3>
             </div>
             <div class="panel-body">
-                <table class="table table-condensed" id="nodes">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Erlang/OTP Release</th>
-                            <th>Erlang Processes<br />(used / avaliable)</th>
-                            <th>CPU Info<br />(1load / 5load / 15load)</th>
-                            <th>Memory Info<br />(used / total)</th>
+                            <th>Erlang Processes<br />(used/avaliable)</th>
+                            <th>CPU Info<br />(1load/5load/15load)</th>
+                            <th>Memory Info<br />(used/total)</th>
                             <th>MaxFds</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr v-for="node in nodes">
+                            <td>{{ node['name'] }}</td>
+                            <td>{{ node['otp_release'] }}</td>
+                            <td>{{ node['process_used'] }}</td>
+                            <td>{{ node['loadl'] }}</td>
+                            <td>{{ node['used_memory'] }}</td>
+                            <td>{{ node['max_fds'] }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -56,7 +64,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="overview_stats">
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -66,7 +74,7 @@
                 <div class="table-responsive" data-pattern="priority-columns"
                     data-focus-btn-icon="fa-asterisk" data-sticky-table-header="true"
                     data-add-display-all-btn="true" data-add-focus-btn="true">
-                    <table class="table table-condensed" id="stats">
+                    <table class="table table-condensed">
                         <thead>
                             <tr>
                                 <th>Clients/Count</th>
@@ -87,20 +95,20 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td id="clients_count"></td>
-                                <td id="clients_max"></td>
-                                <td id="retained_count"></td>
-                                <td id="retained_max"></td>
-                                <td id="routes_count"></td>
-                                <td id="routes_max"></td>
-                                <td id="sessions_count"></td>
-                                <td id="sessions_max"></td>
-                                <td id="subscribers_count"></td>
-                                <td id="subscribers_max"></td>
-                                <td id="subscriptions_count"></td>
-                                <td id="subscriptions_max"></td>
-                                <td id="topics_count"></td>
-                                <td id="topics_max"></td>
+                                <td id="clients_count">0</td>
+                                <td id="clients_max">0</td>
+                                <td id="retained_count">0</td>
+                                <td id="retained_max">0</td>
+                                <td id="routes_count">0</td>
+                                <td id="routes_max">0</td>
+                                <td id="sessions_count">0</td>
+                                <td id="sessions_max">0</td>
+                                <td id="subscribers_count">0</td>
+                                <td id="subscribers_max">0</td>
+                                <td id="subscriptions_count">0</td>
+                                <td id="subscriptions_max">0</td>
+                                <td id="topics_count">0</td>
+                                <td id="topics_max">0</td>
                             </tr>
                         </tbody>
                     </table>
