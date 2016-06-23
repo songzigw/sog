@@ -35,8 +35,8 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.tag }}</td>
                 <td>
-                <button class="btn btn-success btn-sm btn-icon icon-left">Edit</button>
-                <button class="btn btn-danger btn-sm btn-icon icon-left">Delete</button>
+                <button @click="edit" class="btn btn-success btn-sm btn-icon icon-left">Edit</button>
+                <button @click="del" class="btn btn-danger btn-sm btn-icon icon-left">Delete</button>
                 </td>
             </tr>
         </tbody>

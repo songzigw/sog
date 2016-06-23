@@ -179,6 +179,22 @@
     Overview.prototype._init = function() {
         var _this = this;
         loading('overview.html', function() {
+            _this.vmBroker = new Vue({
+                el : $('#overview_broker', _this.$html)[0]
+            });
+            _this.vmNodes = new Vue({
+                el  : $('#overview_nodes', _this.$html)[0],
+                data: {
+                    nodes: []
+                }
+            });
+            _this.vmLiss = new Vue({
+                el  : $('#voerview_listeners', _this.$html)[0],
+                data: {
+                    listeners: []
+                }
+            });
+            
             _this.broker();
             _this.nodes();
             _this.stats();
@@ -198,9 +214,6 @@
     };
     Overview.prototype.broker = function() {
         var _this = this;
-        _this.vmBroker = new Vue({
-            el : $('#overview_broker', _this.$html)[0]
-        });
         dashboard.webapi.broker(function(ret, err) {
             if (ret) {
                 _this.vmBroker.$data = ret;
@@ -209,12 +222,6 @@
     };
     Overview.prototype.nodes = function() {
         var _this = this;
-        _this.vmNodes = new Vue({
-            el  : $('#overview_nodes', _this.$html)[0],
-            data: {
-                nodes: []
-            }
-        });
         dashboard.webapi.nodes(function(ret, err) {
             if (ret) {
                 _this.vmNodes.nodes = ret;
@@ -247,13 +254,6 @@
     };
     Overview.prototype.listeners = function() {
         var _this = this;
-        var $listeners = $('#voerview_listeners', _this.$html);
-        _this.vmLiss = new Vue({
-            el  : $listeners[0],
-            data: {
-                listeners: []
-            }
-        });
         dashboard.webapi.listeners(function(ret, err) {
             if (ret) {
                 _this.vmLiss.listeners = ret;
@@ -263,37 +263,10 @@
     Overview.prototype.startTask = function() {
         var _this = this;
         _this.timertask = setInterval(function() {
-            dashboard.webapi.broker(function(ret, err) {
-                if (ret) {
-                    _this.vmBroker.$data = ret;
-                }
-            });
-            
-            dashboard.webapi.nodes(function(ret, err) {
-                if (ret) {
-                    _this.vmNodes.nodes = ret;
-                }
-            });
-            
-            var $stats = $('#overview_stats', _this.$html);
-            dashboard.webapi.stats(function(ret, err) {
-                if (ret) {
-                    for ( var key in ret) {
-                        var keyStr = key.split('/').join('_');
-                        $('#' + keyStr, $stats).text(ret[key]);
-                    }
-                }
-            });
-            
-            var $metrics = $('#overview_metrics', _this.$html);
-            dashboard.webapi.metrics(function(ret, err) {
-                if (ret) {
-                    for ( var key in ret) {
-                        var keyStr = key.split('/').join('_');
-                        $('#' + keyStr, $metrics).text(ret[key]);
-                    }
-                }
-            });
+            _this.broker();
+            _this.nodes();
+            _this.stats();
+            _this.metrics();
         }, 10000);
     };
 
@@ -446,6 +419,22 @@
     Users.prototype._init = function() {
         var _this = this;
         loading('users.html', function() {
+            _this.vmUsers = new Vue({
+                el  : $('#users_list', _this.$html)[0],
+                data: {
+                    users: [],
+                    i : 0
+                },
+                methods: {
+                    del : function() {
+                        alert('del');
+                    },
+                    edit : function() {
+                        alert('edit');
+                    }
+                }
+            });
+            
             _this.list();
         }, _this.$html);
     };
@@ -459,16 +448,10 @@
     };
     Users.prototype.list = function() {
         var _this = this;
-        var $usersList = $('#users_list', _this.$html);
-        _this.vmUsers = new Vue({
-            el  : $usersList[0],
-            data: {
-                users: []
-            }
-        });
         dashboard.webapi.users(function(ret, err) {
             if (ret) {
                 _this.vmUsers.users = ret;
+                _this.vmUsers.i = 0;
             }
         });
     };
