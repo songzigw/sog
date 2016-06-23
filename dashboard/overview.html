@@ -118,7 +118,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="overview_metrics">
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -310,17 +310,17 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" id="voerview_listeners">
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    Listeners (<em id="listeners_count">0</em>)
+                    Listeners (<em id="listeners_count">{{ listeners.length }}</em>)
                 </h3>
             </div>
             <div class="panel-body">
 
-                <table class="table table-condensed" id="listeners">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th>Protocol</th>
@@ -330,7 +330,12 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <tr v-for="listener in listeners">
+                            <td>{{ listener['protocol'] }}</td>
+                            <td>{{ listener['listen'] }}</td>
+                            <td>{{ listener['max_clients'] }}</td>
+                            <td>{{ listener['current_clients'] }}</td>
+                        </tr>
                     </tbody>
                 </table>
 

@@ -181,6 +181,10 @@
             _this.broker();
             _this.nodes();
             _this.stats();
+            _this.metrics();
+            _this.listeners();
+            // Start Timertask
+            _this.startTask()
         }, _this.$html);
     };
     Overview.prototype.show = function() {
@@ -217,6 +221,7 @@
         });
     };
     Overview.prototype.stats = function() {
+        var _this = this;
         var $stats = $('#overview_stats', _this.$html);
         dashboard.webapi.stats(function(ret, err) {
             if (ret) {
@@ -226,6 +231,42 @@
                 }
             }
         });
+    };
+    Overview.prototype.metrics = function() {
+        var _this = this;
+        var $metrics = $('#overview_metrics', _this.$html);
+        dashboard.webapi.metrics(function(ret, err) {
+            if (ret) {
+                for ( var key in ret) {
+                    var keyStr = key.split('/').join('_');
+                    $('#' + keyStr, $metrics).text(ret[key]);
+                }
+            }
+        });
+    };
+    Overview.prototype.listeners = function() {
+        var _this = this;
+        var $listeners = $('#voerview_listeners', _this.$html);
+        _this.vmLiss = new Vue({
+            el  : $listeners[0],
+            data: {
+                listeners: []
+            }
+        });
+        dashboard.webapi.listeners(function(ret, err) {
+            if (ret) {
+                _this.vmLiss.listeners = ret;
+            }
+        });
+    };
+    Overview.prototype.startTask = function() {
+        var _this = this;
+        _this.timertask = setInterval(function() {
+            _this.broker();
+            _this.nodes();
+            _this.stats();
+            _this.metrics();
+        }, 10000);
     };
 
     // Functions----------------------------------------
