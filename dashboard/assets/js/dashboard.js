@@ -431,6 +431,9 @@
                     },
                     edit : function() {
                         alert('edit');
+                    },
+                    add : function() {
+                        alert('add');
                     }
                 }
             });

@@ -14,12 +14,12 @@
     <div class="panel-body btn-toolbar">
         <div class="btn-group focus-btn-group">
             <button class="btn btn-success btn-sm" id="user_add_btn">
-                <span class="fa-upload"></span> Add User
+                <span class="sog-icon sog-icon-add"></span> Add User
             </button>
         </div>
     </div>
 
-    <table class="table table-striped" id="users">
+    <table class="table table-model-2 table-hover">
         <thead>
             <tr>
                 <th>#</th>
@@ -31,7 +31,7 @@
 
         <tbody>
             <tr v-for="user in users">
-                <td>{{ ++i }}</td>
+                <td>{{ i }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.tag }}</td>
                 <td>
