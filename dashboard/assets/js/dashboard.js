@@ -167,6 +167,7 @@
 
     // Modules save container.
     var modules = {};
+
     // Overview-----------------------------------------
 
     var Overview = function() {
@@ -269,6 +270,126 @@
         }, 10000);
     };
 
+    // Clients------------------------------------------
+
+    var Clients = function() {
+        this.modName = 'clients';
+        this.$html = $('#dashboard_clients',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Clients.prototype._init = function() {
+        var _this = this;
+        loading('clients.html', function() {
+            
+        }, _this.$html);
+    };
+
+    // Sessions-----------------------------------------
+
+    var Sessions = function() {
+        this.modName = 'sessions';
+        this.$html = $('#dashboard_sessions',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Sessions.prototype._init = function() {
+        var _this = this;
+        loading('sessions.html', function() {
+            
+        }, _this.$html);
+    };
+
+    // Topics-------------------------------------------
+
+    var Topics = function() {
+        this.modName = 'topics';
+        this.$html = $('#dashboard_topics',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Topics.prototype._init = function() {
+        var _this = this;
+        loading('topics.html', function() {
+            
+        }, _this.$html);
+    };
+
+    // Routes-------------------------------------------
+
+    var Routes = function() {
+        this.modName = 'routes';
+        this.$html = $('#dashboard_routes',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Routes.prototype._init = function() {
+        var _this = this;
+        loading('routes.html', function() {
+            
+        }, _this.$html);
+    };
+
+    // Subscriptions-------------------------------------
+
+    var Subscriptions = function() {
+        this.modName = 'subscriptions';
+        this.$html = $('#dashboard_subscriptions',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Subscriptions.prototype._init = function() {
+        var _this = this;
+        loading('subscriptions.html', function() {
+            
+        }, _this.$html);
+    };
+
+    // Websocket----------------------------------------
+
+    var Websocket = function() {
+        this.modName = 'websocket';
+        this.$html = $('#dashboard_websocket',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Websocket.prototype._init = function() {
+        var _this = this;
+        loading('websocket.html', function() {
+            
+        }, _this.$html);
+    };
+
+    // Users---------------------------------------------
+
+    var Users = function() {
+        this.modName = 'users';
+        this.$html = $('#dashboard_users',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    Users.prototype._init = function() {
+        var _this = this;
+        loading('users.html', function() {
+            
+        }, _this.$html);
+    };
+
+    // HttpApi-------------------------------------------
+
+    var HttpApi = function() {
+        this.modName = 'http_api';
+        this.$html = $('#dashboard_http_api',
+                sog.mainCenter.$html);
+        this._init();
+    };
+    HttpApi.prototype._init = function() {
+        var _this = this;
+        loading('http_api.html', function() {
+            
+        }, _this.$html);
+    };
+
     // Functions----------------------------------------
 
     var hideAllMods = function() {
@@ -318,28 +439,52 @@
             modules.overview.show();
             break;
         case 'clients':
-
+            if (!modules.clients) {
+                modules.clients = new Clients();
+            }
+            modules.clients.show();
             break;
         case 'sessions':
-
+            if (!modules.sessions) {
+                modules.sessions = new Sessions();
+            }
+            modules.sessions.show();
             break;
         case 'topics':
-
+            if (!modules.topics) {
+                modules.topics = new Topics();
+            }
+            modules.topics.show();
             break;
         case 'routes':
-
+            if (!modules.routes) {
+                modules.routes = new Routes();
+            }
+            modules.routes.show();
             break;
         case 'subscriptions':
-
+            if (!modules.subscriptions) {
+                modules.subscriptions = new Subscriptions();
+            }
+            modules.subscriptions.show();
             break;
         case 'websocket':
-
+            if (!modules.websocket) {
+                modules.websocket = new Websocket();
+            }
+            modules.websocket.show();
             break;
         case 'users':
-
+            if (!modules.users) {
+                modules.users = new Users();
+            }
+            modules.users.show();
             break;
         case 'http_api':
-
+            if (!modules.httpApi) {
+                modules.httpApi = new HttpApi();
+            }
+            modules.httpApi.show();
             break;
         default:
             break;
