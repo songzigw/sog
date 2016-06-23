@@ -54,9 +54,15 @@
             dataType : options.dataType,
             cache    : options.cache,
             success  : function(ret) {
-                if (typeof callback === 'function') {
+                if ((path == 'api/remove_user'
+                    || path == 'api/add_user')
+                        && typeof ret == 'object'
+                        && ret.status == 'failure') {
+                    callback(undefined, ret);
+                } else {
                     callback(ret, undefined);
                 }
+
                 // Do "options.callback" after
                 // the request is successful
                 if (typeof options.callback === 'function') {
@@ -431,39 +437,97 @@
                 _this.vmUserAdd = new Vue({
                     el  : _this.$modalUserAdd[0],
                     data: {
-                        
+                        user : {}
                     },
                     methods: {
                         submit : function() {
-                            _this.$modalUserAdd.modal('hide');
-                            this.data = '';
-                            _this.list();
+                            this.user.name = this.user.name ? this.user.name.trim() : '';
+                            this.user.password = this.user.password ? this.user.password.trim() : '';
+                            this.user.tags = this.user.tags ? this.user.tags.trim() : '';
+                            this.user.user_name = this.user.name;
+                            if (this.user.user_name == '') {
+                                alert("Username is required.");
+                                return;
+                            }
+                            if (this.user.password == '') {
+                                alert("Password is required.");
+                                return;
+                            }
+                            if (this.user.password != this.user.password2) {
+                                alert("Passwords do not match.");
+                                return;
+                            }
+                            
+                            var vm = this;
+                            dashboard.webapi.user_add(vm.user,
+                                    function(ret, err) {
+                                        if (ret) {
+                                            vm.user = {};
+                                            _this.$modalUserAdd.modal('hide');
+                                            _this.list();
+                                        } else {
+                                            alert(err.reason);
+                                        }
+                                    });
                         }
                     }
                 });
                 _this.vmUserEdit = new Vue({
                     el  : _this.$modalUserEdit[0],
                     data: {
-                        
+                        user : {}
                     },
                     methods: {
                         submit : function() {
-                            _this.$modalUserEdit.modal('hide');
-                            this.data = '';
-                            _this.list();
+                            this.user.name = this.user.name ? this.user.name.trim() : '';
+                            this.user.password = this.user.password ? this.user.password.trim() : '';
+                            this.user.tags = this.user.tags ? this.user.tags.trim() : '';
+                            this.user.user_name = this.user.name;
+                            if (this.user.user_name == '') {
+                                alert("Username is required.");
+                                return;
+                            }
+                            if (this.user.password == '') {
+                                alert("Password is required.");
+                                return;
+                            }
+                            if (this.user.password != this.user.password2) {
+                                alert("Passwords do not match.");
+                                return;
+                            }
+                            
+                            var vm = this;
+                            dashboard.webapi.user_update(vm.user,
+                                    function(ret, err) {
+                                        if (ret) {
+                                            vm.user = {};
+                                            _this.$modalUserEdit.modal('hide');
+                                            _this.list();
+                                        } else {
+                                            alert("Edit failure.");
+                                        }
+                                    });
                         }
                     }
                 });
                 _this.vmUserDel = new Vue({
                     el  : _this.$modalCofDelUser[0],
                     data: {
-                        
+                        user : {}
                     },
                     methods: {
                         submit : function() {
-                            _this.$modalCofDelUser.modal('hide');
-                            this.data = '';
-                            _this.list();
+                            var vm = this;
+                            dashboard.webapi.user_remove(vm.user.name,
+                                    function(ret, err) {
+                                        if (ret) {
+                                            vm.user = {};
+                                            _this.$modalCofDelUser.modal('hide');
+                                            _this.list();
+                                        } else {
+                                            alert(err.reason);
+                                        }
+                                    });
                         }
                     }
                 });
@@ -477,10 +541,15 @@
                     i : 0
                 },
                 methods: {
-                    del : function() {
+                    del : function(user) {
+                        user = {name : user.name};
+                        _this.vmUserDel.user = user;
                         _this.$modalCofDelUser.modal('show');
                     },
-                    edit : function() {
+                    edit : function(user) {
+                        user = {name : user.name,
+                                tags : user.tag};
+                        _this.vmUserEdit.user = user;
                         _this.$modalUserEdit.modal('show');
                     },
                     add : function() {
