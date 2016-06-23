@@ -284,6 +284,14 @@
             
         }, _this.$html);
     };
+    Clients.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Clients.prototype.hide = function() {
+        this.$html.hide();
+    };
 
     // Sessions-----------------------------------------
 
@@ -298,6 +306,14 @@
         loading('sessions.html', function() {
             
         }, _this.$html);
+    };
+    Sessions.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Sessions.prototype.hide = function() {
+        this.$html.hide();
     };
 
     // Topics-------------------------------------------
@@ -314,6 +330,14 @@
             
         }, _this.$html);
     };
+    Topics.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Topics.prototype.hide = function() {
+        this.$html.hide();
+    };
 
     // Routes-------------------------------------------
 
@@ -328,6 +352,14 @@
         loading('routes.html', function() {
             
         }, _this.$html);
+    };
+    Routes.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Routes.prototype.hide = function() {
+        this.$html.hide();
     };
 
     // Subscriptions-------------------------------------
@@ -344,6 +376,14 @@
             
         }, _this.$html);
     };
+    Subscriptions.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Subscriptions.prototype.hide = function() {
+        this.$html.hide();
+    };
 
     // Websocket----------------------------------------
 
@@ -358,6 +398,14 @@
         loading('websocket.html', function() {
             
         }, _this.$html);
+    };
+    Websocket.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Websocket.prototype.hide = function() {
+        this.$html.hide();
     };
 
     // Users---------------------------------------------
@@ -374,6 +422,14 @@
             
         }, _this.$html);
     };
+    Users.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    Users.prototype.hide = function() {
+        this.$html.hide();
+    };
 
     // HttpApi-------------------------------------------
 
@@ -388,6 +444,14 @@
         loading('http_api.html', function() {
             
         }, _this.$html);
+    };
+    HttpApi.prototype.show = function() {
+        hideAllMods();
+        activeMenu(this.modName);
+        this.$html.show();
+    };
+    HttpApi.prototype.hide = function() {
+        this.$html.hide();
     };
 
     // Functions----------------------------------------
