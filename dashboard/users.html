@@ -1,19 +1,20 @@
 <div class="panel panel-default" id="users_list">
     <div class="panel-heading">
         <h3 class="panel-title">
-            All Users (<em id="users_count_all">{{ users.length }}</em>)
+            All Users (<em>{{ users.length }}</em>)
         </h3>
 
-        <div class="panel-options">
-            <a href="#" data-toggle="panel"> <span class="collapse-icon">–</span>
+        <!-- <div class="panel-options">
+            <a href="#" data-toggle="panel">
+                <span class="collapse-icon">–</span>
                 <span class="expand-icon">+</span>
             </a>
-        </div>
+        </div> -->
     </div>
 
     <div class="panel-body btn-toolbar">
         <div class="btn-group focus-btn-group">
-            <button class="btn btn-success btn-sm" id="user_add_btn">
+            <button class="btn btn-success btn-sm" @click="add">
                 <span class="sog-icon sog-icon-add"></span> Add User
             </button>
         </div>

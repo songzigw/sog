@@ -418,6 +418,17 @@
     };
     Users.prototype._init = function() {
         var _this = this;
+        $.ajax({
+            url : 'user_modal.html',
+            type : 'GET',
+            dataType : 'html',
+            success : function(ret) {
+                $('body').append(ret);
+                _this.$modalCofDelUser = $('#modal_confirm_del_user');
+                _this.$modalUserAdd = $('#modal_user_add');
+                _this.$modalUserEdit = $('#modal_user_edit');
+            }
+        });
         loading('users.html', function() {
             _this.vmUsers = new Vue({
                 el  : $('#users_list', _this.$html)[0],
@@ -427,13 +438,13 @@
                 },
                 methods: {
                     del : function() {
-                        alert('del');
+                        _this.$modalCofDelUser.modal('show');
                     },
                     edit : function() {
-                        alert('edit');
+                        _this.$modalUserEdit.modal('show');
                     },
                     add : function() {
-                        alert('add');
+                        _this.$modalUserAdd.modal('show');
                     }
                 }
             });
