@@ -427,6 +427,46 @@
                 _this.$modalCofDelUser = $('#modal_confirm_del_user');
                 _this.$modalUserAdd = $('#modal_user_add');
                 _this.$modalUserEdit = $('#modal_user_edit');
+                
+                _this.vmUserAdd = new Vue({
+                    el  : _this.$modalUserAdd[0],
+                    data: {
+                        
+                    },
+                    methods: {
+                        submit : function() {
+                            _this.$modalUserAdd.modal('hide');
+                            this.data = '';
+                            _this.list();
+                        }
+                    }
+                });
+                _this.vmUserEdit = new Vue({
+                    el  : _this.$modalUserEdit[0],
+                    data: {
+                        
+                    },
+                    methods: {
+                        submit : function() {
+                            _this.$modalUserEdit.modal('hide');
+                            this.data = '';
+                            _this.list();
+                        }
+                    }
+                });
+                _this.vmUserDel = new Vue({
+                    el  : _this.$modalCofDelUser[0],
+                    data: {
+                        
+                    },
+                    methods: {
+                        submit : function() {
+                            _this.$modalCofDelUser.modal('hide');
+                            this.data = '';
+                            _this.list();
+                        }
+                    }
+                });
             }
         });
         loading('users.html', function() {
@@ -448,7 +488,6 @@
                     }
                 }
             });
-            
             _this.list();
         }, _this.$html);
     };
