@@ -171,6 +171,75 @@
         }
     });
 
+    var PageInfo = function(currPage, pageSize, totalNum) {
+        this.currPage = currPage;
+        this.pageSize = pageSize;
+        this.totalNum = totalNum;
+        this.totalPage = 0;
+    };
+    PageInfo.prototype.countTotalPage = function(totalPage) {
+        if (totalPage) {
+            this.totalPage = totalPage;
+            return;
+        }
+        if (this.totalNum % this.pageSize == 0) {
+            this.totalPage = this.totalNum / this.pageSize;
+        } else {
+            this.totalPage = this.totalNum / this.pageSize + 1;
+        }
+    };
+    PageInfo.prototype.offsetting = function() {
+        if (this.totalNum == 0) {
+            return 0;
+        } else {
+            return (this.currPage - 1) * this.pageSize + 1;
+        }
+    };
+    PageInfo.prototype.endNum = function() {
+        if (this.totalNum == 0) {
+            return 0;
+        }
+        if (this.currPage == this.totalPage) {
+            return this.totalNum;
+        } else {
+            return this.offsetting() + this.pageSize - 1;
+        }
+    };
+
+    $.fn.pagination = function(pageInfo, module) {
+        var pagination = $(this);
+        var previous = pagination.find(".previous");
+        var next = pagination.find(".next");
+
+        if (pageInfo.totalNum == 0) {
+            previous
+                    .replaceWith('<button type="button" class="btn btn-white disabled previous">Previous</button>');
+            next
+                    .replaceWith('<button type="button" class="btn btn-white disabled next">Next</button>');
+            return;
+        }
+        if (pageInfo.currPage <= 1) {
+            previous
+                    .replaceWith('<button type="button" class="btn btn-white disabled previous">Previous</button>');
+        } else {
+            previous
+                    .replaceWith('<button type="button" class="btn btn-white previous" onclick="'
+                            + module
+                            + '.setCurrPage('
+                            + (pageInfo.currPage - 1) + ');">Previous</button>');
+        }
+        if (pageInfo.currPage >= pageInfo.totalPage) {
+            next
+                    .replaceWith('<button type="button" class="btn btn-white disabled next">Next</button>');
+        } else {
+            next
+                    .replaceWith('<button type="button" class="btn btn-white next" onclick="'
+                            + module
+                            + '.setCurrPage('
+                            + (pageInfo.currPage + 1) + ');">Next</button>');
+        }
+    };
+
     // Modules save container.
     var modules = {};
 
@@ -282,12 +351,36 @@
         this.modName = 'clients';
         this.$html = $('#dashboard_clients',
                 sog.mainCenter.$html);
+        this.pageInfo = new PageInfo(1, 100, 0);
         this._init();
     };
     Clients.prototype._init = function() {
         var _this = this;
         loading('clients.html', function() {
+            _this.vmClients = new Vue({
+                el  : $('#clients_list', _this.$html)[0],
+                data: {
+                    clientKey : null,
+                    pageInfo : _this.pageInfo,
+                    clients : []
+                },
+                methods : {
+                    search : function() {
+                        _this.list();
+                    },
+                    changeSize : function(pageSize) {
+                        _this.pageInfo.pageSize = pageSize;
+                        _this.pageInfo.currPage = 1;
+                        _this.list();
+                    },
+                    go : function(currPage) {
+                        _this.pageInfo.currPage = currPage;
+                        _this.list();
+                    }
+                }
+            });
             
+            _this.list();
         }, _this.$html);
     };
     Clients.prototype.show = function() {
@@ -298,6 +391,24 @@
     Clients.prototype.hide = function() {
         this.$html.hide();
     };
+    Clients.prototype.list = function() {
+        var _this = this;
+        var params = {
+            page_size : _this.pageInfo.pageSize,
+            curr_page : _this.pageInfo.currPage,
+            client_key : _this.vmClients.clientKey
+        };
+        dashboard.webapi.clients(params, function(ret, err) {
+            if (ret) {
+                _this.vmClients.clients = ret.result;
+                _this.pageInfo.currPage = ret.currentPage;
+                _this.pageInfo.pageSize = ret.pageSize;
+                _this.pageInfo.totalNum = ret.totalNum;
+                _this.pageInfo.totalPage = ret.totalPage;
+                _this.vmClients.pageInfo = _this.pageInfo;
+            }
+        });
+    };
 
     // Sessions-----------------------------------------
 
@@ -305,12 +416,36 @@
         this.modName = 'sessions';
         this.$html = $('#dashboard_sessions',
                 sog.mainCenter.$html);
+        this.pageInfo = new PageInfo(1, 100, 0);
         this._init();
     };
     Sessions.prototype._init = function() {
         var _this = this;
         loading('sessions.html', function() {
+            _this.vmSessions = new Vue({
+                el  : $('#sessions_list', _this.$html)[0],
+                data: {
+                    clientKey : null,
+                    pageInfo : _this.pageInfo,
+                    sessions : []
+                },
+                methods : {
+                    search : function() {
+                        _this.list();
+                    },
+                    changeSize : function(pageSize) {
+                        _this.pageInfo.pageSize = pageSize;
+                        _this.pageInfo.currPage = 1;
+                        _this.list();
+                    },
+                    go : function(currPage) {
+                        _this.pageInfo.currPage = currPage;
+                        _this.list();
+                    }
+                }
+            });
             
+            _this.list();
         }, _this.$html);
     };
     Sessions.prototype.show = function() {
@@ -321,6 +456,24 @@
     Sessions.prototype.hide = function() {
         this.$html.hide();
     };
+    Sessions.prototype.list = function() {
+        var _this = this;
+        var params = {
+            page_size : _this.pageInfo.pageSize,
+            curr_page : _this.pageInfo.currPage,
+            client_key : _this.vmSessions.clientKey
+        };
+        dashboard.webapi.sessions(params, function(ret, err) {
+            if (ret) {
+                _this.vmSessions.sessions = ret.result;
+                _this.pageInfo.currPage = ret.currentPage;
+                _this.pageInfo.pageSize = ret.pageSize;
+                _this.pageInfo.totalNum = ret.totalNum;
+                _this.pageInfo.totalPage = ret.totalPage;
+                _this.vmSessions.pageInfo = _this.pageInfo;
+            }
+        });
+    };
 
     // Topics-------------------------------------------
 
@@ -328,12 +481,36 @@
         this.modName = 'topics';
         this.$html = $('#dashboard_topics',
                 sog.mainCenter.$html);
+        this.pageInfo = new PageInfo(1, 100, 0);
         this._init();
     };
     Topics.prototype._init = function() {
         var _this = this;
         loading('topics.html', function() {
+            _this.vmTopics = new Vue({
+                el  : $('#topics_list', _this.$html)[0],
+                data: {
+                    topic : null,
+                    pageInfo : _this.pageInfo,
+                    topics : []
+                },
+                methods : {
+                    search : function() {
+                        _this.list();
+                    },
+                    changeSize : function(pageSize) {
+                        _this.pageInfo.pageSize = pageSize;
+                        _this.pageInfo.currPage = 1;
+                        _this.list();
+                    },
+                    go : function(currPage) {
+                        _this.pageInfo.currPage = currPage;
+                        _this.list();
+                    }
+                }
+            });
             
+            _this.list();
         }, _this.$html);
     };
     Topics.prototype.show = function() {
@@ -344,6 +521,24 @@
     Topics.prototype.hide = function() {
         this.$html.hide();
     };
+    Topics.prototype.list = function() {
+        var _this = this;
+        var params = {
+            page_size : _this.pageInfo.pageSize,
+            curr_page : _this.pageInfo.currPage,
+            topic : _this.vmTopics.topic
+        };
+        dashboard.webapi.topics(params, function(ret, err) {
+            if (ret) {
+                _this.vmTopics.topics = ret.result;
+                _this.pageInfo.currPage = ret.currentPage;
+                _this.pageInfo.pageSize = ret.pageSize;
+                _this.pageInfo.totalNum = ret.totalNum;
+                _this.pageInfo.totalPage = ret.totalPage;
+                _this.vmTopics.pageInfo = _this.pageInfo;
+            }
+        });
+    };
 
     // Routes-------------------------------------------
 
@@ -351,12 +546,36 @@
         this.modName = 'routes';
         this.$html = $('#dashboard_routes',
                 sog.mainCenter.$html);
+        this.pageInfo = new PageInfo(1, 100, 0);
         this._init();
     };
     Routes.prototype._init = function() {
         var _this = this;
         loading('routes.html', function() {
+            _this.vmRoutes = new Vue({
+                el  : $('#routes_list', _this.$html)[0],
+                data: {
+                    topic : null,
+                    pageInfo : _this.pageInfo,
+                    routes : []
+                },
+                methods : {
+                    search : function() {
+                        _this.list();
+                    },
+                    changeSize : function(pageSize) {
+                        _this.pageInfo.pageSize = pageSize;
+                        _this.pageInfo.currPage = 1;
+                        _this.list();
+                    },
+                    go : function(currPage) {
+                        _this.pageInfo.currPage = currPage;
+                        _this.list();
+                    }
+                }
+            });
             
+            _this.list();
         }, _this.$html);
     };
     Routes.prototype.show = function() {
@@ -367,6 +586,24 @@
     Routes.prototype.hide = function() {
         this.$html.hide();
     };
+    Routes.prototype.list = function() {
+        var _this = this;
+        var params = {
+            page_size : _this.pageInfo.pageSize,
+            curr_page : _this.pageInfo.currPage,
+            topic : _this.vmRoutes.topic
+        };
+        dashboard.webapi.routes(params, function(ret, err) {
+            if (ret) {
+                _this.vmRoutes.routes = ret.result;
+                _this.pageInfo.currPage = ret.currentPage;
+                _this.pageInfo.pageSize = ret.pageSize;
+                _this.pageInfo.totalNum = ret.totalNum;
+                _this.pageInfo.totalPage = ret.totalPage;
+                _this.vmRoutes.pageInfo = _this.pageInfo;
+            }
+        });
+    };
 
     // Subscriptions-------------------------------------
 
@@ -374,12 +611,36 @@
         this.modName = 'subscriptions';
         this.$html = $('#dashboard_subscriptions',
                 sog.mainCenter.$html);
+        this.pageInfo = new PageInfo(1, 100, 0);
         this._init();
     };
     Subscriptions.prototype._init = function() {
         var _this = this;
         loading('subscriptions.html', function() {
+            _this.vmSubs = new Vue({
+                el  : $('#subscriptions_list', _this.$html)[0],
+                data: {
+                    clientKey : null,
+                    pageInfo : _this.pageInfo,
+                    subscriptions : []
+                },
+                methods : {
+                    search : function() {
+                        _this.list();
+                    },
+                    changeSize : function(pageSize) {
+                        _this.pageInfo.pageSize = pageSize;
+                        _this.pageInfo.currPage = 1;
+                        _this.list();
+                    },
+                    go : function(currPage) {
+                        _this.pageInfo.currPage = currPage;
+                        _this.list();
+                    }
+                }
+            });
             
+            _this.list();
         }, _this.$html);
     };
     Subscriptions.prototype.show = function() {
@@ -389,6 +650,24 @@
     };
     Subscriptions.prototype.hide = function() {
         this.$html.hide();
+    };
+    Subscriptions.prototype.list = function() {
+        var _this = this;
+        var params = {
+            page_size : _this.pageInfo.pageSize,
+            curr_page : _this.pageInfo.currPage,
+            client_key : _this.vmSubs.clientKey
+        };
+        dashboard.webapi.subscriptions(params, function(ret, err) {
+            if (ret) {
+                _this.vmSubs.subscriptions = ret.result;
+                _this.pageInfo.currPage = ret.currentPage;
+                _this.pageInfo.pageSize = ret.pageSize;
+                _this.pageInfo.totalNum = ret.totalNum;
+                _this.pageInfo.totalPage = ret.totalPage;
+                _this.vmSubs.pageInfo = _this.pageInfo;
+            }
+        });
     };
 
     // Websocket----------------------------------------
