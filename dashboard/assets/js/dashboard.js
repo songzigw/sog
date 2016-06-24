@@ -393,6 +393,7 @@
     };
     Clients.prototype.list = function() {
         var _this = this;
+        _this.vmClients.clientKey = _this.vmClients.clientKey ? _this.vmClients.clientKey.trim() : '';
         var params = {
             page_size : _this.pageInfo.pageSize,
             curr_page : _this.pageInfo.currPage,
@@ -458,6 +459,7 @@
     };
     Sessions.prototype.list = function() {
         var _this = this;
+        _this.vmSessions.clientKey = _this.vmSessions.clientKey ? _this.vmSessions.clientKey.trim() : '';
         var params = {
             page_size : _this.pageInfo.pageSize,
             curr_page : _this.pageInfo.currPage,
@@ -523,6 +525,7 @@
     };
     Topics.prototype.list = function() {
         var _this = this;
+        _this.vmTopics.topic = _this.vmTopics.topic ? _this.vmTopics.topic.trim() : '';
         var params = {
             page_size : _this.pageInfo.pageSize,
             curr_page : _this.pageInfo.currPage,
@@ -588,6 +591,7 @@
     };
     Routes.prototype.list = function() {
         var _this = this;
+        _this.vmRoutes.topic = _this.vmRoutes.topic ? _this.vmRoutes.topic.trim() : '';
         var params = {
             page_size : _this.pageInfo.pageSize,
             curr_page : _this.pageInfo.currPage,
@@ -653,6 +657,7 @@
     };
     Subscriptions.prototype.list = function() {
         var _this = this;
+        _this.vmSubs.clientKey = _this.vmSubs.clientKey ? _this.vmSubs.clientKey.trim():'';
         var params = {
             page_size : _this.pageInfo.pageSize,
             curr_page : _this.pageInfo.currPage,
@@ -676,12 +681,54 @@
         this.modName = 'websocket';
         this.$html = $('#dashboard_websocket',
                 sog.mainCenter.$html);
+        this.client = null;
         this._init();
     };
     Websocket.prototype._init = function() {
         var _this = this;
         loading('websocket.html', function() {
-            
+            _this.vmWS = new Vue({
+                el  : _this.$html[0],
+                data: {
+                    cInfo : {
+                        host : location.hostname,
+                        port : 8083,
+                        clientId : 'c_' + new Date().getTime(),
+                        userName : null,
+                        password : null,
+                        keepAlive: null,
+                        cleanSession : 1
+                    },
+                    subInfo : {
+                        topic : '/World',
+                        qos : 0
+                    },
+                    subscriptions : [],
+                    sendInfo : {
+                        topic : '/World',
+                        text : 'Hello world!',
+                        qos : 0,
+                        retained : 1
+                    },
+                    sendMsgs : [],
+                    receiveMsgs : []
+                },
+                methods : {
+                    connect : function() {
+                        _this.connect();
+                    },
+                    disconnect : function() {
+                        _this.disconnect();
+                    },
+                    sub : function() {
+                        _this.subscribe();
+                    },
+                    send : function() {
+                        _this.sendMessage();
+                    }
+                }
+            });
+            _this.newClient();
         }, _this.$html);
     };
     Websocket.prototype.show = function() {
@@ -691,6 +738,99 @@
     };
     Websocket.prototype.hide = function() {
         this.$html.hide();
+    };
+    Websocket.prototype.newClient = function() {
+        this.client = new Paho.MQTT.Client(
+                this.vmWS.cInfo.host,
+                Number(this.vmWS.cInfo.port),
+                this.vmWS.cInfo.clientId);
+    };
+    Websocket.prototype.connect = function() {
+        var _this = this;
+        // called when the client loses its connection
+        _this.client.onConnectionLost = function(responseObject) {
+            if (responseObject.errorCode !== 0) {
+                console.log("onConnectionLost: " + responseObject.errorMessage);
+            }
+        }
+        // called when a message arrives
+        _this.client.onMessageArrived = function(message) {
+            console.log("onMessageArrived: " + message.payloadString);
+            message.time = (new Date()).format("yyyy-MM-dd hh:mm:ss");
+            _this.vmWS.receiveMsgs.push(message);
+        }
+        
+        var options = {
+            onSuccess : function() {
+                console.log("The client connect success.");
+                $('#connect_state', _this.$html)
+                        .text('CONNECTED');
+                $('#connect_btn', _this.$html)
+                        .addClass("disabled")
+                        .removeClass("btn-success")
+                        .addClass("btn-gray");
+                $('#disconnect_btn', _this.$html)
+                        .removeClass("disabled")
+                        .removeClass("btn-gray")
+                        .addClass("btn-success");
+            }
+        };
+        var userName = _this.vmWS.cInfo.userName;
+        var password = _this.vmWS.cInfo.password;
+        var keepAlive = _this.vmWS.cInfo.keepAlive;
+        var cleanSession = _this.vmWS.cInfo.cleanSession;
+        if (userName) {
+            options.userName = userName;
+        }
+        if (password) {
+            options.password = password;
+        }
+        if (keepAlive) {
+            options.keepAliveInterval = Number(keepAlive);
+        }
+        if (cleanSession == 1) {
+            options.cleanSession = true;
+        } else {
+            options.cleanSession = false;
+        }
+        _this.client.connect(options);
+    };
+    Websocket.prototype.disconnect = function() {
+        var _this = this;
+        _this.client.disconnect();
+        console.log("The client disconnect success.");
+        $('#connect_state', _this.$html).text('DISCONNECTED');
+        $('#connect_btn', _this.$html).removeClass("disabled")
+        .removeClass("btn-gray").addClass("btn-success");
+        $('#disconnect_btn', _this.$html).addClass("disabled")
+        .removeClass("btn-success").addClass("btn-gray");
+    };
+    Websocket.prototype.subscribe = function() {
+        var _this = this;
+        this.client.subscribe(_this.vmWS.subInfo.topic, {
+            qos : Number(_this.vmWS.subInfo.qos)
+        });
+        this.vmWS.subInfo.time = (new Date()).format("yyyy-MM-dd hh:mm:ss");
+        this.vmWS.subscriptions.push(this.vmWS.subInfo);
+        this.vmWS.subInfo = {qos : 0};
+    };
+    Websocket.prototype.sendMessage = function() {
+        var _this = this;
+        var text = _this.vmWS.sendInfo.text;
+        var message = new Paho.MQTT.Message(text);
+        message.destinationName = _this.vmWS.sendInfo.topic;
+        message.qos = Number(_this.vmWS.sendInfo.qos);
+        if (_this.vmWS.sendInfo.retained == 1) {
+            message.retained = true;
+        } else {
+            message.retained = false;
+        }
+        _this.client.send(message);
+        _this.vmWS.sendInfo.time = (new Date()).format("yyyy-MM-dd hh:mm:ss");
+        _this.vmWS.sendMsgs.push(this.vmWS.sendInfo);
+        _this.vmWS.sendInfo = {
+                topic : _this.vmWS.sendInfo.topic,
+                qos : 0, retained : 1};
     };
 
     // Users---------------------------------------------
