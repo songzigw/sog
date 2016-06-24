@@ -206,40 +206,6 @@
         }
     };
 
-    $.fn.pagination = function(pageInfo, module) {
-        var pagination = $(this);
-        var previous = pagination.find(".previous");
-        var next = pagination.find(".next");
-
-        if (pageInfo.totalNum == 0) {
-            previous
-                    .replaceWith('<button type="button" class="btn btn-white disabled previous">Previous</button>');
-            next
-                    .replaceWith('<button type="button" class="btn btn-white disabled next">Next</button>');
-            return;
-        }
-        if (pageInfo.currPage <= 1) {
-            previous
-                    .replaceWith('<button type="button" class="btn btn-white disabled previous">Previous</button>');
-        } else {
-            previous
-                    .replaceWith('<button type="button" class="btn btn-white previous" onclick="'
-                            + module
-                            + '.setCurrPage('
-                            + (pageInfo.currPage - 1) + ');">Previous</button>');
-        }
-        if (pageInfo.currPage >= pageInfo.totalPage) {
-            next
-                    .replaceWith('<button type="button" class="btn btn-white disabled next">Next</button>');
-        } else {
-            next
-                    .replaceWith('<button type="button" class="btn btn-white next" onclick="'
-                            + module
-                            + '.setCurrPage('
-                            + (pageInfo.currPage + 1) + ');">Next</button>');
-        }
-    };
-
     // Modules save container.
     var modules = {};
 
@@ -1071,30 +1037,40 @@
         case 'clients':
             if (!modules.clients) {
                 modules.clients = new Clients();
+            } else {
+                modules.clients.list();
             }
             modules.clients.show();
             break;
         case 'sessions':
             if (!modules.sessions) {
                 modules.sessions = new Sessions();
+            } else {
+                modules.sessions.list();
             }
             modules.sessions.show();
             break;
         case 'topics':
             if (!modules.topics) {
                 modules.topics = new Topics();
+            } else {
+                modules.topics.list();
             }
             modules.topics.show();
             break;
         case 'routes':
             if (!modules.routes) {
                 modules.routes = new Routes();
+            } else {
+                modules.routes.list();
             }
             modules.routes.show();
             break;
         case 'subscriptions':
             if (!modules.subscriptions) {
                 modules.subscriptions = new Subscriptions();
+            } else {
+                modules.subscriptions.list();
             }
             modules.subscriptions.show();
             break;
