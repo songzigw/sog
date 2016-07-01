@@ -1,4 +1,16 @@
 // Tabs
+
+.tabs-bordered {
+    .tab-content, .nav.nav-tabs > li > a {
+        border: 1px solid @default-border-color;
+    }
+    
+    .nav.nav-tabs {
+        position: relative;
+        bottom: -1px;
+    }
+}
+
 .nav.nav-tabs {
 	border-bottom: 0;
 	
@@ -8,7 +20,7 @@
 		margin-bottom: 0;
 		
 		> a {
-			border: none;
+			border: 1px solid #f4f4f4;
 			background-color: #f4f4f4;
 			margin-right: @base-padding/2;
 			padding-left: @base-margin;
@@ -16,7 +28,6 @@
 			
 			
 			&:hover {
-				border: none;
 				background-color: lighten(#f4f4f4, 5%);
 			}
 		}
@@ -25,8 +36,10 @@
 			
 			> a {
 				background-color: #fff;
+				border-bottom-color: #fff;
 			}
 		}
+		
 	}
 	
 	&.right-aligned {
