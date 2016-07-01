@@ -4,7 +4,7 @@
  * 
  * @author  zhangsong
  * @since   0.1
- * @version 0.6
+ * @version 0.5.1
  * 
  */
 
@@ -12,7 +12,7 @@
 
     'use strict';
 
-    s.version = '0.5';
+    s.version = '0.5.1';
 
     Date.prototype.format = function(format) {
         var o = {
@@ -436,6 +436,49 @@
         }
     }
 
+    function toggles() {
+        var $body = $('body');
+
+        // Panel Close
+        $body.on('click', '.panel a[data-toggle="remove"]', function(ev) {
+            ev.preventDefault();
+            var $panel = $(this).closest('.panel'), $parent = $panel.parent();
+            $panel.remove();
+            if ($parent.children().length == 0) {
+                $parent.remove();
+            }
+        });
+
+        // Panel Reload
+        $body.on(
+            'click',
+            '.panel a[data-toggle="reload"]',
+            function(ev) {
+                ev.preventDefault();
+
+                var $panel = $(this).closest('.panel');
+
+                // This is just a simulation, nothing is going to be reloaded
+                $panel.append('<div class="panel-disabled"><div class="loader-1"></div></div>');
+
+                var $pd = $panel.find('.panel-disabled');
+
+                setTimeout(function() {
+                    $pd.fadeOut('fast', function() {
+                        $pd.remove();
+                    });
+
+                }, 500 + 300 * (Math.random() * 5));
+            });
+
+        // Panel Expand/Collapse Toggle
+        $body.on('click', '.panel a[data-toggle="panel"]', function(ev) {
+            ev.preventDefault();
+            var $panel = $(this).closest('.panel');
+            $panel.toggleClass('collapsed');
+        });
+    }
+
     s.$body = $('body');
     s.$html = $('.page-container');
     s.sidebarMenu = new SidebarMenu(s);
@@ -444,48 +487,6 @@
     s.mainFooter = new MainFooter(s.mainContent);
     s.mainFooter.toBottom();
     s.loadingBar = new LoadingBar();
-    s.toggles = function() {
-        // Panel Close
-        s.$body.on('click', '.panel a[data-toggle="remove"]', function(ev) {
-            ev.preventDefault();
-
-            var $panel = $(this).closest('.panel'), $panel_parent = $panel.parent();
-
-            $panel.remove();
-
-            if ($panel_parent.children().length == 0) {
-                $panel_parent.remove();
-            }
-        });
-
-        // Panel Reload
-        s.$body.on('click', '.panel a[data-toggle="reload"]', function(ev) {
-            ev.preventDefault();
-
-            var $panel = $(this).closest('.panel');
-
-            // This is just a simulation, nothing is going to be reloaded
-            $panel.append('<div class="panel-disabled"><div class="loader-1"></div></div>');
-
-            var $pd = $panel.find('.panel-disabled');
-
-            setTimeout(function() {
-                $pd.fadeOut('fast', function() {
-                    $pd.remove();
-                });
-
-            }, 500 + 300 * (Math.random() * 5));
-        });
-
-        // Panel Expand/Collapse Toggle
-        s.$body.on('click', '.panel a[data-toggle="panel"]', function(ev) {
-            ev.preventDefault();
-
-            var $panel = $(this).closest('.panel');
-
-            $panel.toggleClass('collapsed');
-        });
-    };
 
     $(window).resize(function() {
         $(window).trigger('sog.resize');
@@ -495,7 +496,7 @@
         s.mainFooter.toBottom();
     });
     $(window).on('load', function () {
-        s.toggles();
+        toggles();
     });
 
 })((function() {
