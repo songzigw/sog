@@ -57,9 +57,19 @@
             </header>
 
             <ul id="main-menu" class="main-menu">
-                <li module="overview" class="active"><a href="/#/overview"> <i
-                        class="glyphicon glyphicon-user"></i> <span class="title">Overview</span>
-                </a></li>
+                <li module="overview" class="active">
+	                <a href="#">
+	                    <i class="glyphicon glyphicon-user"></i>
+	                    <span class="title">Overview</span>
+	                </a>
+                    <ul>
+                      <li module="metrics">
+                          <a href="/#/metrics">
+                              <span class="title">Metrics</span>
+                          </a>
+                      </li>
+	                </ul>
+                </li>
                 <li module="clients"><a href="/#/clients">
                         <i class="glyphicon glyphicon-user"></i> <span class="title">Clients</span>
                 </a></li>
