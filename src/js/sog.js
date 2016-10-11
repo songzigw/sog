@@ -156,6 +156,9 @@
         this.options = $.extend({},
                 LoadingBar.DEFAULTS, options);
     };
+    /**
+     * Page Loader default options.
+     */
     LoadingBar.DEFAULTS = {
         pct : 0,
         delay : 1.3,
@@ -223,398 +226,6 @@
         $pct.width(0).data('pct', 0);
     };
 
-    var SidebarMenu = function(s) {
-        var $html = $('>.sidebar-menu', s.$html);
-        this.$html = $html;
-
-        this.setupItems();
-        this._init();
-    };
-    SidebarMenu.prototype._init = function() {
-        var _this = this, $html = _this.$html;
-        if (!$html.hasClass('collapsed')) {
-            _this.scroll();
-        }
-
-        // Sidebar Toggle
-        $('a[data-toggle="sidebar"]').each(function(i, el) {
-            $(el).on('click', function(ev) {
-                ev.preventDefault();
-
-                _this.collapsed();
-                $(window).trigger('sog.resize');
-            });
-        });
-
-        // Mobile User Info Menu Trigger
-        $('a[data-toggle="user-info-menu"]').on('click', function(ev) {
-            ev.preventDefault();
-
-            $('nav.navbar.user-info-navbar').toggleClass('mobile-is-visible');
-        });
-
-        // Mobile Menu Trigger
-        $('a[data-toggle="mobile-menu"]').on('click', function(ev) {
-            ev.preventDefault();
-
-            $('.main-menu', $html).toggleClass('mobile-is-visible');
-        });
-    };
-    SidebarMenu.prototype.destroy = function() {
-        var $html = this.$html;
-        if ($.isFunction($.fn.perfectScrollbar)) {
-            $('.sidebar-menu-inner', $html).perfectScrollbar('destroy');
-        }
-    };
-    SidebarMenu.prototype.collapsed = function() {
-        var _this = this, $html = _this.$html;
-        if ($html.hasClass('collapsed')) {
-            $html.removeClass('collapsed');
-            _this.scroll();
-        } else {
-            $html.addClass('collapsed');
-            _this.destroy();
-        }
-    };
-    SidebarMenu.prototype.scroll = function() {
-        var $html = this.$html;
-        $('.sidebar-menu-inner', $html).perfectScrollbar({
-            wheelSpeed : 2,
-            wheelPropagation : true
-        });
-    };
-    SidebarMenu.prototype.setupItems = function() {
-        var _this = this;
-        var $items_with_subs = _this.$html.find('li:has(> ul)'),
-            toggle_others = _this.$html.hasClass('toggle-others');
-
-        $items_with_subs.filter('.active').addClass('expanded');
-
-        $items_with_subs.each(function(i, el) {
-            var $li = $(el),
-                $a = $li.children('a'),
-                $sub = $li.children('ul');
-
-            $li.addClass('has-sub');
-
-            $a.on('click', function(ev) {
-                ev.preventDefault();
-
-                if (toggle_others) {
-                    _this.closeItemsSiblings($li);
-                }
-
-                if ($li.hasClass('expanded') || $li.hasClass('opened'))
-                    _this.collapseItem($li, $sub);
-                else
-                    _this.expandItem($li, $sub);
-            });
-        });
-    };
-    SidebarMenu.prototype.closeItemsSiblings = function($li) {
-        var _this = this;
-        $li.siblings().not($li).filter('.expanded, .opened').each(function(i, el)
-                {
-                    var $_li = jQuery(el),
-                        $_sub = $_li.children('ul');
-                    
-                    sidebar_menu_item_collapse($_li, $_sub);
-                });
-    };
-    SidebarMenu.prototype.collapseItem = function($li, $sub) {
-        var _this = this;
-        if($li.data('is-busy'))
-            return;
-        
-        var $sub_items = $sub.children();
-        
-        $li.removeClass('expanded').data('is-busy', true);
-        $sub_items.addClass('hidden-item');
-        
-        TweenMax.to($sub, .2, {css: {height: 0}, onUpdate: _this.ps_update, onComplete: function()
-        {
-            $li.data('is-busy', false).removeClass('opened');
-            
-            $sub.attr('style', '').hide();
-            $sub_items.removeClass('hidden-item');
-            
-            $li.find('li.expanded ul').attr('style', '').hide().parent().removeClass('expanded');
-            
-            _this.ps_update(true);
-        }});
-    };
-    SidebarMenu.prototype.expandItem = function($li, $sub) {
-        var _this = this;
-        if($li.data('is-busy') || ($li.parent('.main-menu').length && _this.$html.hasClass('collapsed')))
-            return;
-            
-        $li.addClass('expanded').data('is-busy', true);
-        $sub.show();
-        
-        var $sub_items    = $sub.children(),
-            sub_height  = $sub.outerHeight(),
-            
-            win_y            = jQuery(window).height(),
-            total_height      = $li.outerHeight(),
-            current_y        = _this.$html.scrollTop(),
-            item_max_y      = $li.position().top + current_y,
-            fit_to_viewpport  = _this.$html.hasClass('fit-in-viewport');
-            
-        $sub_items.addClass('is-hidden');
-        $sub.height(0);
-        
-        
-        TweenMax.to($sub, .2, {css: {height: sub_height}, onUpdate: _this.ps_update, onComplete: function(){ 
-            $sub.height(''); 
-        }});
-        
-        var interval_1 = $li.data('sub_i_1'),
-            interval_2 = $li.data('sub_i_2');
-        
-        window.clearTimeout(interval_1);
-        
-        interval_1 = setTimeout(function()
-        {
-            $sub_items.each(function(i, el)
-            {
-                var $sub_item = jQuery(el);
-                
-                $sub_item.addClass('is-shown');
-            });
-            
-            var finish_on = sm_transition_delay * $sub_items.length,
-                t_duration = parseFloat($sub_items.eq(0).css('transition-duration')),
-                t_delay = parseFloat($sub_items.last().css('transition-delay'));
-            
-            if(t_duration && t_delay)
-            {
-                finish_on = (t_duration + t_delay) * 1000;
-            }
-            
-            // In the end
-            window.clearTimeout(interval_2);
-        
-            interval_2 = setTimeout(function()
-            {
-                $sub_items.removeClass('is-hidden is-shown');
-                
-            }, finish_on);
-        
-            
-            $li.data('is-busy', false);
-            
-        }, 0);
-        
-        $li.data('sub_i_1', interval_1),
-        $li.data('sub_i_2', interval_2);
-    };
-    SidebarMenu.prototype.ps_update = function(destroy_init)
-    {
-        var _this = this;
-        if(isxs())
-            return;
-            
-        if(jQuery.isFunction(jQuery.fn.perfectScrollbar))
-        {
-            if(_this.$html.hasClass('collapsed'))
-            {
-                return;
-            }
-            
-            _this.$html.find('.sidebar-menu-inner').perfectScrollbar('update');
-            
-            if(destroy_init)
-            {
-                ps_destroy();
-                ps_init();
-            }
-        }
-    };
-
-
-    SidebarMenu.prototype.ps_init = function ()
-    {
-        var _this = this;
-        if(isxs())
-            return;
-            
-        if(jQuery.isFunction(jQuery.fn.perfectScrollbar))
-        {
-            if(_this.$html.hasClass('collapsed') || ! _this.$html.hasClass('fixed'))
-            {
-                return;
-            }
-            
-            _this.$html.find('.sidebar-menu-inner').perfectScrollbar({
-                wheelSpeed: 2,
-                wheelPropagation: public_vars.wheelPropagation
-            });
-        }
-    };
-
-    SidebarMenu.prototype.ps_destroy = function()
-    {
-        var _this = this;
-        if(jQuery.isFunction(jQuery.fn.perfectScrollbar))
-        {
-            _this.$html.find('.sidebar-menu-inner').perfectScrollbar('destroy');
-        }
-    };
-
-
-    var MainContent = function(s) {
-        var $html = $('.main-content', s.$html);
-        this.$html = $html;
-    };
-
-    var MainCenter = function(mainContent) {
-        var $html = $('#main_center', mainContent.$html);
-        this.$html = $html;
-    };
-
-    var MainFooter = function(mainContent) {
-        var $html = $('footer.main-footer', mainContent.$html);
-        this.$html = $html;
-        this.$goTop = $('a[rel="go-top"]', $html);
-        this._init();
-    };
-    MainFooter.prototype._init = function() {
-        this.$goTop.on('click', function(ev) {
-            ev.preventDefault();
-
-            var obj = {
-                pos : $(window).scrollTop()
-            };
-
-            TweenLite.to(obj, .3, {
-                pos : 0,
-                ease : Power4.easeOut,
-                onUpdate : function() {
-                    $(window).scrollTop(obj.pos);
-                }
-            });
-        });
-    };
-    MainFooter.prototype.toBottom = function() {
-        var _this = this,
-            $mainContent = $('.main-content', s.$html),
-            $sidebarMenu = s.sidebarMenu.$html;
-
-        _this.$html.add($mainContent)
-                   .add($sidebarMenu).attr('style', '');
-
-        if (isxs()) {
-            return false;
-        }
-
-        if (_this.$html.hasClass('sticky')) {
-            var winHeight = $(window).height(),
-                footerHeight = _this.$html.outerHeight(true),
-                contentHeight = _this.$html.position().top + footerHeight;
-
-            var mTop = _this.$html.css('margin-top');
-            if (winHeight > contentHeight - parseInt(mTop, 10)) {
-                _this.$html.css({
-                    'margin-top' : winHeight - contentHeight + 20
-                });
-            }
-        }
-    };
-
-    /** Functions */
-
-    s.breakpoints = {
-        largescreen : [ 991, -1 ],
-        tabletscreen : [ 768, 990 ],
-        devicescreen : [ 420, 767 ],
-        sdevicescreen : [ 0, 419 ]
-    };
-    s.lastBreakpoint = null;
-    // Get current breakpoint
-    function currentBreakpoint() {
-        var width = $(window).width(),
-            breakpoints = s.breakpoints;
-
-        for ( var breakpont_label in breakpoints) {
-            var bp_arr = breakpoints[breakpont_label],
-                min = bp_arr[0], max = bp_arr[1];
-
-            if (max == -1)
-                max = width;
-
-            if (min <= width && max >= width) {
-                return breakpont_label;
-            }
-        }
-
-        return null;
-    }
-
-    // Trigger Resizable Function
-    function triggerResizable() {
-        if (s.lastBreakpoint != currentBreakpoint()) {
-            s.lastBreakpoint = currentBreakpoint();
-            resizable(s.lastBreakpoint);
-        }
-    }
-
-    // Check current screen breakpoint
-    function is(screen_label) {
-        return currentBreakpoint() == screen_label;
-    }
-
-    // Is xs device
-    function isxs() {
-        return is('devicescreen') || is('sdevicescreen');
-    }
-
-    // Is md or xl
-    function ismdxl() {
-        return is('tabletscreen') || is('largescreen');
-    }
-
-    /**
-     * Checks whether the content is in RTL mode
-     */
-    function rtl() {
-        if (typeof window.isRTL == 'boolean')
-            return window.isRTL;
-
-        window.isRTL = $("html").get(0).dir == 'rtl' ? true : false;
-
-        return window.isRTL;
-    }
-
-    /**
-     * Main Function that will be called each
-     * time when the screen breakpoint changes.
-     */
-    function resizable(breakpoint) {
-        var sb_with_animation;
-
-        // Large Screen Specific Script
-        if (is('largescreen')) {
-
-        }
-
-        // Tablet or larger screen
-        if (ismdxl()) {
-        }
-
-        // Tablet Screen Specific Script
-        if (is('tabletscreen')) {
-        }
-
-        // Tablet device screen
-        if (is('tabletscreen')) {
-            s.sidebarMenu.collapsed();
-        }
-
-        // Tablet Screen Specific Script
-        if (isxs()) {
-        }
-    }
-
     function toggles() {
         var $body = $('body');
 
@@ -629,26 +240,23 @@
         });
 
         // Panel Reload
-        $body.on(
-            'click',
-            '.panel a[data-toggle="reload"]',
-            function(ev) {
-                ev.preventDefault();
+        $body.on('click', '.panel a[data-toggle="reload"]', function(ev) {
+            ev.preventDefault();
 
-                var $panel = $(this).closest('.panel');
+            var $panel = $(this).closest('.panel');
 
-                // This is just a simulation, nothing is going to be reloaded
-                $panel.append('<div class="panel-disabled"><div class="loader-1"></div></div>');
+            // This is just a simulation, nothing is going to be reloaded
+            $panel.append('<div class="panel-disabled"><div class="loader-1"></div></div>');
 
-                var $pd = $panel.find('.panel-disabled');
+            var $pd = $panel.find('.panel-disabled');
 
-                setTimeout(function() {
-                    $pd.fadeOut('fast', function() {
-                        $pd.remove();
-                    });
+            setTimeout(function() {
+                $pd.fadeOut('fast', function() {
+                    $pd.remove();
+                });
 
-                }, 500 + 300 * (Math.random() * 5));
-            });
+            }, 500 + 300 * (Math.random() * 5));
+        });
 
         // Panel Expand/Collapse Toggle
         $body.on('click', '.panel a[data-toggle="panel"]', function(ev) {
@@ -660,22 +268,13 @@
 
     s.$body = $('body');
     s.$html = $('.page-container');
-    s.sidebarMenu = new SidebarMenu(s);
-    s.mainContent = new MainContent(s);
-    s.mainCenter = new MainCenter(s.mainContent);
-    s.mainFooter = new MainFooter(s.mainContent);
-    s.mainFooter.toBottom();
     s.loadingBar = new LoadingBar();
 
-    $(window).on('resize', function() {
-        $(window).trigger('sog.resize');
-    });
-    $(window).on('sog.resize', function() {
-        triggerResizable();
-        s.mainFooter.toBottom();
-    });
     $(window).on('load', function () {
         toggles();
+    });
+    $(window).on('resize', function() {
+        $(window).trigger('sog.resize');
     });
 
 })((function() {
