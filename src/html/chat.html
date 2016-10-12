@@ -12,8 +12,8 @@
 set options before less.js script
 <script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
  -->
-<script src="../js/less.min.js"></script>
-<script src="../js/jquery.min.js"></script>
+<script src="../js/less.js"></script>
+<script src="../js/jquery.js"></script>
 <script src="../js/bootstrap.js"></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- [if lt IE 9] >
@@ -114,13 +114,12 @@ set options before less.js script
     jQuery(document).ready(
             function($) {
                 var $chat_conversation = $(".chat-conversation");
-                $(".chat-group a").on(
-                        'click',
+                $(".chat-group a").on('click',
                         function(ev) {
                             ev.preventDefault();
                             $chat_conversation.toggleClass('is-open');
-                            $(".chat-conversation textarea").trigger(
-                                    'autosize.resize').focus();
+                            $(".chat-conversation textarea")
+                            .trigger('autosize.resize').focus();
                         });
                 $(".conversation-close").on('click', function(ev) {
                     ev.preventDefault();
