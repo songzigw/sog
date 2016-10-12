@@ -226,6 +226,15 @@
         $pct.width(0).data('pct', 0);
     };
 
+    // Element Attribute Helper
+    function attrDefault($el, dataVar, defaultVal) {
+        if (typeof $el.data(dataVar) != 'undefined') {
+            return $el.data(dataVar);
+        }
+
+        return defaultVal;
+    }
+    
     function toggles() {
         var $body = $('body');
 
@@ -263,6 +272,64 @@
             ev.preventDefault();
             var $panel = $(this).closest('.panel');
             $panel.toggleClass('collapsed');
+        });
+        
+        // Loading Text toggle
+        $body.on('click', '[data-loading-text]', function(ev) {
+            ev.preventDefault();
+            var $this = $(this);
+            $this.button('loading');
+            setTimeout(function() {
+                $this.button('reset');
+            }, 1800);
+        });
+
+        // Popovers and tooltips
+        $('[data-toggle="popover"]', $body).each(
+            function(i, el) {
+                var $this = $(el),
+                    placement = attrDefault($this, 'placement', 'right'),
+                    trigger = attrDefault($this, 'trigger', 'click'),
+                    prClass = $this.get(0).className.match(/(popover-[a-z0-9]+)/i);
+
+                $this.popover({
+                    placement : placement,
+                    trigger : trigger
+                });
+
+                if (prClass) {
+                    $this.removeClass(prClass[1]);
+
+                    $this.on('show.bs.popover', function(ev) {
+                        setTimeout(function() {
+                            var $popover = $this.next();
+                            $popover.addClass(prClass[1]);
+                        }, 0);
+                    });
+                }
+            });
+        
+        $('[data-toggle="tooltip"]', $body).each(function(i, el) {
+            var $this = $(el),
+                placement = attrDefault($this, 'placement', 'top'),
+                trigger = attrDefault($this, 'trigger', 'hover'),
+                tpClass = $this.get(0).className.match(/(tooltip-[a-z0-9]+)/i);
+            
+            $this.tooltip({
+                placement: placement,
+                trigger: trigger
+            });
+            
+            if (tpClass) {
+                $this.removeClass(tpClass[1]);
+                
+                $this.on('show.bs.tooltip', function(ev) {
+                    setTimeout(function() {
+                        var $tooltip = $this.next();                                            
+                        $tooltip.addClass(tpClass[1]);
+                    }, 0);
+                });
+            }
         });
     }
 
