@@ -9,130 +9,105 @@ a {
 	
 }
 
-.sidebar-menu .main-menu a {
-	height: 41px;
-}
-
-.sidebar-menu .main-menu a > span {
-	padding-left: 37px;
-}
-
-.user-info-navbar .user-info-menu .glyphicon-headle {
-	padding-left: 23px;
-}
-
-.user-info-navbar .user-info-menu .headle {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  font-size: 20px;
-}
-
 .dash-icon {
-  position: absolute;
-  top: 48%;
-  -webkit-transform: translateY(-48%);
-  transform: translateY(-48%);
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   font-style: normal;
   font-weight: normal;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 80%;
+  background-size: 50%;
 }
 
 .dash-icon-overview {
-  background-image: url(../src/imgs/overview_d.png);
+  background-image: url(imgs/overview_d.png);
 }
 .dash-icon-clients {
-  background-image: url(../src/imgs/clients_d.png);
+  background-image: url(imgs/clients_d.png);
 }
 .dash-icon-sessions {
-  background-image: url(../src/imgs/sessions_d.png);
+  background-image: url(imgs/sessions_d.png);
 }
 .dash-icon-topics {
-  background-image: url(../src/imgs/topics_d.png);
+  background-image: url(imgs/topics_d.png);
 }
 .dash-icon-routes {
-  background-image: url(../src/imgs/routes_d.png);
+  background-image: url(imgs/routes_d.png);
 }
 .dash-icon-subscriptions {
-  background-image: url(../src/imgs/subscriptions_d.png);
+  background-image: url(imgs/subscriptions_d.png);
 }
 .dash-icon-websocket {
-  background-image: url(../src/imgs/websocket_d.png);
+  background-image: url(imgs/websocket_d.png);
 }
 .dash-icon-admins {
-  background-image: url(../src/imgs/admins_d.png);
+  background-image: url(imgs/admins_d.png);
 }
 .dash-icon-http-api {
-  background-image: url(../src/imgs/http_api_d.png);
+  background-image: url(imgs/http_api_d.png);
 }
 .dash-icon-metrics {
-  background-image: url(../src/imgs/metrics_d.png);
+  background-image: url(imgs/metrics_d.png);
 }
 
 .sidebar-menu .main-menu a:hover .dash-icon-overview {
-  background-image: url(../src/imgs/overview_h.png);
+  background-image: url(imgs/overview_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-clients {
-  background-image: url(../src/imgs/clients_h.png);
+  background-image: url(imgs/clients_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-sessions {
-  background-image: url(../src/imgs/sessions_h.png);
+  background-image: url(imgs/sessions_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-topics {
-  background-image: url(../src/imgs/topics_h.png);
+  background-image: url(imgs/topics_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-routes {
-  background-image: url(../src/imgs/routes_h.png);
+  background-image: url(imgs/routes_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-subscriptions {
-  background-image: url(../src/imgs/subscriptions_h.png);
+  background-image: url(imgs/subscriptions_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-websocket {
-  background-image: url(../src/imgs/websocket_h.png);
+  background-image: url(imgs/websocket_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-admins {
-  background-image: url(../src/imgs/admins_h.png);
+  background-image: url(imgs/admins_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-http-api {
-  background-image: url(../src/imgs/http_api_h.png);
+  background-image: url(imgs/http_api_h.png);
 }
 .sidebar-menu .main-menu a:hover .dash-icon-metrics {
-  background-image: url(../src/imgs/metrics_h.png);
+  background-image: url(imgs/metrics_h.png);
 }
 
 .sidebar-menu .main-menu li.active > a .dash-icon-overview {
-  background-image: url(../src/imgs/overview_h.png);
+  background-image: url(imgs/overview_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-clients {
-  background-image: url(../src/imgs/clients_h.png);
+  background-image: url(imgs/clients_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-sessions {
-  background-image: url(../src/imgs/sessions_h.png);
+  background-image: url(imgs/sessions_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-topics {
-  background-image: url(../src/imgs/topics_h.png);
+  background-image: url(imgs/topics_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-routes {
-  background-image: url(../src/imgs/routes_h.png);
+  background-image: url(imgs/routes_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-subscriptions {
-  background-image: url(../src/imgs/subscriptions_h.png);
+  background-image: url(imgs/subscriptions_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-websocket {
-  background-image: url(../src/imgs/websocket_h.png);
+  background-image: url(imgs/websocket_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-admins {
-  background-image: url(../src/imgs/admins_h.png);
+  background-image: url(imgs/admins_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-http-api {
-  background-image: url(../src/imgs/http_api_h.png);
+  background-image: url(imgs/http_api_h.png);
 }
 .sidebar-menu .main-menu li.active > a .dash-icon-metrics {
-  background-image: url(../src/imgs/metrics_h.png);
+  background-image: url(imgs/metrics_h.png);
 }

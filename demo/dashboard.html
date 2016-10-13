@@ -5,7 +5,7 @@
 <title>Dashboard</title>
 <meta name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<link rel="shortcut icon" href="../src/imgs/favicon.png" type="image/x-icon" />
+<link rel="shortcut icon" href="../src/imgs/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="../src/css/bootstrap.css" />
 <link rel="stylesheet/less" type="text/css" href="../src/less/sog-new.less" />
 <link rel="stylesheet" href="dashboard.css" />
@@ -13,8 +13,8 @@
 set options before less.js script
 <script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
  -->
-<script src="../src/js/less.min.js"></script>
-<script src="../src/js/jquery.min.js"></script>
+<script src="../src/js/less.js"></script>
+<script src="../src/js/jquery.js"></script>
 <script src="../src/js/bootstrap.js"></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- [if lt IE 9] >
@@ -33,11 +33,11 @@ set options before less.js script
             <header class="logo-env">
             <div class="logo">
                 <a href="/" class="logo-expanded"> <img class="logo-img"
-                    src="../src/imgs/emqlogo-green.png" alt="logo"/>
+                    src="imgs/emqlogo-green.png" alt="logo"/>
                     <span>Dashboard</span>
                 </a>
                 <a href="/" class="logo-collapsed"> <img class="logo-img"
-                    src="../src/imgs/emqlogo-white.png" alt="logo"/>
+                    src="imgs/emqlogo-white.png" alt="logo"/>
                 </a>
             </div>
 
@@ -49,34 +49,34 @@ set options before less.js script
             </header>
 
             <ul id="main-menu" class="main-menu">
-                <li module="overview"><a href="/#/overview"> <i
+                <li data-module="overview"><a href="/#/overview"> <i
                         class="dash-icon dash-icon-overview"></i> <span class="title">Overview</span>
                 </a></li>
-                <li module="metrics"><a href="/#/metrics">
+                <li data-module="metrics"><a href="/#/metrics">
                         <i class="dash-icon dash-icon-metrics"></i> <span class="title">Metrics</span>
                 </a></li>
-                <li module="clients"><a href="/#/clients">
+                <li data-module="clients"><a href="/#/clients">
                         <i class="dash-icon dash-icon-clients"></i> <span class="title">Clients</span>
                 </a></li>
-                <li module="sessions"><a href="/#/sessions"> <i
+                <li data-module="sessions"><a href="/#/sessions"> <i
                         class="dash-icon dash-icon-sessions"></i> <span class="title">Sessions</span>
                 </a></li>
-                <li module="topics"><a href="/#/topics"> <i
+                <li data-module="topics"><a href="/#/topics"> <i
                         class="dash-icon dash-icon-topics"></i> <span class="title">Topics</span>
                 </a></li>
-                <li module="routes"><a href="/#/routes"> <i
+                <li data-module="routes"><a href="/#/routes"> <i
                         class="dash-icon dash-icon-routes"></i> <span class="title">Routes</span>
                 </a></li>
-                <li module="subscriptions"><a href="/#/subscriptions"> <i
+                <li data-module="subscriptions"><a href="/#/subscriptions"> <i
                         class="dash-icon dash-icon-subscriptions"></i> <span class="title">Subscriptions</span>
                 </a></li>
-                <li module="websocket"><a href="/#/websocket"> <i
+                <li data-module="websocket"><a href="/#/websocket"> <i
                         class="dash-icon dash-icon-websocket"></i> <span class="title">Websocket</span>
                 </a></li>
-                <li module="users"><a href="/#/users"> <i
+                <li data-module="users"><a href="/#/users"> <i
                         class="dash-icon dash-icon-admins"></i> <span class="title">Admins</span>
                 </a></li>
-                <li module="http_api"><a href="/#/http_api"> <i
+                <li data-module="http_api"><a href="/#/http_api"> <i
                         class="dash-icon dash-icon-http-api"></i> <span class="title">HTTP API</span>
                 </a></li>
             </ul>
