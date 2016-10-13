@@ -17,7 +17,112 @@
      */
     var SidebarMenu = function(s) {
         this.$html = $('>.sidebar-menu', s.$html);
-    }
+
+        this._init();
+        this.setupItems();
+    };
+    SidebarMenu.prototype._init = function() {
+        var _this = this, $html = _this.$html;
+        if (!$html.hasClass('collapsed')) {
+            _this.scroll();
+        }
+        
+        // Sidebar Toggle
+        $('a[data-toggle="sidebar"]').each(function(i, el) {
+            $(el).on('click', function(ev) {
+                ev.preventDefault();
+                _this.collapsed();
+                $(window).trigger('sog.resize');
+            });
+        });
+        
+        // Mobile User Info Menu Trigger
+        $('a[data-toggle="user-info-menu"]').on('click', function(ev) {
+            ev.preventDefault();
+            $('nav.navbar.user-info-navbar').toggleClass('mobile-is-visible');
+        });
+
+        // Mobile Menu Trigger
+        $('a[data-toggle="mobile-menu"]').on('click', function(ev) {
+            ev.preventDefault();
+            $('.main-menu', $html).toggleClass('mobile-is-visible');
+        });
+    };
+    SidebarMenu.prototype.destroy = function() {
+        var $h = this.$html;
+        if ($.isFunction($.fn.perfectScrollbar)) {
+            $('.sidebar-menu-inner', $h).perfectScrollbar('destroy');
+        }
+    };
+    SidebarMenu.prototype.collapsed = function() {
+        var _this = this, $html = _this.$html;
+        if ($html.hasClass('collapsed')) {
+            $html.removeClass('collapsed');
+            _this.scroll();
+        } else {
+            $html.addClass('collapsed');
+            _this.destroy();
+        }
+    };
+    SidebarMenu.prototype.scroll = function() {
+        var $html = this.$html;
+        $('.sidebar-menu-inner', $html).perfectScrollbar({
+            wheelSpeed : 2,
+            wheelPropagation : true
+        });
+    };
+    SidebarMenu.prototype.setupItems = function() {
+        var _this = this;
+        var $itemsSub = _this.$html.find('li:has(> ul)'),
+            toggleOthers = _this.$html.hasClass('toggle-others');
+        $itemsSub.filter('.active').addClass('expanded');
+        
+        $itemsSub.each(function(i, el) {
+            var $li = $(el),
+            $a = $li.children('a'),
+            $sub = $li.children('ul');
+            
+            $li.addClass('has-sub');
+            
+            $a.on('click', function(ev) {
+                ev.preventDefault();
+                if (toggleOthers) {
+                    _this.closeItemsSiblings($li);
+                }
+                if ($li.hasClass('expanded') || $li.hasClass('opened')) {
+                    _this.collapseItems($li, $sub);
+                } else {
+                    _this.expandedItems($li, $sub);
+                }
+            });
+        });
+    };
+    SidebarMenu.prototype.closeItemsSiblings = function($li) {
+        var _t = this;
+        //$li.siblings().not($li);
+    };
+    SidebarMenu.prototype.collapseItems = function($li, $sub) {
+        var _t = this;
+        if ($li.data('is-busy')) return;
+        
+        var $subItems = $sub.children();
+        
+        $li.removeClass('expanded').data('is-busy', true);
+        $subItems.addClass('hidden-item');
+        
+        TweenMax.to($sub, .2, {css: {height: 0},
+            onUpdate: function() {},
+            onComplete: function() {
+                $li.data('is-busy', false).removeClass('opened');
+                $sub.attr('style', '').hide();
+                $li.find('li.expanded ul').attr('style', '')
+                .hide().parent().removeClass('expanded');
+            }});
+    };
+    SidebarMenu.prototype.expandedItems = function($li, $sub) {
+        
+    };
+    
 
     /**
      * MainContent
@@ -69,7 +174,7 @@
         _this.$html.add($mainContent)
                    .add($sidebarMenu).attr('style', '');
 
-        if (isScreen('sdevicescreen') || isScreen('devicescreen')) {
+        if (isScreenXs()) {
             return false;
         }
 
@@ -143,6 +248,14 @@
     // Check current screen breakpoint
     function isScreen(screenLabel) {
         return currentBreakpoint() == screenLabel;
+    }
+    
+    function isScreenXs() {
+        return isScreen('devicescreen') || isScreen('sdevicescreen');
+    }
+    
+    function isScreenMdXl() {
+        return isScreen('tabletscreen') || isScreen('largescreen');
     }
 
     /**
