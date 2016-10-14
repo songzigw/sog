@@ -50,9 +50,14 @@
     };
     SidebarMenu.prototype.destroy = function() {
         var $h = this.$html;
-        if ($.isFunction($.fn.perfectScrollbar)) {
-            $('.sidebar-menu-inner', $h).perfectScrollbar('destroy');
-        }
+        $('.sidebar-menu-inner', $h).perfectScrollbar('destroy');
+    };
+    SidebarMenu.prototype.scroll = function() {
+        var $html = this.$html;
+        $('.sidebar-menu-inner', $html).perfectScrollbar({
+            wheelSpeed : 2,
+            wheelPropagation : true
+        });
     };
     SidebarMenu.prototype.collapsed = function() {
         var _this = this, $html = _this.$html;
@@ -64,17 +69,9 @@
             _this.destroy();
         }
     };
-    SidebarMenu.prototype.scroll = function() {
-        var $html = this.$html;
-        $('.sidebar-menu-inner', $html).perfectScrollbar({
-            wheelSpeed : 2,
-            wheelPropagation : true
-        });
-    };
     SidebarMenu.prototype.setupItems = function() {
         var _this = this;
-        var $itemsSub = _this.$html.find('li:has(> ul)'),
-            toggleOthers = _this.$html.hasClass('toggle-others');
+        var $itemsSub = _this.$html.find('li:has(> ul)');
         $itemsSub.filter('.active').addClass('expanded');
         
         $itemsSub.each(function(i, el) {
@@ -86,9 +83,6 @@
             
             $a.on('click', function(ev) {
                 ev.preventDefault();
-                if (toggleOthers) {
-                    _this.closeItemsSiblings($li);
-                }
                 if ($li.hasClass('expanded') || $li.hasClass('opened')) {
                     _this.collapseItems($li, $sub);
                 } else {
@@ -96,10 +90,6 @@
                 }
             });
         });
-    };
-    SidebarMenu.prototype.closeItemsSiblings = function($li) {
-        var _t = this;
-        //$li.siblings().not($li);
     };
     SidebarMenu.prototype.collapseItems = function($li, $sub) {
         var _t = this;
@@ -110,7 +100,8 @@
         $li.removeClass('expanded').data('is-busy', true);
         $subItems.addClass('hidden-item');
         
-        TweenMax.to($sub, .2, {css: {height: 0},
+        TweenMax.to($sub, .2, {
+            css: {height: 0},
             onUpdate: function() {},
             onComplete: function() {
                 $li.data('is-busy', false).removeClass('opened');
@@ -120,7 +111,62 @@
             }});
     };
     SidebarMenu.prototype.expandedItems = function($li, $sub) {
+        var _t = this;
+        if ($li.data('is-busy') ||
+                ($li.parent('.main-menu').length
+                 && _t.$html.hasClass('collapsed'))) {
+            return;
+        }
         
+        $li.addClass('expanded').data('is-busy', true);
+        $sub.show();
+        
+        var $subItems = $sub.children(),
+            subHeight = $li.outerHeight(),
+            currentY  = _t.$html.scrollTop(),
+            itemMaxY  = $li.position().top + currentY,
+            fitToView = _t.$html.hasClass('fit-in-viewpport');
+        
+        $subItems.addClass('is-hidden');
+        $sub.height(0);
+        
+        TweenMax.to($sub, .2, {
+            css: {height: subHeight},
+            ouUpdate: function() {},
+            onComplete: function() {
+                $sub.height('');
+            }
+        });
+        
+        var interval1 = $li.data('sub_i_1'),
+            interval2 = $li.data('sub_i_2');
+
+        window.clearTimeout(interval1);
+        interval1 = setTimeout(function() {
+            $subItems.each(function(i, el) {
+                var $subItem = $(el);
+                $subItem.removeClass('hidden-item');
+                $subItem.addClass('is-show');
+            });
+            
+            var finishOn = 150 * $subItems.lenght,
+            tDuration = parseFloat($subItems.eq(0).css('transition-duration')),
+            tDelay = parseFloat($subItems.last().css('transition-delay'));
+            
+            if (tDuration && tDelay) {
+                finishOn = (tDuration + tDelay) * 1000;
+            }
+            
+            window.clearTimeout(interval2);
+            interval2 = setTimeout(function() {
+                $subItems.removeClass('is-hidden is-shown');
+            }, finishOn);
+            
+            $li.data('is-busy', false);
+        }, 0);
+        
+        $li.data('sub_i_1', interval1);
+        $li.data('sub_i_2', interval2);
     };
     
 
