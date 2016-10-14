@@ -238,6 +238,16 @@
     function toggles() {
         var $body = $('body');
 
+        if ($.isFunction($.fn.perfectScrollbar)) {
+            $(".ps-scrollbar", $body).each(function(i, el) {
+                var $el = $(el);
+                
+                $el.perfectScrollbar({
+                    wheelPropagation: true
+                });
+            });
+        }
+        
         // Panel Close
         $body.on('click', '.panel a[data-toggle="remove"]', function(ev) {
             ev.preventDefault();

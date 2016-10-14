@@ -36,6 +36,25 @@
             });
         });
         
+        var $userNav = $('nav.user-info-navbar');
+        var $searchForm = $('.search-form', $userNav);
+        $searchForm.each(function(i, el) {
+            var $el = $(el);
+            var $searchInput = $('.form-control', $el);
+            var $searchBtn =  $('.btn', $el);
+            $searchBtn.on('click', function(ev) {
+                if ($searchInput.val().trim().length == 0) {
+                    $el.addClass('focused');
+                    setTimeout(function() {
+                        $searchInput.focus();
+                    }, 100);
+                }
+            });
+            $searchInput.on('blur', function() {
+                $el.removeClass('focused');
+            });
+        });
+        
         // Mobile User Info Menu Trigger
         $('a[data-toggle="user-info-menu"]').on('click', function(ev) {
             ev.preventDefault();
