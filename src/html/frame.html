@@ -15,6 +15,7 @@ set options before less.js script
 <script src="../js/less.js"></script>
 <script src="../js/jquery.js"></script>
 <script src="../js/bootstrap.js"></script>
+<script src="../js/vue.js"></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- [if lt IE 9] >
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -350,7 +351,13 @@ set options before less.js script
 
             <!-- main center -->
             <div id="main_center">
-                
+                <button type="button" class="btn btn-success"
+                  v-bind:class="{'btn-gray': plugin.c ? false : true, 'btn-success': plugin.c}"
+                  v-bind:disabled="plugin.b != 'hao'"
+                  v-on:click="update($event);">
+                  <template v-if="plugin.b == 'hao'">Enabled</template>
+                  <template v-else>Disabled</template>
+                </button>
             </div>
             
             <!-- Main Footer -->
@@ -385,6 +392,26 @@ set options before less.js script
 <script src="../js/sog-frame.js"></script>
 <!-- JavaScripts initializations and stuff -->
 <script type="text/javascript">
+    var demo = new Vue({
+	    el: '#main_center',
+	    data: {
+	      plugin: {
+	          a: 1,
+	          b: "hao",
+	          c: true
+	      }
+	    },
+	    methods: {
+	        update: function(event) {
+	            var _target = event.currentTarget;
+	            $(_target).attr('disabled', true);
+	            window.setTimeout(function() {
+	                $(_target).removeAttr('disabled');
+	            }, 3000);
+	        }
+	    }
+    });
+
     jQuery(document).ready(function($) {
         
     });
