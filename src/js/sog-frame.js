@@ -251,7 +251,7 @@
             var mTop = _this.$html.css('margin-top');
             if (winHeight > contentHeight - parseInt(mTop, 10)) {
                 _this.$html.css({
-                    'margin-top' : winHeight - contentHeight + 30
+                    'margin-top' : winHeight - contentHeight
                 });
             }
         }
