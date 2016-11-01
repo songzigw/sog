@@ -235,6 +235,91 @@
         return defaultVal;
     }
     
+    function cbrReplace() {
+        var $inputs = $('input[type="checkbox"].cbr, input[type="radio"].cbr').filter(':not(.cbr-done)'),
+        $wrapper = '<div class="cbr-replaced"><div class="cbr-input"></div><div class="cbr-state"><span></span></div></div>';
+        
+        $inputs.each(function(i, el) {
+            var $el = $(el),
+            isRadio = $el.is(':radio'),
+            isCheckBox = $el.is(':checkbox'),
+            isDisabled = $el.is(':disabled'),
+            styles = ['primary', 'secondary',
+                      'success', 'danger',
+                      'warning', 'info',
+                      'purple', 'blue',
+                      'red', 'gray',
+                      'pink', 'yellow',
+                      'orange', 'turquoise'];
+
+            if (!isRadio && !isCheckBox) {
+                return;
+            }
+            $el.after($wrapper);
+            $el.addClass('cbr-done');
+            
+            var $wrp = $el.next();
+            $wrp.find('.cbr-input').append($el);
+            
+            if (isRadio) {
+                $wrp.addClass('cbr-radio');
+            }
+            if (isDisabled) {
+                $wrp.addClass('cbr-disabled');
+            }
+            if ($el.is(':checked')) {
+                $wrp.addClass('cbr-checked');
+            }
+            
+            $.each(styles, function(key, val) {
+                var cbrClass = 'cbr-' + val;
+                if ($el.hasClass(cbrClass)) {
+                    $wrp.addClass(cbrClass);
+                    $el.removeClass(cbrClass);
+                }
+            });
+            
+            $wrp.on('click', function(ev) {
+                if (isRadio && $el.prop('checked')
+                        || $wrp.parent().is('label')) {
+                    return;
+                }
+                if ($(ev.target).is($el) == false) {
+                    $el.prop('checked', ! $el.is(':checked'));
+                    $el.triggler('change');
+                }
+            });
+            
+            $el.on('change', function(ev) {
+                $wrp.removeClass('cbr-checked');
+                if ($el.is(':checked')) {
+                    $wrp.addClass('cbr-checked');
+                }
+                cbrRecheck();
+            });
+        });
+    }
+    
+    function cbrRecheck() {
+        var $inps = $("input.cbr-done");
+        
+        $inps.each(function(i, el) {
+            var $el = $(el),
+            isRadio = $el.is(':radio'),
+            isCheckBox = $el.is(':checkbox'),
+            isDisabled = $el.is(':disabled'),
+            $wrp = $el.closest('.cbr-replaced');
+            
+            if (isDisabled) {
+                $wrp.addClass('cbr-disabled');
+            }
+            if (isRadio && ! $el.prop('checked')
+                    && $wrp.hasClass('cbr-checked')) {
+                $wrp.removeClass('cbr-checked');
+            }
+        });
+    }
+    
     function toggles() {
         var $body = $('body');
 
@@ -349,6 +434,7 @@
 
     $(window).on('load', function () {
         toggles();
+        cbrReplace();
     });
     $(window).on('resize', function() {
         $(window).trigger('sog.resize');
