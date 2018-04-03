@@ -427,10 +427,105 @@
             }
         });
     }
+    
+    var alertHtml = '<div class="modal fade" id="alert_html">\
+        <div class="modal-dialog">\
+        <div class="modal-content">\
+            <div class="modal-header">\
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
+                <h4 class="modal-title">提示信息</h4>\
+            </div>\
+            <div class="modal-body">{{message}}</div>\
+            <div class="modal-footer">\
+                <button type="button" class="btn btn-info">确定</button>\
+            </div>\
+        </div>\
+        </div>\
+        </div>';
+    var alert = function(message, func) {
+        this.$html = $('#alert_html', s.$body);
+        if (this.$html.length <= 0) {
+            s.$body.append(alertHtml);
+            this.$html = $('#alert_html', s.$body);
+        }
+        this.$html.find('.modal-body').text(message);
+        var _t = this;
+        _t.$html.find('.btn.btn-info').unbind().on('click', function() {
+            _t.$html.modal('hide');
+            if (func) func();
+        });
+        _t.$html.modal('show', {backdrop: 'fade'});
+    };
+    
+    var confirmHtml = '<div class="modal fade" id="confirm_html">\
+        <div class="modal-dialog">\
+        <div class="modal-content">\
+            <div class="modal-header">\
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
+                <h4 class="modal-title">提示信息</h4>\
+            </div>\
+            <div class="modal-body">{{message}}</div>\
+            <div class="modal-footer">\
+                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>\
+                <button type="button" class="btn btn-danger">确定</button>\
+            </div>\
+        </div>\
+        </div>\
+        </div>';
+    var confirm = function(message, func) {
+        this.$html = $('#confirm_html', s.$body);
+        if (this.$html.length <= 0) {
+            s.$body.append(confirmHtml);
+            this.$html = $('#confirm_html', s.$body);
+        }
+        this.$html.find('.modal-body').text(message);
+        var _t = this;
+        _t.$html.find('.btn.btn-danger').unbind().on('click', function() {
+            if (func) func(_t);
+        });
+        _t.$html.modal('show', {backdrop: 'fade'});
+    };
+    
+    var dialogHtml = '<div class="modal fade" id="dialog_html">\
+        <div class="modal-dialog">\
+        <div class="modal-content">\
+            <div class="modal-header">\
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
+                <h4 class="modal-title">提示信息</h4>\
+            </div>\
+            <div class="modal-body">{{message}}</div>\
+            <div class="modal-footer">\
+                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>\
+                <button type="button" class="btn btn-info">确定</button>\
+            </div>\
+        </div>\
+        </div>\
+        </div>';
+    var dialog = function(url, opns, func) {
+        this.$html = $('#dialog_html', s.$body);
+        if (this.$html.length <= 0) {
+            s.$body.append(dialogHtml);
+            this.$html = $('#dialog_html', s.$body);
+        }
+        this.$html.find('.modal-title').text(opns.title);
+        this.$html.find('.btn.btn-info').text(opns.btnText).attr('disabled', true);
+        var _t = this;
+        _t.$html.find('.modal-body').empty().load(url, function() {
+            _t.$html.find('.btn.btn-info').attr('disabled', false);
+            if (opns.callback) opns.callback(_t);
+        });
+        _t.$html.find('.btn.btn-info').unbind().on('click', function() {
+            if (func) func(_t);
+        });
+        _t.$html.modal('show', {backdrop: 'fade'});
+    };
 
     s.$body = $('body');
     s.$html = $('.page-container');
     s.loadingBar = new LoadingBar();
+    s.alert = alert;
+    s.confirm = confirm;
+    s.dialog = dialog;
 
     $(window).on('load', function () {
         toggles();

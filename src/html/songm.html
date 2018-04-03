@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Songm UI</title>
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link rel="shortcut icon" href="../imgs/favicon.png" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+<link rel="stylesheet/less" type="text/css" href="../less/sog-new.less" />
+<link rel="stylesheet/less" type="text/css" href="../less/songm.less" />
+<!-- 
+set options before less.js script
+<script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
+ -->
+<script src="../js/less.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- [if lt IE 9] >
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<! [endif]      -->
+</head>
+<body class="page-body songm">
+
+    <nav class="topbar" id="topbar">
+    <div class="topbar-inner">
+    <a href="." title="松美"><h1 class="songm-logo">松美</h1></a>
+    <div class="navigation">
+        <a class="nav-item active" href="/explore">书架</a>
+        <a class="nav-item" href="/my">我的</a>
+        <a class="nav-item" href="/my">客户端</a>
+    </div>
+    <div class="search-bar">
+    <form action="/search" method="get" row="form">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search..." name="keyword">
+        <button type="submit" class="btn-unstyled">
+            <i class="sog-icon sog-icon-search"></i>
+        </button>
+    </div>
+    </form>
+    </div>
+    <div class="user-info">
+    <button class="btn btn-blue btn-sm">登入</button>
+    <button class="btn btn-blue btn-sm">注册</button>
+    <div class="profile btn-group">
+    <button class="btn dropdown-toggle" data-toggle="dropdown" type="button"><img width="30" height="30" src="https://pic4.zhimg.com/da8e974dc_is.jpg" srcset="https://pic4.zhimg.com/da8e974dc_im.jpg 2x"></button>
+    <ul class="dropdown-menu list-unstyled">
+    <li><a href="#"><i class="sog-icon sog-icon-profile"></i>设置</a></li>
+    <li><a href="#"><i class="sog-icon sog-icon-lock"></i>退出</a></li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </nav>
+
+    <div class="page-container">
+        
+        <div class="main-content">
+        
+            <div class="account-edit">
+            <div class="account-navb">
+            <div>
+                <div class="user-avatar">
+                <img class="avatar-inner" width="160" height="160" src="https://pic4.zhimg.com/da8e974dc_xl.jpg" srcset="https://pic4.zhimg.com/da8e974dc_xll.jpg 2x">
+                </div>
+            </div>
+            <div style="width: 168px;">
+            <ul class="list-unstyled nav-bar">
+            <li class="active"><a href="#">基本设置</a></li>
+            <li><a href="#">头像设置</a></li>
+            <li><a href="#">账号绑定</a></li>
+            <li><a href="#">密码修改</a></li>
+            </ul>
+            </div>
+            </div>
+            
+            <div class="account-content">
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">基本设置</div>
+                <div class="panel-body">
+
+                    <form action="" role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">账号：</label>
+                            <div class="col-sm-10">
+                                <p style="padding-top:7px;"><strong>songmzi</strong></p>
+                                <p>认证主播每个自然年可主动修改1次昵称</p>
+                            </div>
+                        </div>
+                        <div class="form-group-separator"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">昵称：</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="" placeholder="昵称">
+                                <p>认证主播每个自然年可主动修改1次昵称</p>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group-separator"></div> -->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">真实姓名：</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="" placeholder="真实姓名">
+                            </div>
+                        </div>
+                        <!-- <div class="form-group-separator"></div> -->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">性别：</label>
+                            <div class="col-sm-10">
+                                <p>
+                                <label class="radio-inline"><input type="radio" name="sex" value="1">帅哥</label>
+                                <label class="radio-inline"><input type="radio" name="sex" value="2">美女</label>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group-separator"></div> -->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">生日：</label>
+                            <div class="col-sm-10">
+                                <p>
+                                <label class="radio-inline" style="padding-left: 0;">
+                                <select style="min-width: 70px;">
+                                    <option>----</option>
+                                    <option>2000</option>
+                                </select>年</label>
+                                <label class="radio-inline" style="padding-left: 0;">
+                                <select style="min-width: 70px;">
+                                    <option>--</option>
+                                    <option>01</option>
+                                </select>月</label>
+                                <label class="radio-inline" style="padding-left: 0;">
+                                <select style="min-width: 70px;">
+                                    <option>--</option>
+                                    <option>01</option>
+                                </select>日</label>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group-separator"></div> -->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="">自我介绍：</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="" style="height: 70px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group-separator"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">&nbsp;</label>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-blue">保存设置</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+            
+            </div>
+            </div>
+            
+        </div>
+    
+    </div>
+    
+    <div class="text-center songm-foot">
+                   <p>&copy; 2016 - 2018 Powered by
+                   <strong>SONGM.CN</strong></p></div>
+</body>
+<!-- Bottom Scripts -->
+<script src="../js/jquery-validate/jquery.validate.min.js"></script>
+<script src="../js/toastr/toastr.min.js"></script>
+<script src="../js/TweenMax.min.js"></script>
+<script src="../js/joinable.js"></script>
+<script src="../js/sog.js"></script>
+<!-- JavaScripts initializations and stuff -->
+<script type="text/javascript">
+$(document).ready(function($) {
+    var $topbar = $('#topbar');
+    $(window).scroll(function() {
+        var sTop = $(document).scrollTop();
+        if (sTop > $topbar.height()) {
+            $topbar.addClass('fixed');
+        } else if (sTop == 0) {
+            $topbar.removeClass('fixed');
+        }
+    });
+});
+</script>
+</html>

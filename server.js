@@ -59,4 +59,4 @@ app.use("/proxy", function (req, res) {
 app.use(express.static(__dirname + ''));
 
 app.listen(3001);
-console.log("Server is launching at http://localhost:3001");
+console.log("Server is launching at http://127.0.0.1:3001");

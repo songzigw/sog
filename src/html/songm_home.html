@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Songm UI</title>
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link rel="shortcut icon" href="../imgs/favicon.png" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+<link rel="stylesheet/less" type="text/css" href="../less/sog-new.less" />
+<link rel="stylesheet/less" type="text/css" href="../less/songm.less" />
+<!-- 
+set options before less.js script
+<script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
+ -->
+<script src="../js/less.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- [if lt IE 9] >
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<! [endif]      -->
+</head>
+<body class="page-body songm">
+
+    <nav class="topbar" id="topbar">
+    <div class="topbar-inner">
+    <a href="." title="松美"><h1 class="songm-logo">松美</h1></a>
+    <div class="navigation">
+        <a class="nav-item active" href="/explore">书架</a>
+        <a class="nav-item" href="/my">我的</a>
+        <a class="nav-item" href="/my">客户端</a>
+    </div>
+    <div class="search-bar">
+    <form action="/search" method="get" row="form">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search..." name="keyword">
+        <button type="submit" class="btn-unstyled">
+            <i class="sog-icon sog-icon-search"></i>
+        </button>
+    </div>
+    </form>
+    </div>
+    <div class="user-info">
+    <button class="btn btn-blue btn-sm">登入</button>
+    <button class="btn btn-blue btn-sm">注册</button>
+    <div class="profile btn-group">
+    <button class="btn dropdown-toggle" data-toggle="dropdown" type="button"><img width="30" height="30" src="https://pic4.zhimg.com/da8e974dc_is.jpg" srcset="https://pic4.zhimg.com/da8e974dc_im.jpg 2x"></button>
+    <ul class="dropdown-menu list-unstyled">
+    <li><a href="#"><i class="sog-icon sog-icon-profile"></i>设置</a></li>
+    <li><a href="#"><i class="sog-icon sog-icon-lock"></i>退出</a></li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </nav>
+
+    <div class="page-container">
+        
+        <div class="main-content">
+        
+            <div class="panel panel-default">
+            <div class="panel-heading">编辑推荐</div>
+            <div class="panel-body">
+            <div class="row">
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <ul class="list-unstyled">
+                <li class="book-img-wrapper"><img src="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_200x0.webp" srcset="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_qhd.webp 2x" alt="摆脱疲惫感：如何科学管理你的疲劳与压力" style="width: 100%;"></li>
+                <li><p style="padding-top: 10px;color:#000;">细思极恐</p></li>
+                <li><p><small>张松</small></p></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <ul class="list-unstyled">
+                <li class="book-img-wrapper"><img src="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_200x0.webp" srcset="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_qhd.webp 2x" alt="摆脱疲惫感：如何科学管理你的疲劳与压力" style="width: 100%;"></li>
+                <li><p style="padding-top: 10px;color:#000;">细思极恐</p></li>
+                <li><p><small>张松</small></p></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <ul class="list-unstyled">
+                <li class="book-img-wrapper"><img src="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_200x0.webp" srcset="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_qhd.webp 2x" alt="摆脱疲惫感：如何科学管理你的疲劳与压力" style="width: 100%;"></li>
+                <li><p style="padding-top: 10px;color:#000;">细思极恐</p></li>
+                <li><p><small>张松</small></p></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <ul class="list-unstyled">
+                <li class="book-img-wrapper"><img src="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_200x0.webp" srcset="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_qhd.webp 2x" alt="摆脱疲惫感：如何科学管理你的疲劳与压力" style="width: 100%;"></li>
+                <li><p style="padding-top: 10px;color:#000;">细思极恐</p></li>
+                <li><p><small>张松</small></p></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <ul class="list-unstyled">
+                <li class="book-img-wrapper"><img src="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_200x0.webp" srcset="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_qhd.webp 2x" alt="摆脱疲惫感：如何科学管理你的疲劳与压力" style="width: 100%;"></li>
+                <li><p style="padding-top: 10px;color:#000;">细思极恐</p></li>
+                <li><p><small>张松</small></p></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <ul class="list-unstyled">
+                <li class="book-img-wrapper"><img src="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_200x0.webp" srcset="https://pic1.zhimg.com/50/v2-1c4593b9ad90da16f5372845a195f3db_qhd.webp 2x" alt="摆脱疲惫感：如何科学管理你的疲劳与压力" style="width: 100%;"></li>
+                <li><p style="padding-top: 10px;color:#000;">细思极恐</p></li>
+                <li><p><small>张松</small></p></li>
+                </ul>
+            </div>
+            </div>
+            </div>
+            </div>
+            
+            <div class="text-center songm-foot">
+                   <p>&copy; 2016 - 2018 Powered by
+                   <strong>SONGM.CN</strong></p></div>
+        </div>
+    
+    </div>
+</body>
+<!-- Bottom Scripts -->
+<script src="../js/jquery-validate/jquery.validate.min.js"></script>
+<script src="../js/toastr/toastr.min.js"></script>
+<script src="../js/TweenMax.min.js"></script>
+<script src="../js/joinable.js"></script>
+<script src="../js/sog.js"></script>
+<!-- JavaScripts initializations and stuff -->
+<script type="text/javascript">
+$(document).ready(function($) {
+    var $topbar = $('#topbar');
+    $(window).scroll(function() {
+        var sTop = $(document).scrollTop();
+        if (sTop > $topbar.height()) {
+            $topbar.addClass('fixed');
+        } else if (sTop == 0) {
+            $topbar.removeClass('fixed');
+        }
+    });
+});
+</script>
+</html>
